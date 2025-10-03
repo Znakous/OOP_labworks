@@ -9,14 +9,14 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Tests;
 public class Lab1Tests
 {
     [Theory]
-    [MemberData(nameof(Scenario1))]
-    [MemberData(nameof(Scenario2))]
-    [MemberData(nameof(Scenario3))]
-    [MemberData(nameof(Scenario4))]
-    [MemberData(nameof(Scenario5))]
-    [MemberData(nameof(Scenario6))]
-    [MemberData(nameof(Scenario7))]
-    [MemberData(nameof(Scenario8))]
+    [MemberData(nameof(Scenario1OnePathSuccess))]
+    [MemberData(nameof(Scenario2ForceOverflowFailure))]
+    [MemberData(nameof(Scenario3PowerCommonAndStationSuccess))]
+    [MemberData(nameof(Scenario4StationThresholdExceededFailure))]
+    [MemberData(nameof(Scenario5RouteSpeedExceededFailure))]
+    [MemberData(nameof(Scenario6SpeedupSlowDownStationTwiceSuccess))]
+    [MemberData(nameof(Scenario7CommonNoSpeedFailure))]
+    [MemberData(nameof(Scenario8PushXPushBackwards2XFailure))]
     public void Tester(IEnumerable<IRoutePart> routeSegments, IMovingObj movingObj, PassResult expectedResult)
     {
         var route = new Route(routeSegments);
@@ -28,7 +28,7 @@ public class Lab1Tests
         }
     }
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario1 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario1OnePathSuccess => new()
     {
         {
             new List<IRoutePart>
@@ -42,7 +42,7 @@ public class Lab1Tests
         },
     };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario2 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario2ForceOverflowFailure => new()
     {
         {
             new List<IRoutePart>
@@ -56,7 +56,7 @@ public class Lab1Tests
         },
     };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario3 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario3PowerCommonAndStationSuccess => new()
     {
         {
             new List<IRoutePart>
@@ -71,7 +71,7 @@ public class Lab1Tests
         },
     };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario4 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario4StationThresholdExceededFailure => new()
     {
         {
             new List<IRoutePart>
@@ -86,12 +86,13 @@ public class Lab1Tests
         },
     };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario5 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario5RouteSpeedExceededFailure => new()
     {
         {
             new List<IRoutePart>
             {
                 new PowerPath(new Coordinate(15), new Force(1)),
+                new CommonPath(new Coordinate(3)),
                 new Station(new Speed(5), new Time(1)),
                 new CommonPath(new Coordinate(3)),
                 new EndPoint(new Speed(4)),
@@ -101,7 +102,8 @@ public class Lab1Tests
         },
     };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario6 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario6SpeedupSlowDownStationTwiceSuccess
+        => new()
     {
         {
             new List<IRoutePart>
@@ -121,7 +123,7 @@ public class Lab1Tests
         },
     };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario7 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario7CommonNoSpeedFailure => new()
     {
         {
             new List<IRoutePart>
@@ -134,7 +136,7 @@ public class Lab1Tests
         },
     };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario8 => new()
+    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario8PushXPushBackwards2XFailure => new()
     {
         {
             new List<IRoutePart>

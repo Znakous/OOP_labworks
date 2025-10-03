@@ -28,4 +28,24 @@ public record Acceleration(double Value)
 
     public static bool operator >=(Acceleration left, Acceleration right)
         => left.Value >= right.Value;
+
+    public static Acceleration Create(Speed speedDelta, Time time)
+    {
+        if (time.Value == 0)
+        {
+            throw new ArgumentException("Time cannot be zero when making acceleration");
+        }
+
+        return new Acceleration(speedDelta.Value / time.Value);
+    }
+
+    public static Acceleration Create(Force force, Weight weight)
+    {
+        if (weight.Value == 0)
+        {
+            throw new ArgumentException("Weight cannot be zero when making acceleration");
+        }
+
+        return new Acceleration(force.Value / weight.Value);
+    }
 }

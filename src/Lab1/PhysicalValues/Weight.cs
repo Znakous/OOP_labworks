@@ -22,4 +22,14 @@ public record Weight(double Value)
 
     public static bool operator >=(Weight left, Weight right)
         => left.Value >= right.Value;
+
+    public static Weight Create(Force force, Acceleration acceleration)
+    {
+        if (acceleration.Value == 0)
+        {
+            throw new ArgumentException("Acceleration cannot be 0");
+        }
+
+        return new Weight(force.Value / acceleration.Value);
+    }
 }

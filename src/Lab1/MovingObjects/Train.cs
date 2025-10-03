@@ -42,7 +42,7 @@ public struct Train : IMovingObj
         while (curDistance < distance)
         {
             ObjSpeed += ObjAcceleration * _precision;
-            curDistance += ObjSpeed * _precision;
+            curDistance += Coordinate.Create(ObjSpeed, _precision);
             resultTime += _precision;
             if (ObjSpeed <= new Speed(0) && ObjAcceleration <= new Acceleration(0))
             {
@@ -56,6 +56,6 @@ public struct Train : IMovingObj
 
     private void ApplyForce(Force force)
     {
-        ObjAcceleration = force / ObjWeight;
+        ObjAcceleration = Acceleration.Create(force, ObjWeight);
     }
 }
