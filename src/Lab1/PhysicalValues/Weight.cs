@@ -2,6 +2,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalValues;
 
 public record Weight(double Value)
 {
+    public static Weight Zero()
+    {
+        return new Weight(0);
+    }
+
     public static Weight operator +(Weight left, Weight right)
         => new Weight(left.Value + right.Value);
 

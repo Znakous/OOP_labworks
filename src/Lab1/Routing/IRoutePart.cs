@@ -5,5 +5,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Routing;
 
 public interface IRoutePart
 {
-    PassResult ByPass(IMovingObj obj);
+    PassResult ByPass(Train train);
 }

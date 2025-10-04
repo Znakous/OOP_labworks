@@ -2,6 +2,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalValues;
 
 public record Speed(double Value)
 {
+    public static Speed Zero()
+    {
+        return new Speed(0);
+    }
+
     public static Speed operator +(Speed left, Speed right)
         => new Speed(left.Value + right.Value);
 
@@ -31,13 +36,13 @@ public record Speed(double Value)
         return new Speed(acceleration.Value * time.Value);
     }
 
-    public static Speed Create(Coordinate coordinate, Time time)
+    public static Speed Create(Distance distance, Time time)
     {
         if (time.Value == 0)
         {
             throw new ArgumentException("Time cannot be 0 when making speed");
         }
 
-        return new Speed(coordinate.Value / time.Value);
+        return new Speed(distance.Value / time.Value);
     }
 }

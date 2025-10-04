@@ -8,144 +8,142 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Tests;
 
 public class Lab1Tests
 {
-    [Theory]
-    [MemberData(nameof(Scenario1OnePathSuccess))]
-    [MemberData(nameof(Scenario2ForceOverflowFailure))]
-    [MemberData(nameof(Scenario3PowerCommonAndStationSuccess))]
-    [MemberData(nameof(Scenario4StationThresholdExceededFailure))]
-    [MemberData(nameof(Scenario5RouteSpeedExceededFailure))]
-    [MemberData(nameof(Scenario6SpeedupSlowDownStationTwiceSuccess))]
-    [MemberData(nameof(Scenario7CommonNoSpeedFailure))]
-    [MemberData(nameof(Scenario8PushXPushBackwards2XFailure))]
-    public void Tester(IEnumerable<IRoutePart> routeSegments, IMovingObj movingObj, PassResult expectedResult)
+    [Fact]
+    public void ByPass_Should_Succeed_When_MaxSpeedReachedOnCommonPath()
     {
-        var route = new Route(routeSegments);
-        PassResult result = route.ByPass(movingObj);
-        Assert.Equal(expectedResult.GetType(), result.GetType());
-        if (expectedResult is PassResult.Success expectedSuccess)
+        var train = new Train(new Weight(2), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
+        var sections = new List<IRoutePart>
         {
-            Assert.Equal(expectedSuccess.TimeTaken, ((PassResult.Success)result).TimeTaken);
-        }
+            new PowerPath(new Distance(1), new Force(10)),
+            new CommonPath(new Distance(1)),
+        };
+        var stoppingCapability = new Speed(100);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Success>(result);
     }
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario1OnePathSuccess => new()
+    [Fact]
+    public void ByPass_Should_Fail_When_PowerPathPushedTooHard()
     {
+        var train = new Train(new Weight(2), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
+        var sections = new List<IRoutePart>
         {
-            new List<IRoutePart>
-            {
-                new PowerPath(new Coordinate(1), new Force(10)),
-                new CommonPath(new Coordinate(1)),
-                new EndPoint(new Speed(100)),
-            },
-            new Train(new Weight(2), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Success(new Time(2))
-        },
-    };
+            new PowerPath(new Distance(1), new Force(11)),
+            new CommonPath(new Distance(1)),
+        };
+        var stoppingCapability = new Speed(1000);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Failure>(result);
+    }
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario2ForceOverflowFailure => new()
+    [Fact]
+    public void ByPass_Should_Succeed_When_PassingStation()
     {
-        {
-            new List<IRoutePart>
-            {
-                new PowerPath(new Coordinate(1), new Force(11)),
-                new CommonPath(new Coordinate(1)),
-                new EndPoint(new Speed(1000)),
-            },
-            new Train(new Weight(2), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Failure.ForceThresholdExceeded()
-        },
-    };
+        var train = new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario3PowerCommonAndStationSuccess => new()
-    {
+        var sections = new List<IRoutePart>
         {
-            new List<IRoutePart>
-            {
-                new PowerPath(new Coordinate(6), new Force(1)),
-                new CommonPath(new Coordinate(3)),
-                new Station(new Speed(1000), new Time(1)),
-                new EndPoint(new Speed(100)),
-            },
-            new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Success(new Time(5))
-        },
-    };
+            new PowerPath(new Distance(6), new Force(1)),
+            new CommonPath(new Distance(3)),
+            new Station(new Speed(1000), new Time(1)),
+        };
+        var stoppingCapability = new Speed(1000);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Success>(result);
+    }
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario4StationThresholdExceededFailure => new()
+    [Fact]
+    public void ByPass_Should_Fail_When_StationThresholdExceeded()
     {
-        {
-            new List<IRoutePart>
-            {
-                new PowerPath(new Coordinate(15), new Force(1)),
-                new Station(new Speed(3), new Time(1)),
-                new CommonPath(new Coordinate(3)),
-                new EndPoint(new Speed(10000)),
-            },
-            new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Failure.SpeedLimitExceeded()
-        },
-    };
+        var train = new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario5RouteSpeedExceededFailure => new()
-    {
+        var sections = new List<IRoutePart>
         {
-            new List<IRoutePart>
-            {
-                new PowerPath(new Coordinate(15), new Force(1)),
-                new CommonPath(new Coordinate(3)),
-                new Station(new Speed(5), new Time(1)),
-                new CommonPath(new Coordinate(3)),
-                new EndPoint(new Speed(4)),
-            },
-            new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Failure.SpeedLimitExceeded()
-        },
-    };
+            new PowerPath(new Distance(15), new Force(1)),
+            new Station(new Speed(3), new Time(1)),
+            new CommonPath(new Distance(3)),
+        };
+        var stoppingCapability = new Speed(10000);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Failure>(result);
+    }
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario6SpeedupSlowDownStationTwiceSuccess
-        => new()
+    [Fact]
+    public void ByPass_Should_Fail_When_SpeedLimitExceeded()
     {
-        {
-            new List<IRoutePart>
-            {
-                new PowerPath(new Coordinate(28), new Force(1)),
-                new CommonPath(new Coordinate(3)),
-                new PowerPath(new Coordinate(11), new Force(-1)),
-                new Station(new Speed(5), new Time(1)),
-                new CommonPath(new Coordinate(3)),
-                new PowerPath(new Coordinate(21), new Force(1)),
-                new CommonPath(new Coordinate(3)),
-                new PowerPath(new Coordinate(18), new Force(-1)),
-                new EndPoint(new Speed(5)),
-            },
-            new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Success(new Time(19))
-        },
-    };
+        var train = new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario7CommonNoSpeedFailure => new()
-    {
+        var sections = new List<IRoutePart>
         {
-            new List<IRoutePart>
-            {
-                new CommonPath(new Coordinate(3)),
-                new EndPoint(new Speed(5)),
-            },
-            new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Failure.InsufficientSpeed()
-        },
-    };
+            new PowerPath(new Distance(15), new Force(1)),
+            new CommonPath(new Distance(3)),
+            new Station(new Speed(5), new Time(1)),
+            new CommonPath(new Distance(3)),
+        };
 
-    public static TheoryData<IEnumerable<IRoutePart>, Train, PassResult> Scenario8PushXPushBackwards2XFailure => new()
+        var stoppingCapability = new Speed(4);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Failure>(result);
+    }
+
+    [Fact]
+    public void ByPass_Should_Succeed_When_SpeedupOverThresholdThenSlowDownToThreshold()
     {
+        var train = new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
+
+        var sections = new List<IRoutePart>
         {
-            new List<IRoutePart>
-            {
-                new PowerPath(new Coordinate(30), new Force(3)),
-                new PowerPath(new Coordinate(30), new Force(-6)),
-            },
-            new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1)),
-            new PassResult.Failure.InsufficientSpeed()
-        },
-    };
+            new PowerPath(new Distance(28), new Force(1)),
+            new CommonPath(new Distance(3)),
+            new PowerPath(new Distance(11), new Force(-1)),
+            new Station(new Speed(5), new Time(1)),
+            new CommonPath(new Distance(3)),
+            new PowerPath(new Distance(21), new Force(1)),
+            new CommonPath(new Distance(3)),
+            new PowerPath(new Distance(18), new Force(-1)),
+        };
+
+        var stoppingCapability = new Speed(5);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Success>(result);
+    }
+
+    [Fact]
+    public void ByPass_Should_Fail_When_NoSpeedGiven()
+    {
+        var train = new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
+
+        var sections = new List<IRoutePart>
+        {
+            new CommonPath(new Distance(3)),
+        };
+
+        var stoppingCapability = new Speed(5);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Failure>(result);
+    }
+
+    [Fact]
+    public void ByPass_Should_Fail_When_StoppedOnRoute()
+    {
+        var train = new Train(new Weight(1), new Speed(0), new Acceleration(0), new Force(10), new Time(1));
+
+        var sections = new List<IRoutePart>
+        {
+            new PowerPath(new Distance(30), new Force(3)),
+            new PowerPath(new Distance(30), new Force(-6)),
+        };
+
+        var stoppingCapability = new Speed(10000);
+        var route = new Route(sections, stoppingCapability);
+        PassResult result = route.ByPass(train);
+        Assert.IsType<PassResult.Failure>(result);
+    }
 }

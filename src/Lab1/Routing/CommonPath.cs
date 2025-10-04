@@ -1,17 +1,18 @@
 using Itmo.ObjectOrientedProgramming.Lab1.MovingObjects;
 using Itmo.ObjectOrientedProgramming.Lab1.PhysicalValues;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.PassErrors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Routing;
 
-public record CommonPath(Coordinate Length) : IRoutePart
+public record CommonPath(Distance Length) : IRoutePart
 {
-    public PassResult ByPass(IMovingObj obj)
+    public PassResult ByPass(Train train)
     {
-        Time? timeTaken = obj.CountTime(Length);
+        TrainMoveResult moveResult = train.Move(Length);
 
-        return timeTaken == null
-            ? new PassResult.Failure.InsufficientSpeed()
-            : new PassResult.Success(timeTaken);
+        return (moveResult is TrainMoveResult.Success success)
+            ? new PassResult.Success(success.TimeTaken)
+            : new PassResult.Failure(new InsufficientSpeed("Stopped on common path"));
     }
 }

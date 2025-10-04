@@ -1,31 +1,33 @@
 using Itmo.ObjectOrientedProgramming.Lab1.PhysicalValues;
+using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.TrainErrors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.MovingObjects;
 
-public struct Train : IMovingObj
+public class Train
 {
     private readonly Time _precision;
 
-    public Speed ObjSpeed { get; private set; }
+    private readonly Weight _weight;
 
-    public Acceleration ObjAcceleration { get; private set; }
+    private readonly Force _forceThreshold;
 
-    public Weight ObjWeight { get; private set; }
+    private Acceleration _acceleration;
 
-    public Force ObjForceThreshold { get; private set; }
+    public Speed CurSpeed { get; private set; }
 
     public Train(Weight weight, Speed speed, Acceleration acceleration, Force forceThreshold, Time precision)
     {
-        ObjWeight = weight;
-        ObjSpeed = speed;
-        ObjAcceleration = acceleration;
-        ObjForceThreshold = forceThreshold;
+        CurSpeed = speed;
+        _weight = weight;
+        _acceleration = acceleration;
+        _forceThreshold = forceThreshold;
         _precision = precision;
     }
 
     public bool TryApplyForce(Force force)
     {
-        if (force > ObjForceThreshold)
+        if (force > _forceThreshold)
         {
             return false;
         }
@@ -34,28 +36,26 @@ public struct Train : IMovingObj
         return true;
     }
 
-    public Time? CountTime(Coordinate distance)
+    public TrainMoveResult Move(Distance distance)
     {
-        var curDistance = new Coordinate(0);
-        bool passedThrough = true;
-        var resultTime = new Time(0);
+        var curDistance = Distance.Zero();
+        var resultTime = Time.Zero();
         while (curDistance < distance)
         {
-            ObjSpeed += ObjAcceleration * _precision;
-            curDistance += Coordinate.Create(ObjSpeed, _precision);
+            CurSpeed += Speed.Create(_acceleration, _precision);
+            curDistance += Distance.Create(CurSpeed, _precision);
             resultTime += _precision;
-            if (ObjSpeed <= new Speed(0) && ObjAcceleration <= new Acceleration(0))
+            if (CurSpeed <= Speed.Zero() && _acceleration <= Acceleration.Zero())
             {
-                passedThrough = false;
-                break;
+                return new TrainMoveResult.Failure(new TrainStopped("Train stopped"));
             }
         }
 
-        return passedThrough ? resultTime : null;
+        return new TrainMoveResult.Success(resultTime);
     }
 
     private void ApplyForce(Force force)
     {
-        ObjAcceleration = Acceleration.Create(force, ObjWeight);
+        _acceleration = Acceleration.Create(force, _weight);
     }
 }

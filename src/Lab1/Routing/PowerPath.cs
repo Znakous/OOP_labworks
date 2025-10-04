@@ -1,24 +1,34 @@
 using Itmo.ObjectOrientedProgramming.Lab1.MovingObjects;
 using Itmo.ObjectOrientedProgramming.Lab1.PhysicalValues;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.PassErrors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Routing;
 
-public record PowerPath(Coordinate Length, Force ForceApplied) : IRoutePart
+public struct PowerPath : IRoutePart
 {
-    public PassResult ByPass(IMovingObj obj)
+    private readonly Distance _length;
+    private readonly Force _forceApplied;
+
+    public PowerPath(Distance length, Force forceApplied)
     {
-        if (!obj.TryApplyForce(ForceApplied))
+        _length = length;
+        _forceApplied = forceApplied;
+    }
+
+    public PassResult ByPass(Train train)
+    {
+        if (!train.TryApplyForce(_forceApplied))
         {
-            return new PassResult.Failure.ForceThresholdExceeded();
+            return new PassResult.Failure(new ForceThresholdExceeded("Power path pushed to hard"));
         }
 
-        Time? timeTaken = obj.CountTime(Length);
+        TrainMoveResult moveResult = train.Move(_length);
 
-        obj.TryApplyForce(new Force(0));
+        train.TryApplyForce(Force.Zero());
 
-        return timeTaken == null
-            ? new PassResult.Failure.InsufficientSpeed()
-            : new PassResult.Success(timeTaken);
+        return (moveResult is TrainMoveResult.Success success)
+            ? new PassResult.Success(success.TimeTaken)
+            : new PassResult.Failure(new InsufficientSpeed("Stopped on power path"));
     }
 }
