@@ -1,6 +1,6 @@
-namespace Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.PassErrors;
+namespace Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.BypassErrors;
 
-public struct ForceThresholdExceeded : IPassError
+public struct ForceThresholdExceeded : IBypassError
 {
     public string ErrorMessage { get; }
 

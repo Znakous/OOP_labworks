@@ -19,8 +19,8 @@ public class Lab1Tests
         };
         var stoppingCapability = new Speed(100);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Success>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Success>(result);
     }
 
     [Fact]
@@ -34,8 +34,8 @@ public class Lab1Tests
         };
         var stoppingCapability = new Speed(1000);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Failure>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Failure>(result);
     }
 
     [Fact]
@@ -51,8 +51,8 @@ public class Lab1Tests
         };
         var stoppingCapability = new Speed(1000);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Success>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Success>(result);
     }
 
     [Fact]
@@ -68,8 +68,8 @@ public class Lab1Tests
         };
         var stoppingCapability = new Speed(10000);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Failure>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Failure>(result);
     }
 
     [Fact]
@@ -87,8 +87,8 @@ public class Lab1Tests
 
         var stoppingCapability = new Speed(4);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Failure>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Failure>(result);
     }
 
     [Fact]
@@ -110,8 +110,8 @@ public class Lab1Tests
 
         var stoppingCapability = new Speed(5);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Success>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Success>(result);
     }
 
     [Fact]
@@ -126,8 +126,8 @@ public class Lab1Tests
 
         var stoppingCapability = new Speed(5);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Failure>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Failure>(result);
     }
 
     [Fact]
@@ -143,7 +143,7 @@ public class Lab1Tests
 
         var stoppingCapability = new Speed(10000);
         var route = new Route(sections, stoppingCapability);
-        PassResult result = route.ByPass(train);
-        Assert.IsType<PassResult.Failure>(result);
+        RouteBypassResult result = route.ByPass(train);
+        Assert.IsType<RouteBypassResult.Failure>(result);
     }
 }

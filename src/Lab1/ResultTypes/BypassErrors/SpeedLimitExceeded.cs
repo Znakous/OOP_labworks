@@ -1,6 +1,6 @@
-namespace Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.PassErrors;
+namespace Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.BypassErrors;
 
-public struct SpeedLimitExceeded : IPassError
+public struct SpeedLimitExceeded : IBypassError
 {
     public string ErrorMessage { get; }
 

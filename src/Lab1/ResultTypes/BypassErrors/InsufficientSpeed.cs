@@ -1,6 +1,6 @@
-namespace Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.PassErrors;
+namespace Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.BypassErrors;
 
-public struct InsufficientSpeed : IPassError
+public struct InsufficientSpeed : IBypassError
 {
     public string ErrorMessage { get; }
 

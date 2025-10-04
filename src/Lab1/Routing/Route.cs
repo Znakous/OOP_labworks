@@ -1,11 +1,11 @@
 using Itmo.ObjectOrientedProgramming.Lab1.MovingObjects;
 using Itmo.ObjectOrientedProgramming.Lab1.PhysicalValues;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.PassErrors;
+using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes.BypassErrors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Routing;
 
-public struct Route
+public class Route
 {
     private readonly IEnumerable<IRoutePart> _routeParts;
 
@@ -17,22 +17,23 @@ public struct Route
         _stoppingCapability = stoppingCapability;
     }
 
-    public PassResult ByPass(Train train)
+    public RouteBypassResult ByPass(Train train)
     {
         var curTime = Time.Zero();
         foreach (IRoutePart part in _routeParts)
         {
-            PassResult result = part.ByPass(train);
-            if (result is not PassResult.Success success)
+            SegmentBypassResult result = part.ByPass(train);
+            if (result is SegmentBypassResult.Failure failure)
             {
-                return result;
+                return new RouteBypassResult.Failure(failure.Error, part);
             }
 
+            var success = (SegmentBypassResult.Success)result;
             curTime += success.TimeTaken;
         }
 
         return train.CurSpeed <= _stoppingCapability
-            ? new PassResult.Success(curTime)
-            : new PassResult.Failure(new SpeedLimitExceeded("Route endpoint couldn't stop train"));
+            ? new RouteBypassResult.Success(curTime)
+            : new RouteBypassResult.Failure(new SpeedLimitExceeded("Route endpoint couldn't stop train"), null);
     }
 }
