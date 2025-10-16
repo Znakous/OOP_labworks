@@ -9,16 +9,14 @@ public class FileFormatter : IFormatter, IDisposable
         _writer = new StreamWriter(filename);
     }
 
-    public IFormatter WriteHeader(string header)
+    public void WriteHeader(string header)
     {
         _writer.WriteLine("$#" + header + "$");
-        return this;
     }
 
-    public IFormatter WriteBody(string body)
+    public void WriteBody(string body)
     {
         _writer.WriteLine("$" + body + "$");
-        return this;
     }
 
     public void Dispose()
