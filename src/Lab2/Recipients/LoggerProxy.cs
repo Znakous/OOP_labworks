@@ -1,8 +1,8 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Entities;
-using Itmo.ObjectOrientedProgramming.Lab2.Logger;
+using Itmo.ObjectOrientedProgramming.Lab2.Loggers;
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
 
-namespace Itmo.ObjectOrientedProgramming.Lab2.Recipient;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
 public class LoggerProxy : IRecipient
 {

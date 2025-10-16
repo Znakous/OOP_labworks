@@ -1,4 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Recipient;
+using Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Topics;
 

@@ -1,7 +1,8 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.MessageReadErrors;
+using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.ReadMessageErrors;
 
-namespace Itmo.ObjectOrientedProgramming.Lab2.Entities;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Users;
 
 public class User
 {
@@ -9,7 +10,7 @@ public class User
 
     public void ReceiveMessage(Message message)
     {
-        MessageStatus[message] = Entities.MessageStatus.Unread;
+        MessageStatus[message] = Messages.MessageStatus.Unread;
     }
 
     public MessageReadResult ReadMessage(Message message)
@@ -19,12 +20,12 @@ public class User
             return new MessageReadResult.Failure(new MessageDoesntExist("User tried to read a non-existent message"));
         }
 
-        if (MessageStatus[message] == Entities.MessageStatus.Read)
+        if (MessageStatus[message] == Messages.MessageStatus.Read)
         {
             return new MessageReadResult.Failure(new MessageAlreadyRead("User tried to read a message twice"));
         }
 
-        MessageStatus[message] = Entities.MessageStatus.Read;
+        MessageStatus[message] = Messages.MessageStatus.Read;
         return new MessageReadResult.Success();
     }
 }

@@ -1,9 +1,8 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Entities;
-using Itmo.ObjectOrientedProgramming.Lab2.ImportanceLevels;
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.MessageAddErrors;
+using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.AddMessageErrors;
 
-namespace Itmo.ObjectOrientedProgramming.Lab2.Recipient;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
 public class FilterProxy : IRecipient
 {
@@ -19,7 +18,7 @@ public class FilterProxy : IRecipient
 
     public AddMessageResult AddMessage(Message message)
     {
-        if (message.ImportanceLevel < _importanceThreshold)
+        if (message.Importance < _importanceThreshold)
         {
             return new AddMessageResult.Failure(
                 new ImportanceInsufficient("Importance threshold criteria not satisfied"));

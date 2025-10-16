@@ -1,8 +1,8 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Entities;
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.MessageAddErrors;
+using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.AddMessageErrors;
 
-namespace Itmo.ObjectOrientedProgramming.Lab2.Recipient;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
 public class Group : IRecipient
 {

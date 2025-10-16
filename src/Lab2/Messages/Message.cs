@@ -1,6 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab2.ImportanceLevels;
-
-namespace Itmo.ObjectOrientedProgramming.Lab2.Entities;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Messages;
 
 public struct Message
 {
@@ -8,13 +6,13 @@ public struct Message
 
     public string Body { get; }
 
-    public ImportanceLevel ImportanceLevel { get; }
+    public ImportanceLevel Importance { get; }
 
-    public Message(string header, string body, ImportanceLevel importanceLevel)
+    public Message(string header, string body, ImportanceLevel importance)
     {
         Header = header;
         Body = body;
-        ImportanceLevel = importanceLevel;
+        Importance = importance;
     }
 
     public bool Contains(string banWord)

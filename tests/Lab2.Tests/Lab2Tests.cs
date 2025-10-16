@@ -1,10 +1,10 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Entities;
 using Itmo.ObjectOrientedProgramming.Lab2.Formatters;
-using Itmo.ObjectOrientedProgramming.Lab2.ImportanceLevels;
-using Itmo.ObjectOrientedProgramming.Lab2.Logger;
-using Itmo.ObjectOrientedProgramming.Lab2.Recipient;
-using Itmo.ObjectOrientedProgramming.Lab2.Recipient.Archivers;
+using Itmo.ObjectOrientedProgramming.Lab2.Loggers;
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
+using Itmo.ObjectOrientedProgramming.Lab2.Recipients;
+using Itmo.ObjectOrientedProgramming.Lab2.Recipients.Archivers;
 using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab2.Users;
 using NSubstitute;
 using Xunit;
 
@@ -79,8 +79,8 @@ public class Lab2Tests
     {
         var user = new User();
         IRecipient mockRecipient = Substitute.ForTypeForwardingTo<IRecipient, UserRecipient>(user);
-        var filter = new FilterProxy(mockRecipient, ImportanceLevel.High);
-        var message = new Message("aboba", "aboba goes for a stroll", ImportanceLevel.Medium);
+        var filter = new FilterProxy(mockRecipient, ImportanceLevel.Urgent);
+        var message = new Message("aboba", "aboba goes for a stroll", ImportanceLevel.High);
         filter.AddMessage(message);
         mockRecipient.AddMessage(message);
         mockRecipient.Received(1).AddMessage(Arg.Any<Message>());

@@ -1,6 +1,6 @@
-namespace Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.MessageReadErrors;
+namespace Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.ReadMessageErrors;
 
-public class MessageDoesntExist : IMessageReadError
+public class MessageDoesntExist : IReadMessageError
 {
     public string ErrorMessage { get; }
 

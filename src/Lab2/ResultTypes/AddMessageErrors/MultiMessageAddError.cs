@@ -1,4 +1,4 @@
-namespace Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.MessageAddErrors;
+namespace Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.AddMessageErrors;
 
 public class MultiMessageAddError : IMessageAddError
 {

@@ -1,7 +1,7 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Entities;
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
 
-namespace Itmo.ObjectOrientedProgramming.Lab2.Recipient.Archivers;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients.Archivers;
 
 public class InMemoryArchiver : IArchiver
 {

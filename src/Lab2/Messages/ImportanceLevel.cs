@@ -1,4 +1,4 @@
-namespace Itmo.ObjectOrientedProgramming.Lab2.ImportanceLevels;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Messages;
 
 public enum ImportanceLevel
 {

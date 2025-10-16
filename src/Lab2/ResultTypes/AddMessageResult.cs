@@ -1,4 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.MessageAddErrors;
+using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.AddMessageErrors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
 
