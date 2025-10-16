@@ -15,8 +15,7 @@ public class FormatingArchiver : IArchiver
 
     public AddMessageResult AddMessage(Message message)
     {
-        _formatter.WriteHeader(message.Header);
-        _formatter.WriteBody(message.Body);
+        _formatter.WriteHeader(message.Header).WriteBody(message.Body);
         return new AddMessageResult.Success();
     }
 }
