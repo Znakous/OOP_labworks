@@ -10,10 +10,7 @@ public class User
 
     public void ReceiveMessage(Message message)
     {
-        if (!MessageStatus.ContainsKey(message))
-        {
-            MessageStatus[message] = Messages.MessageStatus.Unread;
-        }
+        MessageStatus.TryAdd(message, Messages.MessageStatus.Unread);
     }
 
     public MessageReadResult ReadMessage(Message message)
