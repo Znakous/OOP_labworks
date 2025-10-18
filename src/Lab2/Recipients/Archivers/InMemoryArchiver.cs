@@ -6,7 +6,7 @@ public class InMemoryArchiver : IArchiver
 {
     private readonly List<Message> _messages = new List<Message>();
 
-    public void AddMessage(Message message)
+    public void ReceiveMessage(Message message)
     {
         _messages.Add(message);
     }

@@ -12,7 +12,7 @@ public class UserRecipient : IRecipient
         _user = user;
     }
 
-    public void AddMessage(Message message)
+    public void ReceiveMessage(Message message)
     {
         _user.ReceiveMessage(message);
     }

@@ -19,7 +19,7 @@ public class Topic
     {
         foreach (IRecipient user in Users)
         {
-            user.AddMessage(message);
+            user.ReceiveMessage(message);
         }
     }
 }

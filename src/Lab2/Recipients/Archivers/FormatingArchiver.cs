@@ -12,7 +12,7 @@ public class FormatingArchiver : IArchiver
         _formatter = formatter;
     }
 
-    public void AddMessage(Message message)
+    public void ReceiveMessage(Message message)
     {
         _formatter.WriteHeader(message.Header);
         _formatter.WriteBody(message.Body);

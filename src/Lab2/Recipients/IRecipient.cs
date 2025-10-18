@@ -4,5 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
 public interface IRecipient
 {
-    void AddMessage(Message message);
+    void ReceiveMessage(Message message);
 }

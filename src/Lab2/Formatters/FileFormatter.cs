@@ -1,26 +1,21 @@
 namespace Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 
-public class FileFormatter : IFormatter, IDisposable
+public class FileFormatter : IFormatter
 {
-    private readonly StreamWriter _writer;
+    private readonly string _filePath;
 
-    public FileFormatter(string filename)
+    public FileFormatter(string filePath)
     {
-        _writer = new StreamWriter(filename);
+        _filePath = filePath;
     }
 
     public void WriteHeader(string header)
     {
-        _writer.WriteLine(header);
+        File.WriteAllText(_filePath, header);
     }
 
     public void WriteBody(string body)
     {
-        _writer.WriteLine(body);
-    }
-
-    public void Dispose()
-    {
-        _writer.Dispose();
+        File.WriteAllText(_filePath, body);
     }
 }

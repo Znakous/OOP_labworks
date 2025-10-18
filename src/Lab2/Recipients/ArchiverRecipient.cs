@@ -12,8 +12,8 @@ public class ArchiverRecipient : IRecipient
         _archiver = archiver;
     }
 
-    public void AddMessage(Message message)
+    public void ReceiveMessage(Message message)
     {
-        _archiver.AddMessage(message);
+        _archiver.ReceiveMessage(message);
     }
 }

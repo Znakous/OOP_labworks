@@ -3,19 +3,19 @@ using Itmo.ObjectOrientedProgramming.Lab2.Notifiers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
-public class NotificationSystem : IRecipient
+public class NotificationSystemRecipient : IRecipient
 {
     private readonly INotifier _notifier;
 
     private readonly IReadOnlyCollection<string> _banWords;
 
-    public NotificationSystem(IReadOnlyCollection<string> banWords, INotifier notifier)
+    public NotificationSystemRecipient(IReadOnlyCollection<string> banWords, INotifier notifier)
     {
         _banWords = banWords;
         _notifier = notifier;
     }
 
-    public void AddMessage(Message message)
+    public void ReceiveMessage(Message message)
     {
         foreach (string banWord in _banWords)
         {
