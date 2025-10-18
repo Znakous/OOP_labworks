@@ -1,10 +1,10 @@
 namespace Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 
-public class MarkdownProxy : IFormatter
+public class MarkDownProxy : IFormatter
 {
     private readonly IFormatter _formatter;
 
-    public MarkdownProxy(IFormatter formatter)
+    public MarkDownProxy(IFormatter formatter)
     {
         _formatter = formatter;
     }

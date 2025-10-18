@@ -18,7 +18,7 @@ public class Lab2Tests
         var user = new User();
         var message = new Message("aboba", "aboba goes for a stroll", ImportanceLevel.Medium());
         user.ReceiveMessage(message);
-        Assert.Equal(MessageStatus.Unread, user.MessageStatus[message]);
+        Assert.Equal(MessageStatus.Unread, user.GetMessageStatus(message));
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class Lab2Tests
         var message = new Message("aboba", "aboba goes for a stroll", ImportanceLevel.Medium());
         user.ReceiveMessage(message);
         user.ReadMessage(message);
-        Assert.Equal(MessageStatus.Read, user.MessageStatus[message]);
+        Assert.Equal(MessageStatus.Read, user.GetMessageStatus(message));
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class Lab2Tests
         user.ReceiveMessage(message);
         user.ReadMessage(message);
         Assert.IsType<MessageReadResult.Failure>(user.ReadMessage(message));
-        Assert.Equal(MessageStatus.Read, user.MessageStatus[message]);
+        Assert.Equal(MessageStatus.Read, user.GetMessageStatus(message));
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class Lab2Tests
     }
 
     [Fact]
-    public void WriteHeader_Shoul()
+    public void Formatter_Should_WriteHeaderAndBodyOnce_When_MessageAddedToFormattingArchiver()
     {
         IFormatter mockFormatter = Substitute.For<IFormatter>();
         var formatingArchiver = new FormatingArchiver(mockFormatter);
