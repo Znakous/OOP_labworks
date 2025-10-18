@@ -1,10 +1,10 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 using Itmo.ObjectOrientedProgramming.Lab2.Loggers;
 using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 using Itmo.ObjectOrientedProgramming.Lab2.Recipients.Archivers;
 using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
-using Itmo.ObjectOrientedProgramming.Lab2.Writers;
 using NSubstitute;
 using Xunit;
 
@@ -66,12 +66,12 @@ public class Lab2Tests
     [Fact]
     public void WriteHeader_Shoul()
     {
-        IWriter mockWriter = Substitute.For<IWriter>();
-        var formatingArchiver = new FormatingArchiver(mockWriter);
+        IFormatter mockFormatter = Substitute.For<IFormatter>();
+        var formatingArchiver = new FormatingArchiver(mockFormatter);
         var message = new Message("aboba", "aboba goes for a stroll", ImportanceLevel.Low());
         formatingArchiver.AddMessage(message);
-        mockWriter.Received(1).WriteHeader(Arg.Any<string>());
-        mockWriter.Received(1).WriteBody(Arg.Any<string>());
+        mockFormatter.Received(1).WriteHeader(Arg.Any<string>());
+        mockFormatter.Received(1).WriteBody(Arg.Any<string>());
     }
 
     [Fact]

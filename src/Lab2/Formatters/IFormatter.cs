@@ -2,7 +2,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 
 public interface IFormatter
 {
-    string FormatHeader(string header);
+    void WriteHeader(string header);
 
-    string FormatText(string text);
+    void WriteBody(string body);
 }
