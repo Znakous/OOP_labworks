@@ -17,13 +17,10 @@ public class NotificationSystemRecipient : IRecipient
 
     public void ReceiveMessage(Message message)
     {
-        foreach (string banWord in _banWords)
+        if (_banWords.Any(word => message.Body.Contains(word, StringComparison.InvariantCultureIgnoreCase))
+            || _banWords.Any(word => message.Header.Contains(word, StringComparison.InvariantCultureIgnoreCase)))
         {
-            if (message.Body.Contains(banWord, StringComparison.OrdinalIgnoreCase)
-                || message.Header.Contains(banWord, StringComparison.OrdinalIgnoreCase))
-            {
-                _notifier.Notify();
-            }
+            _notifier.Notify();
         }
     }
 }
