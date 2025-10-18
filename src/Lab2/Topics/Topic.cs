@@ -1,4 +1,7 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.Recipients;
+using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.AddMessageErrors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Topics;
 
@@ -14,26 +17,19 @@ public class Topic
         Users = users;
     }
 
-    public class ThopicBuilder
+    public AddMessageResult AddMessage(Message message)
     {
-        private readonly string _name;
-
-        private readonly List<UserRecipient> _users = [];
-
-        public ThopicBuilder(string name)
+        var errors = new List<IMessageAddError>();
+        foreach (IRecipient user in Users)
         {
-            _name = name;
+            if (user.AddMessage(message) is AddMessageResult.Failure failure)
+            {
+                errors.Add(failure.Error);
+            }
         }
 
-        public ThopicBuilder WithUser(UserRecipient user)
-        {
-            _users.Add(user);
-            return this;
-        }
-
-        public Topic Build()
-        {
-            return new Topic(_name, _users);
-        }
+        return errors.Count is 0
+            ? new AddMessageResult.Success()
+            : new AddMessageResult.Failure(new MultiMessageAddError(errors));
     }
 }

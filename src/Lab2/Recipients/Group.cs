@@ -28,20 +28,4 @@ public class Group : IRecipient
             ? new AddMessageResult.Success()
             : new AddMessageResult.Failure(new MultiMessageAddError(errors));
     }
-
-    public class GroupBuilder
-    {
-        private readonly List<UserRecipient> _users = [];
-
-        public GroupBuilder WithUser(UserRecipient user)
-        {
-            _users.Add(user);
-            return this;
-        }
-
-        public Group Build()
-        {
-            return new Group(_users);
-        }
-    }
 }
