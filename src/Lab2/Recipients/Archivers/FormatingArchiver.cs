@@ -1,22 +1,20 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 using Itmo.ObjectOrientedProgramming.Lab2.Messages;
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab2.Writers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients.Archivers;
 
 public class FormatingArchiver : IArchiver
 {
-    private readonly IFormatter _formatter;
+    private readonly IWriter _writer;
 
-    public FormatingArchiver(IFormatter formatter)
+    public FormatingArchiver(IWriter writer)
     {
-        _formatter = formatter;
+        _writer = writer;
     }
 
-    public AddMessageResult AddMessage(Message message)
+    public void AddMessage(Message message)
     {
-        _formatter.WriteHeader(message.Header);
-        _formatter.WriteBody(message.Body);
-        return new AddMessageResult.Success();
+        _writer.WriteHeader(message.Header);
+        _writer.WriteBody(message.Body);
     }
 }

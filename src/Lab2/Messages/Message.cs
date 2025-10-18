@@ -14,10 +14,4 @@ public struct Message
         Body = body;
         Importance = importance;
     }
-
-    public bool Contains(string banWord)
-    {
-        return Body.Contains(banWord, StringComparison.OrdinalIgnoreCase)
-            || Header.Contains(banWord, StringComparison.OrdinalIgnoreCase);
-    }
 }

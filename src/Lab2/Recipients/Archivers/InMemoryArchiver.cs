@@ -1,15 +1,18 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Messages;
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients.Archivers;
 
 public class InMemoryArchiver : IArchiver
 {
-    public ICollection<Message> Messages { get; } = new List<Message>();
+    private readonly List<Message> _messages;
 
-    public AddMessageResult AddMessage(Message message)
+    public InMemoryArchiver()
     {
-        Messages.Add(message);
-        return new AddMessageResult.Success();
+        _messages = new List<Message>();
+    }
+
+    public void AddMessage(Message message)
+    {
+        _messages.Add(message);
     }
 }

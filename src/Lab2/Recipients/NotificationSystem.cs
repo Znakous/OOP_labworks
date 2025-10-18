@@ -1,7 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.Notifiers;
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab2.ResultTypes.AddMessageErrors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
@@ -17,37 +15,15 @@ public class NotificationSystem : IRecipient
         _notifier = notifier;
     }
 
-    public AddMessageResult AddMessage(Message message)
+    public void AddMessage(Message message)
     {
-        if (_banWords.Any(word => message.Contains(word)))
+        foreach (string banWord in _banWords)
         {
-            _notifier.Notify();
-            return new AddMessageResult.Failure(new BannedWordInMessage("Met a banned word in message"));
-        }
-
-        return new AddMessageResult.Success();
-    }
-
-    public class NotificationSystemBuilder
-    {
-        private readonly INotifier _notifier;
-
-        private readonly List<string> _banWords = [];
-
-        public NotificationSystemBuilder(INotifier notifier)
-        {
-            _notifier = notifier;
-        }
-
-        public NotificationSystemBuilder WithBanWord(string banWord)
-        {
-            _banWords.Add(banWord);
-            return this;
-        }
-
-        public NotificationSystem Build()
-        {
-            return new NotificationSystem(_banWords, _notifier);
+            if (message.Body.Contains(banWord, StringComparison.OrdinalIgnoreCase)
+                || message.Header.Contains(banWord, StringComparison.OrdinalIgnoreCase))
+            {
+                _notifier.Notify();
+            }
         }
     }
 }
