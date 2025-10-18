@@ -46,7 +46,7 @@ public class Lab2Tests
     public void User_Shoul_NotReceiveMessage_When_FilterStopsMessage()
     {
         IRecipient mockRecipient = Substitute.For<IRecipient>();
-        var filter = new FilterDecorator(mockRecipient, ImportanceLevel.High());
+        var filter = new FilterProxy(mockRecipient, ImportanceLevel.High());
         var message = new Message("aboba", "aboba goes for a stroll", ImportanceLevel.Low());
         filter.AddMessage(message);
         mockRecipient.Received(0).AddMessage(Arg.Any<Message>());
@@ -78,7 +78,7 @@ public class Lab2Tests
     public void AddMessage_Should_ReceiveOneCall_When_BeingCalleddirectlyAndThroughFilter()
     {
         IRecipient mockRecipient = Substitute.For<IRecipient>();
-        var filter = new FilterDecorator(mockRecipient, ImportanceLevel.High());
+        var filter = new FilterProxy(mockRecipient, ImportanceLevel.High());
         var message = new Message("aboba", "aboba goes for a stroll", ImportanceLevel.Medium());
         filter.AddMessage(message);
         mockRecipient.AddMessage(message);

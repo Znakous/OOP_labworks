@@ -2,13 +2,13 @@ using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Recipients;
 
-public class FilterDecorator : IRecipient
+public class FilterProxy : IRecipient
 {
     private readonly IRecipient _recipient;
 
     private readonly ImportanceLevel _importanceThreshold;
 
-    public FilterDecorator(IRecipient recipient, ImportanceLevel importanceThreshold)
+    public FilterProxy(IRecipient recipient, ImportanceLevel importanceThreshold)
     {
         _recipient = recipient;
         _importanceThreshold = importanceThreshold;
