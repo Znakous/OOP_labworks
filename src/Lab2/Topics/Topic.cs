@@ -9,7 +9,7 @@ public class Topic
 
     public IReadOnlyCollection<IRecipient> Users { get; }
 
-    public Topic(string name, IReadOnlyCollection<UserRecipient> users)
+    public Topic(string name, IReadOnlyCollection<IRecipient> users)
     {
         Name = name;
         Users = users;
