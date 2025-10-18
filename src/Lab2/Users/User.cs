@@ -10,7 +10,7 @@ public class User
 
     public void ReceiveMessage(Message message)
     {
-        _messageStatus.TryAdd(message, Messages.MessageStatus.Unread);
+        _messageStatus.TryAdd(message, MessageStatus.Unread);
     }
 
     public MessageReadResult ReadMessage(Message message)
@@ -20,12 +20,12 @@ public class User
             return new MessageReadResult.Failure(new MessageDoesntExist("User tried to read a non-existent message"));
         }
 
-        if (_messageStatus[message] == Messages.MessageStatus.Read)
+        if (_messageStatus[message] == MessageStatus.Read)
         {
             return new MessageReadResult.Failure(new MessageAlreadyRead("User tried to read a message twice"));
         }
 
-        _messageStatus[message] = Messages.MessageStatus.Read;
+        _messageStatus[message] = MessageStatus.Read;
         return new MessageReadResult.Success();
     }
 
