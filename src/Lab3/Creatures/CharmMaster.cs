@@ -32,7 +32,8 @@ public class CharmMaster : BaseCreature, IEditableFighter
     private CharmMaster(Health health, Attack attack)
         : base(health, attack) { }
 
-    public class CharmMasterBuilder : CreatureBuilder<CharmMasterBuilder, CharmMaster>
+    public class CharmMasterEditableFighterBuilder
+        : CreatureEditableFighterBuilder<CharmMasterEditableFighterBuilder, CharmMaster>
     {
         public override CharmMaster Build()
         {
@@ -42,11 +43,11 @@ public class CharmMaster : BaseCreature, IEditableFighter
 
     public class CharmMasterBuilderDefaultDirector
     {
-        public CharmMasterBuilder Direct(CharmMasterBuilder builder)
+        public CharmMasterEditableFighterBuilder Direct(CharmMasterEditableFighterBuilder editableFighterBuilder)
         {
-            return builder
-                .WithAttack(5)
-                .WithHealth(2);
+            return editableFighterBuilder
+                .WithAttack(new Attack(5))
+                .WithHealth(new Health(2));
         }
     }
 }

@@ -1,6 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
-namespace Itmo.ObjectOrientedProgramming.Lab3;
+namespace Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 
 public class Table
 {

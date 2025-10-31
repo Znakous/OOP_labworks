@@ -50,15 +50,34 @@ public class AttackMastery : IEditableFighter
         return _isActive ? new AttackMastery(_underlying.Clone()) : _underlying.Clone();
     }
 
-    public class AttackMasteryBuilder : IBuilder
+    public class AttackMasteryUnderlyingSelector
     {
-        private IBuilder? _underlying;
+        public AttackMasteryUnderlyingSelector() { }
 
-        public AttackMasteryBuilder() { }
-
-        public AttackMasteryBuilder WithUnderlying(IBuilder underlying)
+        public AttackMasteryEditableFighterBuilder WithUnderlying(IEditableFighter underlying)
         {
-            _underlying = underlying;
+            return new AttackMasteryEditableFighterBuilder(underlying ?? throw new ArgumentNullException(nameof(underlying)));
+        }
+    }
+
+    public class AttackMasteryEditableFighterBuilder : IEditableFighterBuilder
+    {
+        private readonly IEditableFighter _underlying;
+
+        public AttackMasteryEditableFighterBuilder(IEditableFighter underlying)
+        {
+            _underlying = underlying ?? throw new ArgumentNullException(nameof(underlying));
+        }
+
+        IEditableFighterBuilder IEditableFighterBuilder.WithAttack(Attack attack)
+        {
+            _underlying.SetAttack(attack);
+            return this;
+        }
+
+        IEditableFighterBuilder IEditableFighterBuilder.WithHealth(Health health)
+        {
+            _underlying.SetHealth(health);
             return this;
         }
 
@@ -69,7 +88,7 @@ public class AttackMastery : IEditableFighter
                 throw new NullReferenceException("The underlying builder is null.");
             }
 
-            return new AttackMastery(_underlying.Build());
+            return new AttackMastery(_underlying);
         }
     }
 }

@@ -36,7 +36,8 @@ public class EvilFighter : BaseCreature, IEditableFighter
     private EvilFighter(Health health, Attack attack)
         : base(health, attack) { }
 
-    public class EvilFighterBuilder : CreatureBuilder<EvilFighterBuilder, EvilFighter>
+    public class EvilFighterEditableFighterBuilder
+        : CreatureEditableFighterBuilder<EvilFighterEditableFighterBuilder, EvilFighter>
     {
         public override EvilFighter Build()
         {
@@ -46,11 +47,11 @@ public class EvilFighter : BaseCreature, IEditableFighter
 
     public class EvilFighterBuilderDefaultDirector
     {
-        public EvilFighterBuilder Direct(EvilFighterBuilder builder)
+        public EvilFighterEditableFighterBuilder Direct(EvilFighterEditableFighterBuilder editableFighterBuilder)
         {
-            return builder
-                .WithAttack(1)
-                .WithHealth(6);
+            return editableFighterBuilder
+                .WithAttack(new Attack(1))
+                .WithHealth(new Health(6));
         }
     }
 }

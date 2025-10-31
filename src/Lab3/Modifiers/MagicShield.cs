@@ -52,15 +52,34 @@ public class MagicShield : IEditableFighter
         return _isActive ? new MagicShield(_underlying.Clone()) : _underlying.Clone();
     }
 
-    public class MagicShieldBuilder : IBuilder
+    public class MagicShieldUnderlyingSelector
     {
-        private IBuilder? _underlying;
+        public MagicShieldUnderlyingSelector() { }
 
-        public MagicShieldBuilder() { }
+        public MagicShieldEditableFighterBuilder WithUnderlying(IEditableFighter underlying)
+        {
+            return new MagicShieldEditableFighterBuilder(underlying);
+        }
+    }
 
-        public MagicShieldBuilder WithUnderlying(IBuilder underlying)
+    public class MagicShieldEditableFighterBuilder : IEditableFighterBuilder
+    {
+        private readonly IEditableFighter _underlying;
+
+        public MagicShieldEditableFighterBuilder(IEditableFighter underlying)
         {
             _underlying = underlying;
+        }
+
+        IEditableFighterBuilder IEditableFighterBuilder.WithAttack(Attack attack)
+        {
+            _underlying.SetAttack(attack);
+            return this;
+        }
+
+        IEditableFighterBuilder IEditableFighterBuilder.WithHealth(Health health)
+        {
+            _underlying.SetHealth(health);
             return this;
         }
 
@@ -71,7 +90,7 @@ public class MagicShield : IEditableFighter
                 throw new NullReferenceException("The underlying builder is null.");
             }
 
-            return new MagicShield(_underlying.Build());
+            return new MagicShield(_underlying);
         }
     }
 }

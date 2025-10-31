@@ -8,9 +8,9 @@ public class ModuleCounter
 
     public ModuleCounter(int module)
     {
-        if (module <= 0)
+        if (module < 0)
         {
-            throw new ArgumentException("Module must be positive for module counter");
+            throw new ArgumentException("Module must not be negative for module counter");
         }
 
         _module = module;

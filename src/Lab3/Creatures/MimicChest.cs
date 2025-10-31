@@ -34,7 +34,7 @@ public class MimicChest : BaseCreature, IEditableFighter
     private MimicChest(Health health, Attack attack)
         : base(health, attack) { }
 
-    public class MimicChestBuilder : CreatureBuilder<MimicChestBuilder, MimicChest>
+    public class MimicChestEditableFighterBuilder : CreatureEditableFighterBuilder<MimicChestEditableFighterBuilder, MimicChest>
     {
         public override MimicChest Build()
         {
@@ -44,11 +44,11 @@ public class MimicChest : BaseCreature, IEditableFighter
 
     public class MimicChestBuilderDefaultDirector
     {
-        public MimicChestBuilder Direct(MimicChestBuilder builder)
+        public MimicChestEditableFighterBuilder Direct(MimicChestEditableFighterBuilder editableFighterBuilder)
         {
-            return builder
-                .WithAttack(1)
-                .WithHealth(1);
+            return editableFighterBuilder
+                .WithAttack(new Attack(1))
+                .WithHealth(new Health(1));
         }
     }
 }

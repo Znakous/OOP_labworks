@@ -1,6 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab3.ResultTypes;
 
-namespace Itmo.ObjectOrientedProgramming.Lab3;
+namespace Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 
 public class Battle
 {

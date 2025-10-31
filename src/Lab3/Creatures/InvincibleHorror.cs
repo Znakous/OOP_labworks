@@ -44,7 +44,7 @@ public class InvincibleHorror : BaseCreature, IEditableFighter
     private static InvincibleHorror GetResurrectedVersion()
     {
         return new InvincibleHorrorBuilderResurrectedDirector()
-            .Direct(new InvincibleHorrorBuilder())
+            .Direct(new InvincibleHorrorEditableFighterBuilder())
             .Build();
     }
 
@@ -54,11 +54,11 @@ public class InvincibleHorror : BaseCreature, IEditableFighter
         _canResurrect = canResurrect;
     }
 
-    public class InvincibleHorrorBuilder : CreatureBuilder<InvincibleHorrorBuilder, InvincibleHorror>
+    public class InvincibleHorrorEditableFighterBuilder : CreatureEditableFighterBuilder<InvincibleHorrorEditableFighterBuilder, InvincibleHorror>
     {
         private bool _canResurrect = true;
 
-        public InvincibleHorrorBuilder WithResurrectionBan()
+        public InvincibleHorrorEditableFighterBuilder WithResurrectionBan()
         {
             _canResurrect = false;
             return this;
@@ -72,19 +72,21 @@ public class InvincibleHorror : BaseCreature, IEditableFighter
 
     public class InvincibleHorrorBuilderDefaultDirector
     {
-        public InvincibleHorrorBuilder Direct(InvincibleHorrorBuilder builder)
+        public InvincibleHorrorEditableFighterBuilder Direct(InvincibleHorrorEditableFighterBuilder editableFighterBuilder)
         {
-            return builder
-                .WithAttack(4)
-                .WithHealth(4);
+            return editableFighterBuilder
+                .WithAttack(new Attack(4))
+                .WithHealth(new Health(4));
         }
     }
 
     public class InvincibleHorrorBuilderResurrectedDirector
     {
-        public InvincibleHorrorBuilder Direct(InvincibleHorrorBuilder builder)
+        public InvincibleHorrorEditableFighterBuilder Direct(InvincibleHorrorEditableFighterBuilder editableFighterBuilder)
         {
-            return new InvincibleHorrorBuilderDefaultDirector().Direct(builder);
+            return new InvincibleHorrorBuilderDefaultDirector()
+                .Direct(editableFighterBuilder)
+                .WithHealth(new Health(1));
         }
     }
 }

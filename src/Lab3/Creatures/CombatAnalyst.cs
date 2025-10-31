@@ -33,8 +33,8 @@ public class CombatAnalyst : BaseCreature, IEditableFighter
     private CombatAnalyst(Health health, Attack attack)
         : base(health, attack) { }
 
-    public class CombatAnalystBuilder
-        : CreatureBuilder<CombatAnalystBuilder, CombatAnalyst>
+    public class CombatAnalystEditableFighterBuilder
+        : CreatureEditableFighterBuilder<CombatAnalystEditableFighterBuilder, CombatAnalyst>
     {
         public override CombatAnalyst Build()
         {
@@ -44,11 +44,11 @@ public class CombatAnalyst : BaseCreature, IEditableFighter
 
     public class CombatAnalystBuilderDefaultDirector
     {
-        public CombatAnalystBuilder Direct(CombatAnalystBuilder builder)
+        public CombatAnalystEditableFighterBuilder Direct(CombatAnalystEditableFighterBuilder editableFighterBuilder)
         {
-            return builder
-                .WithAttack(2)
-                .WithHealth(4);
+            return editableFighterBuilder
+                .WithAttack(new Attack(2))
+                .WithHealth(new Health(4));
         }
     }
 }
