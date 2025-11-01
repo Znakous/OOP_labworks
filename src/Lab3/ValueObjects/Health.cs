@@ -1,7 +1,14 @@
 namespace Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
-public record struct Health(int Value)
+public struct Health
 {
+    public int Value { get; }
+
+    public Health(int value)
+    {
+        Value = value;
+    }
+
     public static Health Zero => new Health(0);
 
     public readonly bool IsAlive => this > Zero;

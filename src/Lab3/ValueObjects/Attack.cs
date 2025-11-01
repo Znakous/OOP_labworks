@@ -1,7 +1,14 @@
 namespace Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
-public record struct Attack(int Value)
+public struct Attack
 {
+    public int Value { get; }
+
+    public Attack(int value)
+    {
+        Value = value;
+    }
+
     public static Attack Zero => new Attack(0);
 
     public static bool operator >(Attack left, Attack right)

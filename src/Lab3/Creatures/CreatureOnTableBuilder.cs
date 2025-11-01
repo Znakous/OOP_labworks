@@ -18,6 +18,11 @@ public abstract class CreatureOnTableBuilder<TBuilder, T>
 
     public TBuilder WithHealth(Health health)
     {
+        if (health < Health.Zero)
+        {
+            throw new ArgumentException("Health of creature on table cannot be less than zero");
+        }
+
         Health = health;
         return (TBuilder)this;
     }
