@@ -1,6 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 using Itmo.ObjectOrientedProgramming.Lab3.FighterBuilderFactories;
 using Itmo.ObjectOrientedProgramming.Lab3.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab3.Spells;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 using NSubstitute;
 using Xunit;
@@ -63,5 +64,19 @@ public class TableTests
 
         // assert
         Assert.Throws<ArgumentException>(() => tableBuilder.WithFighter(Substitute.For<IFighterOnTable>()));
+    }
+
+    [Fact]
+    public void Table_Should_ApplySpell_When_AskedForIt()
+    {
+        // arrange
+        IFighterOnTable fighterOnTable = new MimicChestBuilderFactory().Create().WithAttack(new Attack(5)).Build();
+        Table table = new Table.TableBuilder().WithFighter(fighterOnTable).Build();
+
+        // act
+        table.ApplySpell(new PowerEssence(), fighterOnTable);
+
+        // assert
+        Assert.Equal(new Attack(10), fighterOnTable.Attack);
     }
 }

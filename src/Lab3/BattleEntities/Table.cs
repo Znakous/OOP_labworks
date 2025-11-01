@@ -1,4 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab3.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab3.Spells;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
@@ -33,6 +34,12 @@ public class Table
         return new SendNextFighterResult.Success(nextFighterInCombat);
     }
 
+    public void ApplySpell(ISpell spell, IFighterOnTable fighter)
+    {
+        int targetIndex = _fighters.FindIndex(currentFighter => currentFighter == fighter);
+        _fighters[targetIndex] = spell.GetAppliedOn(fighter);
+    }
+
     public Table Clone()
     {
         return new Table(new List<IFighterOnTable>(_fighters), _currentFighterIndex);
@@ -58,7 +65,7 @@ public class Table
                 throw new ArgumentException("Number of added fighters exceed the threshold");
             }
 
-            _fighters.Add(fighterOnTable.Clone());
+            _fighters.Add(fighterOnTable);
             return this;
         }
 
