@@ -10,9 +10,9 @@ public class BaseCreature
         Attack = attack;
     }
 
-    public Health Health { get; protected set; }
+    public Health Health { get; private set; }
 
-    public Attack Attack { get; protected set; }
+    public Attack Attack { get; private set; }
 
     public bool IsAlive => Health.IsAlive;
 

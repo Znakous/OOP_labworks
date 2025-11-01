@@ -5,20 +5,16 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.FighterBuilderFactories;
 
 public class CharmMasterBuilderFactory : IFighterBuilderFactory
 {
-    public IEditableFighterBuilder Create()
+    public IFighterOnTableBuilder Create()
     {
         CharmMaster basicCharmMaster =
-            new CharmMaster.CharmMasterBuilderDefaultDirector()
-            .Direct(new CharmMaster.CharmMasterEditableFighterBuilder())
-            .Build();
+            CharmMaster.DefaultBuilder.Build();
 
-        IEditableFighter magicShieldApplied =
-            new MagicShield.MagicShieldUnderlyingSelector()
+        IFighterOnTable magicShieldApplied = MagicShield.Builder
                 .WithUnderlying(basicCharmMaster).Build();
 
-        IEditableFighterBuilder attackMasteryAppliedBuilder =
-            new AttackMastery.AttackMasteryUnderlyingSelector()
+        IFighterOnTableBuilder attackMasteryApplied = AttackMastery.Builder
                 .WithUnderlying(magicShieldApplied);
-        return attackMasteryAppliedBuilder;
+        return attackMasteryApplied;
     }
 }

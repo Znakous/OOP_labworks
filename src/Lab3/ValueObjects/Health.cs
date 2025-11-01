@@ -25,11 +25,6 @@ public record struct Health(int Value)
 
     public Health TakeDamage(Attack damage)
     {
-        if (CanEndure(damage))
-        {
-            return new Health(Value - damage.Value);
-        }
-
-        return Zero;
+        return CanEndure(damage) ? new Health(Value - damage.Value) : Zero;
     }
 }

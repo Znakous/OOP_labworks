@@ -11,7 +11,7 @@ public class InvincibleHorrorTests
     {
         // arrange
         var deadlyAttack = new Attack(1000);
-        IFighter invincibleHorror = new InvincibleHorrorBuilderFactory().Create().Build();
+        IFighterInCombat invincibleHorror = new InvincibleHorrorBuilderFactory().Create().Build();
 
         // act
         invincibleHorror.TakeDamage(deadlyAttack);

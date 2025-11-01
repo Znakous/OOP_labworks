@@ -2,15 +2,15 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public abstract class CreatureEditableFighterBuilder<TBuilder, T>
-    : IEditableFighterBuilder where TBuilder : CreatureEditableFighterBuilder<TBuilder, T>
-    where T : IEditableFighter
+public abstract class CreatureOnTableBuilder<TBuilder, T>
+    : IFighterOnTableBuilder where TBuilder : CreatureOnTableBuilder<TBuilder, T>
+    where T : IFighterOnTable
 {
     protected Health Health { get; private set; }
 
     protected Attack Attack { get; private set; }
 
-    protected CreatureEditableFighterBuilder()
+    protected CreatureOnTableBuilder()
     {
         Health = Health.Zero;
         Attack = Attack.Zero;
@@ -22,7 +22,7 @@ public abstract class CreatureEditableFighterBuilder<TBuilder, T>
         return (TBuilder)this;
     }
 
-    IEditableFighterBuilder IEditableFighterBuilder.WithHealth(Health health)
+    IFighterOnTableBuilder IFighterOnTableBuilder.WithHealth(Health health)
     {
         return WithHealth(health);
     }
@@ -33,14 +33,14 @@ public abstract class CreatureEditableFighterBuilder<TBuilder, T>
         return (TBuilder)this;
     }
 
-    IEditableFighterBuilder IEditableFighterBuilder.WithAttack(Attack attack)
+    IFighterOnTableBuilder IFighterOnTableBuilder.WithAttack(Attack attack)
     {
         return WithAttack(attack);
     }
 
     public abstract T Build();
 
-    IEditableFighter IEditableFighterBuilder.Build()
+    IFighterOnTable IFighterOnTableBuilder.Build()
     {
         return Build();
     }

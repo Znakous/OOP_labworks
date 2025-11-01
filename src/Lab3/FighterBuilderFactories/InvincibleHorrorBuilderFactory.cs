@@ -4,9 +4,8 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.FighterBuilderFactories;
 
 public class InvincibleHorrorBuilderFactory : IFighterBuilderFactory
 {
-    public IEditableFighterBuilder Create()
+    public IFighterOnTableBuilder Create()
     {
-        return new InvincibleHorror.InvincibleHorrorBuilderDefaultDirector()
-            .Direct(new InvincibleHorror.InvincibleHorrorEditableFighterBuilder());
+        return InvincibleHorror.DefaultBuilder;
     }
 }

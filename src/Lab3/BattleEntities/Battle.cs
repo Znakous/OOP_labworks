@@ -10,30 +10,32 @@ public class Battle
 
     public BattleResult Proceed()
     {
-        IFighter? fromTable1 = _table1.SendNextFighter();
-        IFighter? fromTable2 = _table2.SendNextFighter();
-        while (fromTable1 is not null && fromTable2 is not null)
+        SendNextFighterResult firstTableResponse = _table1.SendNextFighter();
+        SendNextFighterResult secondTableResponse = _table2.SendNextFighter();
+        while (firstTableResponse is SendNextFighterResult.Success firstTableSuccess
+               && secondTableResponse is SendNextFighterResult.Success secondTableSuccess)
         {
             if (_firstTableTurn)
             {
-                fromTable1.PerformAttackOn(fromTable2);
+                firstTableSuccess.Fighter.PerformAttackOn(secondTableSuccess.Fighter);
             }
             else
             {
-                fromTable2.PerformAttackOn(fromTable1);
+                secondTableSuccess.Fighter.PerformAttackOn(firstTableSuccess.Fighter);
             }
 
             _firstTableTurn = !_firstTableTurn;
-            fromTable1 = _table1.SendNextFighter();
-            fromTable2 = _table2.SendNextFighter();
+            firstTableResponse = _table1.SendNextFighter();
+            secondTableResponse = _table2.SendNextFighter();
         }
 
-        if (fromTable1 is null && fromTable2 is null)
+        if (firstTableResponse is SendNextFighterResult.Failure
+            && secondTableResponse is SendNextFighterResult.Failure)
         {
             return new BattleResult.Draw();
         }
 
-        if (fromTable1 is null)
+        if (firstTableResponse is SendNextFighterResult.Failure)
         {
             return new BattleResult.WinSecond();
         }
@@ -63,6 +65,8 @@ public class Battle
         Battle Build();
     }
 
+    public static IFirstTableBattleBuilder Builder => new BattleBuilder();
+
     public class BattleBuilder
         : IFirstTableBattleBuilder,
             ISecondTableBattleBuilder,
@@ -70,8 +74,6 @@ public class Battle
     {
         private Table? _table1;
         private Table? _table2;
-
-        public BattleBuilder() { }
 
         public ISecondTableBattleBuilder WithFirstTable(Table firstTable)
         {

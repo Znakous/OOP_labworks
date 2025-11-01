@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3;
 
-public interface IFighter
+public interface IFighterInCombat
 {
     bool IsAlive { get; }
 
@@ -12,5 +12,5 @@ public interface IFighter
 
     void TakeDamage(Attack damage);
 
-    void PerformAttackOn(IFighter enemy);
+    void PerformAttackOn(IFighterInCombat enemy);
 }

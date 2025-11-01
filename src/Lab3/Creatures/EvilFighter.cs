@@ -2,18 +2,24 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class EvilFighter : BaseCreature, IEditableFighter
+public class EvilFighter : IFighterOnTable
 {
+    public Health Health { get; private set; }
+
+    public Attack Attack { get; private set; }
+
+    public bool IsAlive => Health.IsAlive;
+
     public void TakeDamage(Attack damage)
     {
-        Health.TakeDamage(damage);
+        Health = Health.TakeDamage(damage);
         if (IsAlive)
         {
             Attack *= 2;
         }
     }
 
-    public void PerformAttackOn(IFighter enemy)
+    public void PerformAttackOn(IFighterInCombat enemy)
     {
         enemy.TakeDamage(Attack);
     }
@@ -28,16 +34,24 @@ public class EvilFighter : BaseCreature, IEditableFighter
         Attack = attack;
     }
 
-    public IEditableFighter Clone()
+    public IFighterOnTable Clone()
     {
         return new EvilFighter(Health, Attack);
     }
 
-    private EvilFighter(Health health, Attack attack)
-        : base(health, attack) { }
+    public static EvilFighterBuilder Builder => new EvilFighterBuilder();
 
-    public class EvilFighterEditableFighterBuilder
-        : CreatureEditableFighterBuilder<EvilFighterEditableFighterBuilder, EvilFighter>
+    public static EvilFighterBuilder DefaultBuilder
+        => EvilFighterBuilderDefaultDirector.Direct(new EvilFighterBuilder());
+
+    private EvilFighter(Health health, Attack attack)
+    {
+        Health = health;
+        Attack = attack;
+    }
+
+    public class EvilFighterBuilder
+        : CreatureOnTableBuilder<EvilFighterBuilder, EvilFighter>
     {
         public override EvilFighter Build()
         {
@@ -45,11 +59,11 @@ public class EvilFighter : BaseCreature, IEditableFighter
         }
     }
 
-    public class EvilFighterBuilderDefaultDirector
+    private class EvilFighterBuilderDefaultDirector
     {
-        public EvilFighterEditableFighterBuilder Direct(EvilFighterEditableFighterBuilder editableFighterBuilder)
+        public static EvilFighterBuilder Direct(EvilFighterBuilder builder)
         {
-            return editableFighterBuilder
+            return builder
                 .WithAttack(new Attack(1))
                 .WithHealth(new Health(6));
         }

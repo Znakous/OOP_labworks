@@ -1,11 +1,10 @@
-using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Modifiers;
 
-public class MagicShield : IEditableFighter
+public class MagicShield : IFighterOnTable
 {
-    private readonly IEditableFighter _underlying;
+    private readonly IFighterOnTable _underlying;
 
     private bool _isActive;
 
@@ -15,7 +14,7 @@ public class MagicShield : IEditableFighter
 
     public Attack Attack => _underlying.Attack;
 
-    public MagicShield(IEditableFighter underlying)
+    public MagicShield(IFighterOnTable underlying)
     {
         _underlying = underlying;
         _isActive = true;
@@ -32,7 +31,7 @@ public class MagicShield : IEditableFighter
         _underlying.TakeDamage(damage);
     }
 
-    public void PerformAttackOn(IFighter enemy)
+    public void PerformAttackOn(IFighterInCombat enemy)
     {
         _underlying.PerformAttackOn(enemy);
     }
@@ -47,49 +46,44 @@ public class MagicShield : IEditableFighter
         _underlying.SetAttack(attack);
     }
 
-    public IEditableFighter Clone()
+    public IFighterOnTable Clone()
     {
         return _isActive ? new MagicShield(_underlying.Clone()) : _underlying.Clone();
     }
 
+    public static MagicShieldUnderlyingSelector Builder => new MagicShieldUnderlyingSelector();
+
     public class MagicShieldUnderlyingSelector
     {
-        public MagicShieldUnderlyingSelector() { }
-
-        public MagicShieldEditableFighterBuilder WithUnderlying(IEditableFighter underlying)
+        public MagicShieldFighterOnTableBuilder WithUnderlying(IFighterOnTable underlying)
         {
-            return new MagicShieldEditableFighterBuilder(underlying);
+            return new MagicShieldFighterOnTableBuilder(underlying);
         }
     }
 
-    public class MagicShieldEditableFighterBuilder : IEditableFighterBuilder
+    public class MagicShieldFighterOnTableBuilder : IFighterOnTableBuilder
     {
-        private readonly IEditableFighter _underlying;
+        private readonly IFighterOnTable _underlying;
 
-        public MagicShieldEditableFighterBuilder(IEditableFighter underlying)
+        public MagicShieldFighterOnTableBuilder(IFighterOnTable underlying)
         {
             _underlying = underlying;
         }
 
-        IEditableFighterBuilder IEditableFighterBuilder.WithAttack(Attack attack)
+        IFighterOnTableBuilder IFighterOnTableBuilder.WithAttack(Attack attack)
         {
             _underlying.SetAttack(attack);
             return this;
         }
 
-        IEditableFighterBuilder IEditableFighterBuilder.WithHealth(Health health)
+        IFighterOnTableBuilder IFighterOnTableBuilder.WithHealth(Health health)
         {
             _underlying.SetHealth(health);
             return this;
         }
 
-        public IEditableFighter Build()
+        public IFighterOnTable Build()
         {
-            if (_underlying is null)
-            {
-                throw new NullReferenceException("The underlying builder is null.");
-            }
-
             return new MagicShield(_underlying);
         }
     }

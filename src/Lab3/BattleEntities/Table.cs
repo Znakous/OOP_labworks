@@ -1,18 +1,19 @@
+using Itmo.ObjectOrientedProgramming.Lab3.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 
 public class Table
 {
-    private readonly List<IEditableFighter> _fighters;
+    private readonly List<IFighterOnTable> _fighters;
 
     private ModuleCounter _currentFighterIndex;
 
-    public IFighter? SendNextFighter()
+    public SendNextFighterResult SendNextFighter()
     {
         if (_fighters.Count == 0)
         {
-            return null;
+            return new SendNextFighterResult.Failure();
         }
 
         int iterCount = 0;
@@ -24,20 +25,20 @@ public class Table
 
         if (iterCount == _fighters.Count)
         {
-            return null;
+            return new SendNextFighterResult.Failure();
         }
 
-        IFighter nextFighter = _fighters[_currentFighterIndex.Value];
+        IFighterInCombat nextFighterInCombat = _fighters[_currentFighterIndex.Value];
         _currentFighterIndex++;
-        return nextFighter;
+        return new SendNextFighterResult.Success(nextFighterInCombat);
     }
 
     public Table Clone()
     {
-        return new Table(new List<IEditableFighter>(_fighters), _currentFighterIndex);
+        return new Table(new List<IFighterOnTable>(_fighters), _currentFighterIndex);
     }
 
-    private Table(List<IEditableFighter> fighters, ModuleCounter currentFighterIndex)
+    private Table(List<IFighterOnTable> fighters, ModuleCounter currentFighterIndex)
     {
         _fighters = fighters;
         _currentFighterIndex = currentFighterIndex;
@@ -46,18 +47,18 @@ public class Table
     public class TableBuilder
     {
         private const int MaxFighters = 7;
-        private readonly List<IEditableFighter> _fighters = [];
+        private readonly List<IFighterOnTable> _fighters = [];
 
         public TableBuilder() { }
 
-        public TableBuilder WithFighter(IEditableFighter fighter)
+        public TableBuilder WithFighter(IFighterOnTable fighterOnTable)
         {
             if (_fighters.Count is MaxFighters)
             {
                 throw new ArgumentException("Number of added fighters exceed the threshold");
             }
 
-            _fighters.Add(fighter.Clone());
+            _fighters.Add(fighterOnTable.Clone());
             return this;
         }
 

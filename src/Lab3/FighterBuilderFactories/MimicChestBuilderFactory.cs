@@ -4,9 +4,8 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.FighterBuilderFactories;
 
 public class MimicChestBuilderFactory : IFighterBuilderFactory
 {
-    public IEditableFighterBuilder Create()
+    public IFighterOnTableBuilder Create()
     {
-        return new MimicChest.MimicChestBuilderDefaultDirector()
-            .Direct(new MimicChest.MimicChestEditableFighterBuilder());
+        return MimicChest.DefaultBuilder;
     }
 }

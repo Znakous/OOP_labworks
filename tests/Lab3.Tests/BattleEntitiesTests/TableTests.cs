@@ -1,5 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 using Itmo.ObjectOrientedProgramming.Lab3.FighterBuilderFactories;
+using Itmo.ObjectOrientedProgramming.Lab3.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 using NSubstitute;
 using Xunit;
@@ -12,14 +13,14 @@ public class TableTests
     public void Table_Should_ReturnFighter_When_FighterGivenAndAskedFor()
     {
         // arrange
-        IEditableFighter fighter = new MimicChestBuilderFactory().Create().Build();
-        Table table = new Table.TableBuilder().WithFighter(fighter).Build();
+        IFighterOnTable fighterOnTable = new MimicChestBuilderFactory().Create().Build();
+        Table table = new Table.TableBuilder().WithFighter(fighterOnTable).Build();
 
         // act
-        IFighter? fromTable = table.SendNextFighter();
+        SendNextFighterResult fromTable = table.SendNextFighter();
 
         // assert
-        Assert.NotNull(fromTable);
+        Assert.IsType<SendNextFighterResult.Success>(fromTable);
     }
 
     [Fact]
@@ -29,25 +30,25 @@ public class TableTests
         Table table = new Table.TableBuilder().Build();
 
         // act
-        IFighter? fromTable = table.SendNextFighter();
+        SendNextFighterResult fromTable = table.SendNextFighter();
 
         // assert
-        Assert.Null(fromTable);
+        Assert.IsType<SendNextFighterResult.Failure>(fromTable);
     }
 
     [Fact]
     public void Table_Should_ReturnNull_When_AllFightersAreDead()
     {
         // arrange
-        IEditableFighter deadFighter1 = new MimicChestBuilderFactory().Create().WithHealth(Health.Zero).Build();
-        IEditableFighter deadFighter2 = new CombatAnalystBuilderFactory().Create().WithHealth(Health.Zero).Build();
+        IFighterOnTable deadFighter1 = new MimicChestBuilderFactory().Create().WithHealth(Health.Zero).Build();
+        IFighterOnTable deadFighter2 = new CombatAnalystBuilderFactory().Create().WithHealth(Health.Zero).Build();
         Table table = new Table.TableBuilder().WithFighter(deadFighter1).WithFighter(deadFighter2).Build();
 
         // act
-        IFighter? fromTable = table.SendNextFighter();
+        SendNextFighterResult fromTable = table.SendNextFighter();
 
         // assert
-        Assert.Null(fromTable);
+        Assert.IsType<SendNextFighterResult.Failure>(fromTable);
     }
 
     [Fact]
@@ -58,9 +59,9 @@ public class TableTests
 
         // act
         for (int i = 0; i < 7; i++)
-            tableBuilder = tableBuilder.WithFighter(Substitute.For<IEditableFighter>());
+            tableBuilder = tableBuilder.WithFighter(Substitute.For<IFighterOnTable>());
 
         // assert
-        Assert.Throws<ArgumentException>(() => tableBuilder.WithFighter(Substitute.For<IEditableFighter>()));
+        Assert.Throws<ArgumentException>(() => tableBuilder.WithFighter(Substitute.For<IFighterOnTable>()));
     }
 }

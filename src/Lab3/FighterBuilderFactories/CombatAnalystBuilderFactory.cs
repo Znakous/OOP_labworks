@@ -4,9 +4,8 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.FighterBuilderFactories;
 
 public class CombatAnalystBuilderFactory : IFighterBuilderFactory
 {
-    public IEditableFighterBuilder Create()
+    public IFighterOnTableBuilder Create()
     {
-        return new CombatAnalyst.CombatAnalystBuilderDefaultDirector()
-            .Direct(new CombatAnalyst.CombatAnalystEditableFighterBuilder());
+        return CombatAnalyst.DefaultBuilder;
     }
 }

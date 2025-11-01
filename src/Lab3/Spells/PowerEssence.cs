@@ -4,9 +4,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Spells;
 
 public class PowerEssence : ISpell
 {
-    public IEditableFighter Apply(IEditableFighter fighter)
+    public IFighterOnTable GetAppliedOn(IFighterOnTable fighterOnTable)
     {
-        fighter.SetAttack(fighter.Attack + new Attack(5));
-        return fighter;
+        fighterOnTable.SetAttack(fighterOnTable.Attack + new Attack(5));
+        return fighterOnTable;
     }
 }

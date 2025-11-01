@@ -12,9 +12,9 @@ public class CombatAnalystTests
     {
         // arrange
         var initialAttack = new Attack(1);
-        IFighter combatAnalyst = new CombatAnalystBuilderFactory().Create()
+        IFighterInCombat combatAnalyst = new CombatAnalystBuilderFactory().Create()
             .WithAttack(initialAttack).Build();
-        IFighter enemy = Substitute.For<IFighter>();
+        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
 
         // act
         combatAnalyst.PerformAttackOn(enemy);
@@ -29,9 +29,9 @@ public class CombatAnalystTests
         // arrange
         int attackCount = 4;
         var initialAttack = new Attack(1);
-        IFighter combatAnalyst = new CombatAnalystBuilderFactory().Create()
+        IFighterInCombat combatAnalyst = new CombatAnalystBuilderFactory().Create()
             .WithAttack(initialAttack).Build();
-        IFighter enemy = Substitute.For<IFighter>();
+        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
 
         // act
         for (int i = 0; i < attackCount; ++i)
@@ -49,9 +49,9 @@ public class CombatAnalystTests
         // arrange
         int attackCount = 4;
         var initialAttack = new Attack(1);
-        IFighter combatAnalyst = new CombatAnalystBuilderFactory().Create()
+        IFighterInCombat combatAnalyst = new CombatAnalystBuilderFactory().Create()
             .WithAttack(initialAttack).WithHealth(new Health(100)).Build();
-        IFighter enemy = Substitute.For<IFighter>();
+        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
 
         // act
         for (int i = 0; i < attackCount - 1; ++i)

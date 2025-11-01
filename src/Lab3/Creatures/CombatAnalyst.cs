@@ -2,9 +2,15 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class CombatAnalyst : BaseCreature, IEditableFighter
+public class CombatAnalyst : IFighterOnTable
 {
-    public void PerformAttackOn(IFighter enemy)
+    public Health Health { get; private set; }
+
+    public Attack Attack { get; private set; }
+
+    public bool IsAlive => Health.IsAlive;
+
+    public void PerformAttackOn(IFighterInCombat enemy)
     {
         Attack += new Attack(2);
         enemy.TakeDamage(Attack);
@@ -25,16 +31,24 @@ public class CombatAnalyst : BaseCreature, IEditableFighter
         Attack = attack;
     }
 
-    public IEditableFighter Clone()
+    public IFighterOnTable Clone()
     {
         return new CombatAnalyst(Health, Attack);
     }
 
-    private CombatAnalyst(Health health, Attack attack)
-        : base(health, attack) { }
+    public static CombatAnalystBuilder Builder => new CombatAnalystBuilder();
 
-    public class CombatAnalystEditableFighterBuilder
-        : CreatureEditableFighterBuilder<CombatAnalystEditableFighterBuilder, CombatAnalyst>
+    public static CombatAnalystBuilder DefaultBuilder
+        => CombatAnalystBuilderDefaultDirector.Direct(new CombatAnalystBuilder());
+
+    private CombatAnalyst(Health health, Attack attack)
+    {
+        Health = health;
+        Attack = attack;
+    }
+
+    public class CombatAnalystBuilder
+        : CreatureOnTableBuilder<CombatAnalystBuilder, CombatAnalyst>
     {
         public override CombatAnalyst Build()
         {
@@ -42,11 +56,11 @@ public class CombatAnalyst : BaseCreature, IEditableFighter
         }
     }
 
-    public class CombatAnalystBuilderDefaultDirector
+    private class CombatAnalystBuilderDefaultDirector
     {
-        public CombatAnalystEditableFighterBuilder Direct(CombatAnalystEditableFighterBuilder editableFighterBuilder)
+        public static CombatAnalystBuilder Direct(CombatAnalystBuilder builder)
         {
-            return editableFighterBuilder
+            return builder
                 .WithAttack(new Attack(2))
                 .WithHealth(new Health(4));
         }

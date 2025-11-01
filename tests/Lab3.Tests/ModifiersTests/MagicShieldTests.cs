@@ -11,8 +11,8 @@ public class MagicShieldTests
     public void MagicShield_Should_StopUnderlyingFromTakingDamage_When_TakingDamageOnce()
     {
         // arrange
-        IEditableFighter underlying = Substitute.For<IEditableFighter>();
-        IEditableFighter magicShield = new MagicShield.MagicShieldUnderlyingSelector()
+        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterOnTable magicShield = new MagicShield.MagicShieldUnderlyingSelector()
             .WithUnderlying(underlying)
             .Build();
 
@@ -28,8 +28,8 @@ public class MagicShieldTests
     {
         // arrange
         int attackCount = 10;
-        IEditableFighter underlying = Substitute.For<IEditableFighter>();
-        IEditableFighter magicShield = new MagicShield.MagicShieldUnderlyingSelector()
+        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterOnTable magicShield = new MagicShield.MagicShieldUnderlyingSelector()
             .WithUnderlying(underlying)
             .Build();
 
@@ -47,20 +47,20 @@ public class MagicShieldTests
         // arrange
         int shieldCount = 4;
         int attackCount = 10;
-        IEditableFighter baseFighter = Substitute.For<IEditableFighter>();
-        IEditableFighter currentFighter = baseFighter;
+        IFighterOnTable baseFighterOnTable = Substitute.For<IFighterOnTable>();
+        IFighterOnTable currentFighterOnTable = baseFighterOnTable;
         for (int i = 0; i < shieldCount; ++i)
         {
-            currentFighter = new MagicShield.MagicShieldUnderlyingSelector()
-                .WithUnderlying(currentFighter)
+            currentFighterOnTable = new MagicShield.MagicShieldUnderlyingSelector()
+                .WithUnderlying(currentFighterOnTable)
                 .Build();
         }
 
         // act
         for (int i = 0; i < attackCount; ++i)
-            currentFighter.TakeDamage(new Attack(100));
+            currentFighterOnTable.TakeDamage(new Attack(100));
 
         // assert
-        baseFighter.Received(attackCount - shieldCount).TakeDamage(Arg.Any<Attack>());
+        baseFighterOnTable.Received(attackCount - shieldCount).TakeDamage(Arg.Any<Attack>());
     }
 }

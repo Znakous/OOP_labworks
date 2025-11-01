@@ -2,14 +2,20 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class CharmMaster : BaseCreature, IEditableFighter
+public class CharmMaster : IFighterOnTable
 {
+    public Health Health { get; private set; }
+
+    public Attack Attack { get; private set; }
+
+    public bool IsAlive => Health.IsAlive;
+
     public void TakeDamage(Attack damage)
     {
         Health = Health.TakeDamage(damage);
     }
 
-    public void PerformAttackOn(IFighter enemy)
+    public void PerformAttackOn(IFighterInCombat enemy)
     {
         enemy.TakeDamage(Attack);
     }
@@ -24,16 +30,24 @@ public class CharmMaster : BaseCreature, IEditableFighter
         Attack = attack;
     }
 
-    public IEditableFighter Clone()
+    public IFighterOnTable Clone()
     {
         return new CharmMaster(Health, Attack);
     }
 
     private CharmMaster(Health health, Attack attack)
-        : base(health, attack) { }
+    {
+        Health = health;
+        Attack = attack;
+    }
 
-    public class CharmMasterEditableFighterBuilder
-        : CreatureEditableFighterBuilder<CharmMasterEditableFighterBuilder, CharmMaster>
+    public static CharmMasterBuilder Builder => new CharmMasterBuilder();
+
+    public static CharmMasterBuilder DefaultBuilder
+        => CharmMasterBuilderDefaultDirector.Direct(new CharmMasterBuilder());
+
+    public class CharmMasterBuilder
+        : CreatureOnTableBuilder<CharmMasterBuilder, CharmMaster>
     {
         public override CharmMaster Build()
         {
@@ -41,11 +55,11 @@ public class CharmMaster : BaseCreature, IEditableFighter
         }
     }
 
-    public class CharmMasterBuilderDefaultDirector
+    private class CharmMasterBuilderDefaultDirector
     {
-        public CharmMasterEditableFighterBuilder Direct(CharmMasterEditableFighterBuilder editableFighterBuilder)
+        public static CharmMasterBuilder Direct(CharmMasterBuilder builder)
         {
-            return editableFighterBuilder
+            return builder
                 .WithAttack(new Attack(5))
                 .WithHealth(new Health(2));
         }

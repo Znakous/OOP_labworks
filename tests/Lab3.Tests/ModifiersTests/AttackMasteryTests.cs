@@ -10,35 +10,35 @@ public class AttackMasteryTests
     public void AttackMastery_Should_CallUnderlyingAttackTwice_When_EnemyStaysAlive()
     {
         // arrange
-        IEditableFighter underlying = Substitute.For<IEditableFighter>();
-        IEditableFighter attackMastery = new AttackMastery.AttackMasteryUnderlyingSelector()
+        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterOnTable attackMastery = new AttackMastery.AttackMasteryUnderlyingSelector()
             .WithUnderlying(underlying)
             .Build();
-        IFighter enemy = Substitute.For<IFighter>();
+        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
         enemy.IsAlive.Returns(true);
 
         // act
         attackMastery.PerformAttackOn(enemy);
 
         // assert
-        underlying.Received(2).PerformAttackOn(Arg.Any<IFighter>());
+        underlying.Received(2).PerformAttackOn(Arg.Any<IFighterInCombat>());
     }
 
     [Fact]
     public void AttackMastery_Should_CallUnderlyingAttackOnce_When_EnemyDies()
     {
         // arrange
-        IEditableFighter underlying = Substitute.For<IEditableFighter>();
-        IEditableFighter attackMastery = new AttackMastery.AttackMasteryUnderlyingSelector()
+        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterOnTable attackMastery = new AttackMastery.AttackMasteryUnderlyingSelector()
             .WithUnderlying(underlying)
             .Build();
-        IFighter enemy = Substitute.For<IFighter>();
+        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
         enemy.IsAlive.Returns(false);
 
         // act
         attackMastery.PerformAttackOn(enemy);
 
         // assert
-        underlying.Received(1).PerformAttackOn(Arg.Any<IFighter>());
+        underlying.Received(1).PerformAttackOn(Arg.Any<IFighterInCombat>());
     }
 }

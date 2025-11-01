@@ -2,14 +2,20 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class MimicChest : BaseCreature, IEditableFighter
+public class MimicChest : IFighterOnTable
 {
+    public Health Health { get; private set; }
+
+    public Attack Attack { get; private set; }
+
+    public bool IsAlive => Health.IsAlive;
+
     public void TakeDamage(Attack damage)
     {
         Health = Health.TakeDamage(damage);
     }
 
-    public void PerformAttackOn(IFighter enemy)
+    public void PerformAttackOn(IFighterInCombat enemy)
     {
         Health = Health > enemy.Health ? Health : enemy.Health;
         Attack = Attack > enemy.Attack ? Attack : enemy.Attack;
@@ -26,15 +32,23 @@ public class MimicChest : BaseCreature, IEditableFighter
         Attack = attack;
     }
 
-    public IEditableFighter Clone()
+    public IFighterOnTable Clone()
     {
         return new MimicChest(Health, Attack);
     }
 
-    private MimicChest(Health health, Attack attack)
-        : base(health, attack) { }
+    public static MimicChestBuilder Builder => new MimicChestBuilder();
 
-    public class MimicChestEditableFighterBuilder : CreatureEditableFighterBuilder<MimicChestEditableFighterBuilder, MimicChest>
+    public static MimicChestBuilder DefaultBuilder
+        => MimicChestBuilderDefaultDirector.Direct(new MimicChestBuilder());
+
+    private MimicChest(Health health, Attack attack)
+    {
+        Health = health;
+        Attack = attack;
+    }
+
+    public class MimicChestBuilder : CreatureOnTableBuilder<MimicChestBuilder, MimicChest>
     {
         public override MimicChest Build()
         {
@@ -42,11 +56,11 @@ public class MimicChest : BaseCreature, IEditableFighter
         }
     }
 
-    public class MimicChestBuilderDefaultDirector
+    private class MimicChestBuilderDefaultDirector
     {
-        public MimicChestEditableFighterBuilder Direct(MimicChestEditableFighterBuilder editableFighterBuilder)
+        public static MimicChestBuilder Direct(MimicChestBuilder builder)
         {
-            return editableFighterBuilder
+            return builder
                 .WithAttack(new Attack(1))
                 .WithHealth(new Health(1));
         }
