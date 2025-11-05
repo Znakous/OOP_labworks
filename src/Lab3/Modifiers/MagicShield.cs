@@ -55,7 +55,7 @@ public class MagicShield : IFighterOnTable
 
     public class MagicShieldUnderlyingSelector
     {
-        public MagicShieldFighterOnTableBuilder WithUnderlying(IFighterOnTable underlying)
+        public MagicShieldFighterOnTableBuilder WithUnderlying(IFighterOnTableBuilder underlying)
         {
             return new MagicShieldFighterOnTableBuilder(underlying);
         }
@@ -63,28 +63,28 @@ public class MagicShield : IFighterOnTable
 
     public class MagicShieldFighterOnTableBuilder : IFighterOnTableBuilder
     {
-        private readonly IFighterOnTable _underlying;
+        private readonly IFighterOnTableBuilder _underlying;
 
-        public MagicShieldFighterOnTableBuilder(IFighterOnTable underlying)
+        public MagicShieldFighterOnTableBuilder(IFighterOnTableBuilder underlying)
         {
             _underlying = underlying;
         }
 
         IFighterOnTableBuilder IFighterOnTableBuilder.WithAttack(Attack attack)
         {
-            _underlying.SetAttack(attack);
+            _underlying.WithAttack(attack);
             return this;
         }
 
         IFighterOnTableBuilder IFighterOnTableBuilder.WithHealth(Health health)
         {
-            _underlying.SetHealth(health);
+            _underlying.WithHealth(health);
             return this;
         }
 
         public IFighterOnTable Build()
         {
-            return new MagicShield(_underlying);
+            return new MagicShield(_underlying.Build());
         }
     }
 }

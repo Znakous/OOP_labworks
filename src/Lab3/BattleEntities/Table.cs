@@ -29,9 +29,9 @@ public class Table
             return new SendNextFighterResult.Failure();
         }
 
-        IFighterInCombat nextFighterInCombat = _fighters[_currentFighterIndex.Value];
+        IFighterInCombat nextFighter = _fighters[_currentFighterIndex.Value];
         _currentFighterIndex++;
-        return new SendNextFighterResult.Success(nextFighterInCombat);
+        return new SendNextFighterResult.Success(nextFighter);
     }
 
     public void ApplySpell(ISpell spell, IFighterOnTable fighter)

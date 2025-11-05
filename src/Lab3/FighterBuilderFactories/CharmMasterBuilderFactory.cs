@@ -7,11 +7,11 @@ public class CharmMasterBuilderFactory : IFighterBuilderFactory
 {
     public IFighterOnTableBuilder Create()
     {
-        CharmMaster basicCharmMaster =
-            CharmMaster.DefaultBuilder.Build();
+        IFighterOnTableBuilder basicCharmMaster =
+            CharmMaster.DefaultBuilder;
 
-        IFighterOnTable magicShieldApplied = MagicShield.Builder
-                .WithUnderlying(basicCharmMaster).Build();
+        IFighterOnTableBuilder magicShieldApplied = MagicShield.Builder
+                .WithUnderlying(basicCharmMaster);
 
         IFighterOnTableBuilder attackMasteryApplied = AttackMastery.Builder
                 .WithUnderlying(magicShieldApplied);

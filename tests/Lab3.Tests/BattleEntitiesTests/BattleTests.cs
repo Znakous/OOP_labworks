@@ -167,22 +167,20 @@ public class BattleTests
     public void Battle_Should_ChooseSecondFighterAsWinner_When_FirstTableHasMoreCharmMasters()
     {
         // arrange
-        int firstCharmMasterCount = 4;
-        int secondCharmMasterCount = 3;
-        IFighterOnTable charmMaster = new CharmMasterBuilderFactory().Create()
-            .Build();
-        IFighterOnTable fighterOnTableForSecondTable = new CharmMasterBuilderFactory().Create()
-            .Build();
+        int firstCharmMasterCount = 2;
+        int secondCharmMasterCount = 5;
+        IFighterOnTableBuilder builderForFirst = new CharmMasterBuilderFactory().Create();
+        IFighterOnTableBuilder builderForSecond = new CharmMasterBuilderFactory().Create();
         var firstTableBuilder = new Table.TableBuilder();
         var secondTableBuilder = new Table.TableBuilder();
         for (int i = 0; i < firstCharmMasterCount; i++)
         {
-            firstTableBuilder = firstTableBuilder.WithFighter(charmMaster);
+            firstTableBuilder = firstTableBuilder.WithFighter(builderForFirst.Build());
         }
 
         for (int i = 0; i < secondCharmMasterCount; i++)
         {
-            secondTableBuilder = secondTableBuilder.WithFighter(charmMaster);
+            secondTableBuilder = secondTableBuilder.WithFighter(builderForSecond.Build());
         }
 
         Battle battle = Battle.Builder
@@ -194,6 +192,6 @@ public class BattleTests
         BattleResult result = battle.Proceed();
 
         // assert
-        Assert.IsType<BattleResult.WinFirst>(result);
+        Assert.IsType<BattleResult.WinSecond>(result);
     }
 }

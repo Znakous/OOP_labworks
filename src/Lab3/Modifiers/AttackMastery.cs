@@ -55,7 +55,7 @@ public class AttackMastery : IFighterOnTable
     {
         public AttackMasteryUnderlyingSelector() { }
 
-        public AttackMasteryFighterOnTableBuilder WithUnderlying(IFighterOnTable underlying)
+        public AttackMasteryFighterOnTableBuilder WithUnderlying(IFighterOnTableBuilder underlying)
         {
             return new AttackMasteryFighterOnTableBuilder(underlying ?? throw new ArgumentNullException(nameof(underlying)));
         }
@@ -63,22 +63,22 @@ public class AttackMastery : IFighterOnTable
 
     public class AttackMasteryFighterOnTableBuilder : IFighterOnTableBuilder
     {
-        private readonly IFighterOnTable _underlying;
+        private readonly IFighterOnTableBuilder _underlying;
 
-        public AttackMasteryFighterOnTableBuilder(IFighterOnTable underlying)
+        public AttackMasteryFighterOnTableBuilder(IFighterOnTableBuilder underlying)
         {
             _underlying = underlying ?? throw new ArgumentNullException(nameof(underlying));
         }
 
         IFighterOnTableBuilder IFighterOnTableBuilder.WithAttack(Attack attack)
         {
-            _underlying.SetAttack(attack);
+            _underlying.WithAttack(attack);
             return this;
         }
 
         IFighterOnTableBuilder IFighterOnTableBuilder.WithHealth(Health health)
         {
-            _underlying.SetHealth(health);
+            _underlying.WithHealth(health);
             return this;
         }
 
@@ -89,7 +89,7 @@ public class AttackMastery : IFighterOnTable
                 throw new NullReferenceException("The underlying builder is null.");
             }
 
-            return new AttackMastery(_underlying);
+            return new AttackMastery(_underlying.Build());
         }
     }
 }
