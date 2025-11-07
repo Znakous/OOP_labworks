@@ -10,8 +10,6 @@ public class MagicMirror : ISpell
         int healthValue = fighterOnTable.Health.Value;
         fighterOnTable.SetAttack(new Attack(healthValue));
         fighterOnTable.SetHealth(new Health(attackValue));
-        Console.WriteLine(fighterOnTable.Attack.Value);
-        Console.WriteLine(fighterOnTable.Health.Value);
         return fighterOnTable;
     }
 }
