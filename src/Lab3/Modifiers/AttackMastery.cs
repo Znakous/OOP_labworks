@@ -5,7 +5,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Modifiers;
 public class AttackMastery : IFighterOnTable
 {
     private readonly IFighterOnTable _underlying;
-    private bool _isActive;
 
     public bool IsAlive => _underlying.IsAlive;
 
@@ -16,7 +15,6 @@ public class AttackMastery : IFighterOnTable
     public AttackMastery(IFighterOnTable underlying)
     {
         _underlying = underlying;
-        _isActive = true;
     }
 
     public void TakeDamage(Attack damage)
@@ -27,9 +25,8 @@ public class AttackMastery : IFighterOnTable
     public void PerformAttackOn(IFighterInCombat enemy)
     {
         _underlying.PerformAttackOn(enemy);
-        if (_isActive && enemy.IsAlive)
+        if (enemy.IsAlive)
         {
-            _isActive = false;
             _underlying.PerformAttackOn(enemy);
         }
     }
@@ -46,7 +43,7 @@ public class AttackMastery : IFighterOnTable
 
     public IFighterOnTable Clone()
     {
-        return _isActive ? new AttackMastery(_underlying.Clone()) : _underlying.Clone();
+        return new AttackMastery(_underlying.Clone());
     }
 
     public static AttackMasteryUnderlyingSelector Builder => new AttackMasteryUnderlyingSelector();
