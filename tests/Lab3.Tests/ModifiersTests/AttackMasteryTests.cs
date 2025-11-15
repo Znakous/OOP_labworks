@@ -10,35 +10,35 @@ public class AttackMasteryTests
     public void AttackMastery_Should_CallUnderlyingAttackTwice_When_EnemyStaysAlive()
     {
         // arrange
-        IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
-        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterBuilder underlyingBuilder = Substitute.For<IFighterBuilder>();
+        IFighter underlying = Substitute.For<IFighter>();
         underlyingBuilder.Build().Returns(underlying);
         var attackMastery = new AttackMastery(underlyingBuilder.Build());
-        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
+        IFighter enemy = Substitute.For<IFighter>();
         enemy.IsAlive.Returns(true);
 
         // act
         attackMastery.PerformAttackOn(enemy);
 
         // assert
-        underlying.Received(2).PerformAttackOn(Arg.Any<IFighterOnTable>());
+        underlying.Received(2).PerformAttackOn(Arg.Any<IFighter>());
     }
 
     [Fact]
     public void AttackMastery_Should_CallUnderlyingAttackOnce_When_EnemyDies()
     {
         // arrange
-        IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
-        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterBuilder underlyingBuilder = Substitute.For<IFighterBuilder>();
+        IFighter underlying = Substitute.For<IFighter>();
         underlyingBuilder.Build().Returns(underlying);
         var attackMastery = new AttackMastery(underlyingBuilder.Build());
-        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
+        IFighter enemy = Substitute.For<IFighter>();
         enemy.IsAlive.Returns(false);
 
         // act
         attackMastery.PerformAttackOn(enemy);
 
         // assert
-        underlying.Received(1).PerformAttackOn(Arg.Any<IFighterOnTable>());
+        underlying.Received(1).PerformAttackOn(Arg.Any<IFighter>());
     }
 }

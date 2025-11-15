@@ -13,12 +13,12 @@ public class TableTests
     public void Table_Should_ReturnFighter_When_FighterGivenAndAskedFor()
     {
         // arrange
-        IFighterOnTable fighterOnTable = new MimicChestBuilderFactory().Create().Build();
-        var table = new Table(new ModuleCounter());
-        table.AddFighter(fighterOnTable);
+        IFighter fighter = new MimicChestBuilderFactory().Create().Build();
+        var table = new Table(new ContinuousSelector());
+        table.AddFighter(fighter);
 
         // act
-        IFighterOnTable? fromTable = table.SendNextAttacker();
+        IFighter? fromTable = table.SendNextAttacker();
 
         // assert
         Assert.NotNull(fromTable);
@@ -28,10 +28,10 @@ public class TableTests
     public void Table_Should_ReturnNull_When_FighterNotGivenAndAskedFor()
     {
         // arrange
-        var table = new Table(new ModuleCounter());
+        var table = new Table(new ContinuousSelector());
 
         // act
-        IFighterOnTable? fromTable = table.SendNextAttacker();
+        IFighter? fromTable = table.SendNextAttacker();
 
         // assert
         Assert.Null(fromTable);
@@ -41,14 +41,14 @@ public class TableTests
     public void Table_Should_ReturnNull_When_AllFightersAreDead()
     {
         // arrange
-        IFighterOnTable deadFighter1 = new MimicChestBuilderFactory().Create().WithHealth(Health.Zero).Build();
-        IFighterOnTable deadFighter2 = new CombatAnalystBuilderFactory().Create().WithHealth(Health.Zero).Build();
-        var table = new Table(new ModuleCounter());
+        IFighter deadFighter1 = new MimicChestBuilderFactory().Create().WithHealth(Health.Zero).Build();
+        IFighter deadFighter2 = new CombatAnalystBuilderFactory().Create().WithHealth(Health.Zero).Build();
+        var table = new Table(new ContinuousSelector());
         table.AddFighter(deadFighter1);
         table.AddFighter(deadFighter2);
 
         // act
-        IFighterOnTable? fromTable = table.SendNextAttacker();
+        IFighter? fromTable = table.SendNextAttacker();
 
         // assert
         Assert.Null(fromTable);
@@ -58,28 +58,28 @@ public class TableTests
     public void Table_Should_ThrowError_When_AddedMoreThan7Fighters()
     {
         // arrange
-        var table = new Table(new ModuleCounter());
+        var table = new Table(new ContinuousSelector());
 
         // act
         for (int i = 0; i < 7; i++)
-            table.AddFighter(Substitute.For<IFighterOnTable>());
+            table.AddFighter(Substitute.For<IFighter>());
 
         // assert
-        Assert.Throws<InvalidOperationException>(() => table.AddFighter(Substitute.For<IFighterOnTable>()));
+        Assert.False(table.AddFighter(Substitute.For<IFighter>()));
     }
 
     [Fact]
     public void Table_Should_ApplySpell_When_AskedForIt()
     {
         // arrange
-        IFighterOnTable fighterOnTable = new MimicChestBuilderFactory().Create().WithAttack(new Attack(5)).Build();
-        var table = new Table(new ModuleCounter());
-        table.AddFighter(fighterOnTable);
+        IFighter fighter = new MimicChestBuilderFactory().Create().WithAttack(new Attack(5)).Build();
+        var table = new Table(new ContinuousSelector());
+        table.AddFighter(fighter);
 
         // act
-        table.ApplySpell(new PowerEssence(), fighterOnTable);
+        table.ApplySpell(new PowerEssence(), fighter);
 
         // assert
-        Assert.Equal(new Attack(10), fighterOnTable.Attack);
+        Assert.Equal(new Attack(10), fighter.Attack);
     }
 }

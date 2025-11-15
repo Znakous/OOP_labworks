@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class InvincibleHorror : BaseCreature, IFighterOnTable
+public class InvincibleHorror : BaseCreature, IFighter
 {
     private readonly Attack _constructionAttack;
 
@@ -27,18 +27,18 @@ public class InvincibleHorror : BaseCreature, IFighterOnTable
         }
     }
 
-    public IFighterOnTable Clone()
+    public IFighter Clone()
     {
         return new InvincibleHorror(Health, Attack, _canResurrect);
     }
 
     public static InvincibleHorrorBuilder Builder => new InvincibleHorrorBuilder();
 
-    public class InvincibleHorrorBuilder : CreatureOnTableBuilder
+    public class InvincibleHorrorBuilder : CreatureBuilder
     {
-        public override InvincibleHorror Build()
+        public override IFighter Build()
         {
-            return new InvincibleHorror(Health, Attack, true);
+            return ApplyModifiers(new InvincibleHorror(Health, Attack, true));
         }
     }
 }

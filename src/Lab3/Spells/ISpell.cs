@@ -2,5 +2,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Spells;
 
 public interface ISpell
 {
-    IFighterOnTable GetAppliedOn(IFighterOnTable fighterOnTable);
+    IFighter GetAppliedOn(IFighter fighter);
 }

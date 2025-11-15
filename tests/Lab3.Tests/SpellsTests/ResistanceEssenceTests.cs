@@ -8,11 +8,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Tests.SpellsTests;
 public class ResistanceEssenceTests
 {
     [Fact]
-    public void ResistanceEssence_Should_IncreaseHealthBy5_WhenAppliedOnFighterOnTable()
+    public void ResistanceEssence_Should_IncreaseHealthBy5_WhenAppliedOnFighter()
     {
         // arrange
         var resistanceEssence = new ResistanceEssence();
-        IFighterOnTable fighter = new InvincibleHorrorBuilderFactory().Create()
+        IFighter fighter = new InvincibleHorrorBuilderFactory().Create()
             .WithHealth(new Health(10))
             .Build();
 

@@ -4,12 +4,12 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Spells;
 
 public class MagicMirror : ISpell
 {
-    public IFighterOnTable GetAppliedOn(IFighterOnTable fighterOnTable)
+    public IFighter GetAppliedOn(IFighter fighter)
     {
-        int attackValue = fighterOnTable.Attack.Value;
-        int healthValue = fighterOnTable.Health.Value;
-        fighterOnTable.SetAttack(new Attack(healthValue));
-        fighterOnTable.SetHealth(new Health(attackValue));
-        return fighterOnTable;
+        int attackValue = fighter.Attack.Value;
+        int healthValue = fighter.Health.Value;
+        fighter.SetAttack(new Attack(healthValue));
+        fighter.SetHealth(new Health(attackValue));
+        return fighter;
     }
 }

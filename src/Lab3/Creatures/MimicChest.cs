@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class MimicChest : BaseCreature, IFighterOnTable
+public class MimicChest : BaseCreature, IFighter
 {
     private MimicChest(Health health, Attack attack)
     {
@@ -10,25 +10,25 @@ public class MimicChest : BaseCreature, IFighterOnTable
         Attack = attack;
     }
 
-    public override void PerformAttackOn(IFighterOnTable enemy)
+    public override void PerformAttackOn(IFighter enemy)
     {
         Health = Health > enemy.Health ? Health : enemy.Health;
         Attack = Attack > enemy.Attack ? Attack : enemy.Attack;
         enemy.TakeDamage(Attack);
     }
 
-    public IFighterOnTable Clone()
+    public IFighter Clone()
     {
         return new MimicChest(Health, Attack);
     }
 
     public static MimicChestBuilder Builder => new MimicChestBuilder();
 
-    public class MimicChestBuilder : CreatureOnTableBuilder
+    public class MimicChestBuilder : CreatureBuilder
     {
-        public override MimicChest Build()
+        public override IFighter Build()
         {
-            return new MimicChest(Health, Attack);
+            return ApplyModifiers(new MimicChest(Health, Attack));
         }
     }
 }

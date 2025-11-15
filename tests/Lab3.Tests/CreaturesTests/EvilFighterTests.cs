@@ -15,7 +15,7 @@ public class EvilFighterTests
         var lowAttackValue = new Attack(1);
         var lowHealthValue = new Health(1);
         var initialAttackValue = new Attack(1);
-        IFighterOnTable evilFighter = new EvilFighterBuilderFactory().Create()
+        IFighter evilFighter = new EvilFighterBuilderFactory().Create()
             .WithAttack(initialAttackValue).Build();
 
         // act

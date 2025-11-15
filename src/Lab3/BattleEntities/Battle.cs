@@ -28,8 +28,8 @@ public class Battle
 
     private BattleResult? PerformStep()
     {
-        IFighterOnTable? firstTableResponse = null;
-        IFighterOnTable? secondTableResponse = null;
+        IFighter? firstTableResponse = null;
+        IFighter? secondTableResponse = null;
         if (_firstTableTurn)
         {
             firstTableResponse = _table1.SendNextAttacker();

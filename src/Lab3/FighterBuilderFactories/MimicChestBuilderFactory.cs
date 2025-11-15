@@ -5,7 +5,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.FighterBuilderFactories;
 
 public class MimicChestBuilderFactory : IFighterBuilderFactory
 {
-    public IFighterOnTableBuilder Create()
+    public IFighterBuilder Create()
     {
         return MimicChest.Builder.WithAttack(new Attack(1)).WithHealth(new Health(1));
     }

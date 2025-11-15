@@ -11,8 +11,8 @@ public class CharmMasterTests
     public void CharmMaster_Should_NotDecreaseHealth_When_TakingDamageThroughShield()
     {
         // arrange
-        IFighterOnTable sufferer = new CharmMasterBuilderFactory().Create().Build();
-        IFighterOnTable clearCopy = new CharmMasterBuilderFactory().Create().Build();
+        IFighter sufferer = new CharmMasterBuilderFactory().Create().Build();
+        IFighter clearCopy = new CharmMasterBuilderFactory().Create().Build();
 
         // act
         sufferer.TakeDamage(new Attack(100));
@@ -25,8 +25,8 @@ public class CharmMasterTests
     public void CharmMaster_Should_DecreaseHealth_When_TakingDamageThroughShieldTwice()
     {
         // arrange
-        IFighterOnTable sufferer = new CharmMasterBuilderFactory().Create().Build();
-        IFighterOnTable clearCopy = new CharmMasterBuilderFactory().Create().Build();
+        IFighter sufferer = new CharmMasterBuilderFactory().Create().Build();
+        IFighter clearCopy = new CharmMasterBuilderFactory().Create().Build();
 
         // act
         sufferer.TakeDamage(new Attack(100));
@@ -40,8 +40,8 @@ public class CharmMasterTests
     public void CharmMaster_Should_AttackTwice_When_AskedToAttackOnAliveFighter()
     {
         // arrange
-        IFighterOnTable attacker = new CharmMasterBuilderFactory().Create().Build();
-        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
+        IFighter attacker = new CharmMasterBuilderFactory().Create().Build();
+        IFighter enemy = Substitute.For<IFighter>();
         enemy.IsAlive.Returns(true);
 
         // act

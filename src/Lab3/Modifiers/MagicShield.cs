@@ -2,9 +2,9 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Modifiers;
 
-public class MagicShield : IFighterOnTable
+public class MagicShield : IFighter
 {
-    private readonly IFighterOnTable _underlying;
+    private readonly IFighter _underlying;
 
     private bool _isActive;
 
@@ -14,7 +14,7 @@ public class MagicShield : IFighterOnTable
 
     public Attack Attack => _underlying.Attack;
 
-    public MagicShield(IFighterOnTable underlying)
+    public MagicShield(IFighter underlying)
     {
         _underlying = underlying;
         _isActive = true;
@@ -31,7 +31,7 @@ public class MagicShield : IFighterOnTable
         _underlying.TakeDamage(damage);
     }
 
-    public void PerformAttackOn(IFighterOnTable enemy)
+    public void PerformAttackOn(IFighter enemy)
     {
         _underlying.PerformAttackOn(enemy);
     }
@@ -46,8 +46,8 @@ public class MagicShield : IFighterOnTable
         _underlying.SetAttack(attack);
     }
 
-    public IFighterOnTable Clone()
+    public IFighter Clone()
     {
-        return _isActive ? new MagicShield(_underlying.Clone()) : _underlying.Clone();
+        return new MagicShield(_underlying.Clone());
     }
 }

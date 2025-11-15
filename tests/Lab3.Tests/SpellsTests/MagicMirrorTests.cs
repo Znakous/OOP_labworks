@@ -8,11 +8,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Tests.SpellsTests;
 public class MagicMirrorTests
 {
     [Fact]
-    public void MagicMirror_Should_SwapHealthAndAttack_When_AppliedOnFighterOnTable()
+    public void MagicMirror_Should_SwapHealthAndAttack_When_AppliedOnFighter()
     {
         // arrange
         var magicMirror = new MagicMirror();
-        IFighterOnTable fighter = new EvilFighterBuilderFactory().Create()
+        IFighter fighter = new EvilFighterBuilderFactory().Create()
             .WithAttack(new Attack(10))
             .WithHealth(new Health(1))
             .Build();

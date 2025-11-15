@@ -12,7 +12,7 @@ public class ProtectionCharmTests
     {
         // arrange
         var protectionCharm = new ProtectionCharm();
-        IFighterOnTable fighter = new InvincibleHorrorBuilderFactory().Create().Build();
+        IFighter fighter = new InvincibleHorrorBuilderFactory().Create().Build();
 
         // act
         fighter = protectionCharm.GetAppliedOn(fighter);

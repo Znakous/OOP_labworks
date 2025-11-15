@@ -13,8 +13,8 @@ public class MimicChestTests
         // arrange
         var highAttackValue = new Attack(100);
         var highHealthValue = new Health(100);
-        IFighterOnTable mimicChest = new MimicChestBuilderFactory().Create().Build();
-        IFighterOnTable powerfulEnemy = Substitute.For<IFighterOnTable>();
+        IFighter mimicChest = new MimicChestBuilderFactory().Create().Build();
+        IFighter powerfulEnemy = Substitute.For<IFighter>();
         powerfulEnemy.Attack.Returns(highAttackValue);
         powerfulEnemy.Health.Returns(highHealthValue);
 
@@ -32,9 +32,9 @@ public class MimicChestTests
         // arrange
         var highAttackValue = new Attack(100);
         var highHealthValue = new Health(100);
-        IFighterOnTable mimicChest = new MimicChestBuilderFactory().Create()
+        IFighter mimicChest = new MimicChestBuilderFactory().Create()
             .WithAttack(highAttackValue).WithHealth(highHealthValue).Build();
-        IFighterOnTable weakEnemy = Substitute.For<IFighterOnTable>();
+        IFighter weakEnemy = Substitute.For<IFighter>();
         weakEnemy.Attack.Returns(highAttackValue);
         weakEnemy.Health.Returns(highHealthValue);
 
@@ -54,9 +54,9 @@ public class MimicChestTests
         var highHealthValue = new Health(100);
         var lowAttackValue = new Attack(1);
         var lowHealthValue = new Health(1);
-        IFighterOnTable mimicChest = new MimicChestBuilderFactory().Create()
+        IFighter mimicChest = new MimicChestBuilderFactory().Create()
             .WithAttack(highAttackValue).WithHealth(lowHealthValue).Build();
-        IFighterOnTable weakEnemy = Substitute.For<IFighterOnTable>();
+        IFighter weakEnemy = Substitute.For<IFighter>();
         weakEnemy.Attack.Returns(lowAttackValue);
         weakEnemy.Health.Returns(highHealthValue);
 

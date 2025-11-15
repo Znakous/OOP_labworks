@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class EvilFighter : BaseCreature, IFighterOnTable
+public class EvilFighter : BaseCreature, IFighter
 {
     private EvilFighter(Health health, Attack attack)
     {
@@ -19,7 +19,7 @@ public class EvilFighter : BaseCreature, IFighterOnTable
         }
     }
 
-    public IFighterOnTable Clone()
+    public IFighter Clone()
     {
         return new EvilFighter(Health, Attack);
     }
@@ -27,11 +27,11 @@ public class EvilFighter : BaseCreature, IFighterOnTable
     public static EvilFighterBuilder Builder => new EvilFighterBuilder();
 
     public class EvilFighterBuilder
-        : CreatureOnTableBuilder
+        : CreatureBuilder
     {
-        public override EvilFighter Build()
+        public override IFighter Build()
         {
-            return new EvilFighter(Health, Attack);
+            return ApplyModifiers(new EvilFighter(Health, Attack));
         }
     }
 }

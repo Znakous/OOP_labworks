@@ -11,11 +11,11 @@ public class MagicShieldTests
     public void MagicShield_Should_StopUnderlyingFromTakingDamage_When_TakingDamageOnce()
     {
         // arrange
-        IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
-        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterBuilder underlyingBuilder = Substitute.For<IFighterBuilder>();
+        IFighter underlying = Substitute.For<IFighter>();
         underlyingBuilder.Build().Returns(underlying);
         var magicShield = new MagicShield(underlyingBuilder.Build());
-        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
+        IFighter enemy = Substitute.For<IFighter>();
 
         // act
         magicShield.TakeDamage(new Attack(100));
@@ -29,11 +29,11 @@ public class MagicShieldTests
     {
         // arrange
         int attackCount = 10;
-        IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
-        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterBuilder underlyingBuilder = Substitute.For<IFighterBuilder>();
+        IFighter underlying = Substitute.For<IFighter>();
         underlyingBuilder.Build().Returns(underlying);
         var magicShield = new MagicShield(underlyingBuilder.Build());
-        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
+        IFighter enemy = Substitute.For<IFighter>();
 
         // act
         for (int i = 0; i < attackCount; ++i)
@@ -49,10 +49,10 @@ public class MagicShieldTests
         // arrange
         int shieldCount = 4;
         int attackCount = 10;
-        IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
-        IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
+        IFighterBuilder underlyingBuilder = Substitute.For<IFighterBuilder>();
+        IFighter underlying = Substitute.For<IFighter>();
         underlyingBuilder.Build().Returns(underlying);
-        IFighterOnTable fighter = underlying;
+        IFighter fighter = underlying;
         for (int i = 0; i < shieldCount; ++i)
         {
             fighter = new MagicShield(fighter);

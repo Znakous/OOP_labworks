@@ -5,72 +5,51 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 
 public class Table
 {
-    private readonly List<IFighterOnTable> _fighters;
+    private readonly List<IFighter> _fighters;
 
-    private readonly IIndexer _fighterIndexer;
+    private readonly ISelector _fighterSelector;
 
-    public Table(IIndexer fighterIndexer)
+    public Table(ISelector fighterSelector)
     {
-        _fighterIndexer = fighterIndexer;
-        _fighters = new List<IFighterOnTable>();
+        _fighterSelector = fighterSelector;
+        _fighters = new List<IFighter>();
     }
 
-    private Table(List<IFighterOnTable> fighters, IIndexer fighterIndexer)
+    private Table(List<IFighter> fighters, ISelector fighterSelector)
     {
-        _fighterIndexer = fighterIndexer;
+        _fighterSelector = fighterSelector;
         _fighters = fighters;
     }
 
     public Table Clone()
     {
-        return new Table(new List<IFighterOnTable>(_fighters), _fighterIndexer);
+        return new Table(_fighters.Select(fighter => fighter.Clone()).ToList(), _fighterSelector);
     }
 
-    public void AddFighter(IFighterOnTable fighter)
+    public bool AddFighter(IFighter fighter)
     {
         if (_fighters.Count == 7)
         {
-            throw new InvalidOperationException("You cannot add more than 7 fighters");
+            return false;
         }
 
         _fighters.Add(fighter);
-        _fighterIndexer.ChangeModule(_fighters.Count);
+        return true;
     }
 
-    public void ApplySpell(ISpell spell, IFighterOnTable fighter)
+    public void ApplySpell(ISpell spell, IFighter fighter)
     {
         int targetIndex = _fighters.FindIndex(currentFighter => currentFighter == fighter);
         _fighters[targetIndex] = spell.GetAppliedOn(fighter);
     }
 
-    public IFighterOnTable? SendNextAttacker()
+    public IFighter? SendNextAttacker()
     {
-        return GetForPredicate(fighter => fighter.IsAlive && fighter.Attack > Attack.Zero);
+        return _fighterSelector.GetNextFighter(_fighters.Where(fighter => fighter.IsAlive && fighter.Attack > Attack.Zero));
     }
 
-    public IFighterOnTable? SendNextPray()
+    public IFighter? SendNextPray()
     {
-        return GetForPredicate(fighter => fighter.IsAlive);
-    }
-
-    private IFighterOnTable? GetForPredicate(Func<IFighterOnTable, bool> predicate)
-    {
-        if (_fighters.Count == 0)
-        {
-            return null;
-        }
-
-        for (int i = 0; i < _fighters.Count; i++)
-        {
-            _fighterIndexer.Increment();
-            if (predicate(_fighters[_fighterIndexer.Value]))
-            {
-                IFighterOnTable nextFighter = _fighters[_fighterIndexer.Value];
-                _fighterIndexer.Increment();
-                return nextFighter;
-            }
-        }
-
-        return null;
+        return _fighterSelector.GetNextFighter(_fighters.Where(fighter => fighter.IsAlive));
     }
 }

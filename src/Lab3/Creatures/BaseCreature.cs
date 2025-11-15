@@ -25,7 +25,7 @@ public class BaseCreature
         Health = Health.TakeDamage(damage);
     }
 
-    public virtual void PerformAttackOn(IFighterOnTable enemy)
+    public virtual void PerformAttackOn(IFighter enemy)
     {
         enemy.TakeDamage(Attack);
     }

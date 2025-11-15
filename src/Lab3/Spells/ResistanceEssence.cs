@@ -4,9 +4,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Spells;
 
 public class ResistanceEssence : ISpell
 {
-    public IFighterOnTable GetAppliedOn(IFighterOnTable fighterOnTable)
+    public IFighter GetAppliedOn(IFighter fighter)
     {
-        fighterOnTable.SetHealth(fighterOnTable.Health + new Health(5));
-        return fighterOnTable;
+        fighter.SetHealth(fighter.Health + new Health(5));
+        return fighter;
     }
 }

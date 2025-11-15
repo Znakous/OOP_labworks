@@ -4,9 +4,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Spells;
 
 public class ProtectionCharm : ISpell
 {
-    public IFighterOnTable GetAppliedOn(IFighterOnTable fighterOnTable)
+    public IFighter GetAppliedOn(IFighter fighter)
     {
-        fighterOnTable = new MagicShield(fighterOnTable);
-        return fighterOnTable;
+        fighter = new MagicShield(fighter);
+        return fighter;
     }
 }

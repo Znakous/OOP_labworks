@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class CombatAnalyst : BaseCreature, IFighterOnTable
+public class CombatAnalyst : BaseCreature, IFighter
 {
     private CombatAnalyst(Health health, Attack attack)
     {
@@ -10,13 +10,13 @@ public class CombatAnalyst : BaseCreature, IFighterOnTable
         Attack = attack;
     }
 
-    public override void PerformAttackOn(IFighterOnTable enemy)
+    public override void PerformAttackOn(IFighter enemy)
     {
         Attack += new Attack(2);
         enemy.TakeDamage(Attack);
     }
 
-    public IFighterOnTable Clone()
+    public IFighter Clone()
     {
         return new CombatAnalyst(Health, Attack);
     }
@@ -24,11 +24,11 @@ public class CombatAnalyst : BaseCreature, IFighterOnTable
     public static CombatAnalystBuilder Builder => new CombatAnalystBuilder();
 
     public class CombatAnalystBuilder
-        : CreatureOnTableBuilder
+        : CreatureBuilder
     {
-        public override CombatAnalyst Build()
+        public override IFighter Build()
         {
-            return new CombatAnalyst(Health, Attack);
+            return ApplyModifiers(new CombatAnalyst(Health, Attack));
         }
     }
 }

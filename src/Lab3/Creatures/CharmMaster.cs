@@ -1,9 +1,8 @@
-using Itmo.ObjectOrientedProgramming.Lab3.ModifierFactories;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class CharmMaster : BaseCreature, IFighterOnTable
+public class CharmMaster : BaseCreature, IFighter
 {
     private CharmMaster(Health health, Attack attack)
     {
@@ -11,7 +10,7 @@ public class CharmMaster : BaseCreature, IFighterOnTable
         Attack = attack;
     }
 
-    public IFighterOnTable Clone()
+    public IFighter Clone()
     {
         return new CharmMaster(Health, Attack);
     }
@@ -19,14 +18,11 @@ public class CharmMaster : BaseCreature, IFighterOnTable
     public static CharmMasterBuilder Builder => new CharmMasterBuilder();
 
     public class CharmMasterBuilder
-        : CreatureOnTableBuilder
+        : CreatureBuilder
     {
-        public override IFighterOnTable Build()
+        public override IFighter Build()
         {
-            var basic = new CharmMaster(Health, Attack);
-            var magicShieldFactory = new MagicShieldFactory();
-            var attackMasteryFactory = new AttackMasteryFactory();
-            return attackMasteryFactory.Create(magicShieldFactory.Create(basic));
+            return ApplyModifiers(new CharmMaster(Health, Attack));
         }
     }
 }

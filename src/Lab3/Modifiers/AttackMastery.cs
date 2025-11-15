@@ -2,9 +2,9 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Modifiers;
 
-public class AttackMastery : IFighterOnTable
+public class AttackMastery : IFighter
 {
-    private readonly IFighterOnTable _underlying;
+    private readonly IFighter _underlying;
 
     public bool IsAlive => _underlying.IsAlive;
 
@@ -12,7 +12,7 @@ public class AttackMastery : IFighterOnTable
 
     public Attack Attack => _underlying.Attack;
 
-    public AttackMastery(IFighterOnTable underlying)
+    public AttackMastery(IFighter underlying)
     {
         _underlying = underlying;
     }
@@ -22,7 +22,7 @@ public class AttackMastery : IFighterOnTable
         _underlying.TakeDamage(damage);
     }
 
-    public void PerformAttackOn(IFighterOnTable enemy)
+    public void PerformAttackOn(IFighter enemy)
     {
         _underlying.PerformAttackOn(enemy);
         if (enemy.IsAlive)
@@ -41,7 +41,7 @@ public class AttackMastery : IFighterOnTable
         _underlying.SetAttack(attack);
     }
 
-    public IFighterOnTable Clone()
+    public IFighter Clone()
     {
         return new AttackMastery(_underlying.Clone());
     }

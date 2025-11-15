@@ -12,10 +12,10 @@ public class BattleTests
     public void Battle_Should_ChooseFirstFighterAsWinner_When_FirstTableCanProvideFighterAndSecondTableCanNotProvide()
     {
         // arrange
-        IFighterOnTable fighterOnTableForFirstTable = new MimicChestBuilderFactory().Create().Build();
-        var firstTable = new Table(new ModuleCounter());
-        firstTable.AddFighter(fighterOnTableForFirstTable);
-        var secondTable = new Table(new ModuleCounter());
+        IFighter fighterForFirstTable = new MimicChestBuilderFactory().Create().Build();
+        var firstTable = new Table(new ContinuousSelector());
+        firstTable.AddFighter(fighterForFirstTable);
+        var secondTable = new Table(new ContinuousSelector());
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -29,8 +29,8 @@ public class BattleTests
     public void Battle_Should_CallADraw_When_FirstTableCanNotProvideFighterAndSecondTableCanNotProvide()
     {
         // arrange
-        var firstTable = new Table(new ModuleCounter());
-        var secondTable = new Table(new ModuleCounter());
+        var firstTable = new Table(new ContinuousSelector());
+        var secondTable = new Table(new ContinuousSelector());
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -44,14 +44,14 @@ public class BattleTests
     public void Battle_Should_ChooseFirstFighterAsWinner_When_BothTablesProvideTwoIdenticalFighters()
     {
         // arrange
-        IFighterOnTable fighterOnTableForFirstTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForFirstTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(1)).Build();
-        IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForSecondTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(1)).Build();
-        var firstTable = new Table(new ModuleCounter());
-        firstTable.AddFighter(fighterOnTableForFirstTable);
-        var secondTable = new Table(new ModuleCounter());
-        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var firstTable = new Table(new ContinuousSelector());
+        firstTable.AddFighter(fighterForFirstTable);
+        var secondTable = new Table(new ContinuousSelector());
+        secondTable.AddFighter(fighterForSecondTable);
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -65,14 +65,14 @@ public class BattleTests
     public void Battle_Should_ChooseSecondFighterAsWinner_When_SecondTableHasABetterUnit()
     {
         // arrange
-        IFighterOnTable fighterOnTableForFirstTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForFirstTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(1)).Build();
-        IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForSecondTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(100)).Build();
-        var firstTable = new Table(new ModuleCounter());
-        firstTable.AddFighter(fighterOnTableForFirstTable);
-        var secondTable = new Table(new ModuleCounter());
-        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var firstTable = new Table(new ContinuousSelector());
+        firstTable.AddFighter(fighterForFirstTable);
+        var secondTable = new Table(new ContinuousSelector());
+        secondTable.AddFighter(fighterForSecondTable);
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -86,14 +86,14 @@ public class BattleTests
     public void Battle_Should_ChooseFirstFighterAsWinner_When_FirstTableHasABetterSquad()
     {
         // arrange
-        IFighterOnTable fighterOnTableForFirstTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForFirstTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(1)).Build();
-        IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForSecondTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(100)).Build();
-        var firstTable = new Table(new ModuleCounter());
-        firstTable.AddFighter(fighterOnTableForFirstTable);
-        var secondTable = new Table(new ModuleCounter());
-        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var firstTable = new Table(new ContinuousSelector());
+        firstTable.AddFighter(fighterForFirstTable);
+        var secondTable = new Table(new ContinuousSelector());
+        secondTable.AddFighter(fighterForSecondTable);
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -107,14 +107,14 @@ public class BattleTests
     public void Battle_Should_ChooseFirstFighterAsWinner_When_FirstTableHasACombatAnalystAndSecondHasAnEvilFighter()
     {
         // arrange
-        IFighterOnTable fighterOnTableForFirstTable = new CombatAnalystBuilderFactory().Create()
+        IFighter fighterForFirstTable = new CombatAnalystBuilderFactory().Create()
             .Build();
-        IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForSecondTable = new EvilFighterBuilderFactory().Create()
             .Build();
-        var firstTable = new Table(new ModuleCounter());
-        firstTable.AddFighter(fighterOnTableForFirstTable);
-        var secondTable = new Table(new ModuleCounter());
-        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var firstTable = new Table(new ContinuousSelector());
+        firstTable.AddFighter(fighterForFirstTable);
+        var secondTable = new Table(new ContinuousSelector());
+        secondTable.AddFighter(fighterForSecondTable);
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -128,14 +128,14 @@ public class BattleTests
     public void Battle_Should_ChooseSecondFighterAsWinner_When_FirstTableHasAnEvilFighterAndSecondHasAnInvincibleHorror()
     {
         // arrange
-        IFighterOnTable fighterOnTableForFirstTable = new EvilFighterBuilderFactory().Create()
+        IFighter fighterForFirstTable = new EvilFighterBuilderFactory().Create()
             .Build();
-        IFighterOnTable fighterOnTableForSecondTable = new InvincibleHorrorBuilderFactory().Create()
+        IFighter fighterForSecondTable = new InvincibleHorrorBuilderFactory().Create()
             .Build();
-        var firstTable = new Table(new ModuleCounter());
-        firstTable.AddFighter(fighterOnTableForFirstTable);
-        var secondTable = new Table(new ModuleCounter());
-        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var firstTable = new Table(new ContinuousSelector());
+        firstTable.AddFighter(fighterForFirstTable);
+        var secondTable = new Table(new ContinuousSelector());
+        secondTable.AddFighter(fighterForSecondTable);
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -149,14 +149,14 @@ public class BattleTests
     public void Battle_Should_ChooseSecondFighterAsWinner_When_FirstTableHasAnInvincibleHorrorAndSecondHasACharmMaster()
     {
         // arrange
-        IFighterOnTable fighterOnTableForFirstTable = new InvincibleHorrorBuilderFactory().Create()
+        IFighter fighterForFirstTable = new InvincibleHorrorBuilderFactory().Create()
             .Build();
-        IFighterOnTable fighterOnTableForSecondTable = new CharmMasterBuilderFactory().Create()
+        IFighter fighterForSecondTable = new CharmMasterBuilderFactory().Create()
             .Build();
-        var firstTable = new Table(new ModuleCounter());
-        firstTable.AddFighter(fighterOnTableForFirstTable);
-        var secondTable = new Table(new ModuleCounter());
-        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var firstTable = new Table(new ContinuousSelector());
+        firstTable.AddFighter(fighterForFirstTable);
+        var secondTable = new Table(new ContinuousSelector());
+        secondTable.AddFighter(fighterForSecondTable);
         var battle = new Battle(firstTable, secondTable);
 
         // act
@@ -172,10 +172,10 @@ public class BattleTests
         // arrange
         int firstCharmMasterCount = 2;
         int secondCharmMasterCount = 5;
-        IFighterOnTableBuilder builderForFirst = new CharmMasterBuilderFactory().Create();
-        IFighterOnTableBuilder builderForSecond = new CharmMasterBuilderFactory().Create();
-        var firstTable = new Table(new ModuleCounter());
-        var secondTable = new Table(new ModuleCounter());
+        IFighterBuilder builderForFirst = new CharmMasterBuilderFactory().Create();
+        IFighterBuilder builderForSecond = new CharmMasterBuilderFactory().Create();
+        var firstTable = new Table(new ContinuousSelector());
+        var secondTable = new Table(new ContinuousSelector());
         for (int i = 0; i < firstCharmMasterCount; i++)
         {
             firstTable.AddFighter(builderForFirst.Build());
