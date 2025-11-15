@@ -2,45 +2,29 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class InvincibleHorror : IFighterOnTable
+public class InvincibleHorror : BaseCreature, IFighterOnTable
 {
-    public Health Health { get; private set; }
-
-    public Attack Attack { get; private set; }
-
-    public bool IsAlive => Health.IsAlive;
+    private readonly Attack _constructionAttack;
 
     private bool _canResurrect;
 
-    public void CopyFrom(InvincibleHorror other)
+    private InvincibleHorror(Health health, Attack attack, bool canResurrect)
     {
-        Health = other.Health;
-        Attack = other.Attack;
+        Health = health;
+        Attack = attack;
+        _canResurrect = canResurrect;
+        _constructionAttack = attack;
     }
 
-    public void TakeDamage(Attack damage)
+    public override void TakeDamage(Attack damage)
     {
         Health = Health.TakeDamage(damage);
         if (_canResurrect && !IsAlive)
         {
             _canResurrect = false;
-            CopyFrom(ResurrectedVersionBuilder.Build());
+            Health = new Health(1);
+            Attack = _constructionAttack;
         }
-    }
-
-    public void PerformAttackOn(IFighterInCombat enemy)
-    {
-        enemy.TakeDamage(Attack);
-    }
-
-    public void SetHealth(Health health)
-    {
-        Health = health;
-    }
-
-    public void SetAttack(Attack attack)
-    {
-        Attack = attack;
     }
 
     public IFighterOnTable Clone()
@@ -50,51 +34,11 @@ public class InvincibleHorror : IFighterOnTable
 
     public static InvincibleHorrorBuilder Builder => new InvincibleHorrorBuilder();
 
-    public static InvincibleHorrorBuilder DefaultBuilder
-        => InvincibleHorrorBuilderDefaultDirector.Direct(new InvincibleHorrorBuilder());
-
-    private static InvincibleHorrorBuilder ResurrectedVersionBuilder
-        => InvincibleHorrorBuilderResurrectedDirector.Direct(new InvincibleHorrorBuilder());
-
-    private InvincibleHorror(Health health, Attack attack, bool canResurrect)
+    public class InvincibleHorrorBuilder : CreatureOnTableBuilder
     {
-        Health = health;
-        Attack = attack;
-        _canResurrect = canResurrect;
-    }
-
-    public class InvincibleHorrorBuilder : CreatureOnTableBuilder<InvincibleHorrorBuilder, InvincibleHorror>
-    {
-        private bool _canResurrect = true;
-
-        public InvincibleHorrorBuilder WithResurrectionBan()
-        {
-            _canResurrect = false;
-            return this;
-        }
-
         public override InvincibleHorror Build()
         {
-            return new InvincibleHorror(Health, Attack, _canResurrect);
-        }
-    }
-
-    private class InvincibleHorrorBuilderDefaultDirector
-    {
-        public static InvincibleHorrorBuilder Direct(InvincibleHorrorBuilder builder)
-        {
-            return builder
-                .WithAttack(new Attack(4))
-                .WithHealth(new Health(4));
-        }
-    }
-
-    private class InvincibleHorrorBuilderResurrectedDirector
-    {
-        public static InvincibleHorrorBuilder Direct(InvincibleHorrorBuilder builder)
-        {
-            return InvincibleHorrorBuilderDefaultDirector.Direct(builder)
-                .WithHealth(new Health(1));
+            return new InvincibleHorror(Health, Attack, true);
         }
     }
 }

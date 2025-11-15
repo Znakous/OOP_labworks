@@ -15,14 +15,14 @@ public class AttackMasteryTests
         underlyingBuilder.Build().Returns(underlying);
         AttackMastery.AttackMasteryFighterOnTableBuilder attackMasteryBuilder = AttackMastery.Builder.WithUnderlying(underlyingBuilder);
         IFighterOnTable attackMastery = attackMasteryBuilder.Build();
-        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
+        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
         enemy.IsAlive.Returns(true);
 
         // act
         attackMastery.PerformAttackOn(enemy);
 
         // assert
-        underlying.Received(2).PerformAttackOn(Arg.Any<IFighterInCombat>());
+        underlying.Received(2).PerformAttackOn(Arg.Any<IFighterOnTable>());
     }
 
     [Fact]
@@ -34,13 +34,13 @@ public class AttackMasteryTests
         underlyingBuilder.Build().Returns(underlying);
         AttackMastery.AttackMasteryFighterOnTableBuilder attackMasteryBuilder = AttackMastery.Builder.WithUnderlying(underlyingBuilder);
         IFighterOnTable attackMastery = attackMasteryBuilder.Build();
-        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
+        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
         enemy.IsAlive.Returns(false);
 
         // act
         attackMastery.PerformAttackOn(enemy);
 
         // assert
-        underlying.Received(1).PerformAttackOn(Arg.Any<IFighterInCombat>());
+        underlying.Received(1).PerformAttackOn(Arg.Any<IFighterOnTable>());
     }
 }

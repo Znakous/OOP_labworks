@@ -22,7 +22,7 @@ public class AttackMastery : IFighterOnTable
         _underlying.TakeDamage(damage);
     }
 
-    public void PerformAttackOn(IFighterInCombat enemy)
+    public void PerformAttackOn(IFighterOnTable enemy)
     {
         _underlying.PerformAttackOn(enemy);
         if (enemy.IsAlive)

@@ -13,9 +13,10 @@ public class BattleTests
     {
         // arrange
         IFighterOnTable fighterOnTableForFirstTable = new MimicChestBuilderFactory().Create().Build();
-        Table firstTable = new Table.TableBuilder().WithFighter(fighterOnTableForFirstTable).Build();
-        Table secondTable = new Table.TableBuilder().Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        firstTable.AddFighter(fighterOnTableForFirstTable);
+        var secondTable = new Table(new ModuleCounter());
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -28,9 +29,9 @@ public class BattleTests
     public void Battle_Should_CallADraw_When_FirstTableCanNotProvideFighterAndSecondTableCanNotProvide()
     {
         // arrange
-        Table firstTable = new Table.TableBuilder().Build();
-        Table secondTable = new Table.TableBuilder().Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        var secondTable = new Table(new ModuleCounter());
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -47,9 +48,11 @@ public class BattleTests
             .WithHealth(new Health(1)).Build();
         IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(1)).Build();
-        Table firstTable = new Table.TableBuilder().WithFighter(fighterOnTableForFirstTable).Build();
-        Table secondTable = new Table.TableBuilder().WithFighter(fighterOnTableForSecondTable).Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        firstTable.AddFighter(fighterOnTableForFirstTable);
+        var secondTable = new Table(new ModuleCounter());
+        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -66,11 +69,11 @@ public class BattleTests
             .WithHealth(new Health(1)).Build();
         IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(100)).Build();
-        Table firstTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForFirstTable).Build();
-        Table secondTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForSecondTable).Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        firstTable.AddFighter(fighterOnTableForFirstTable);
+        var secondTable = new Table(new ModuleCounter());
+        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -87,11 +90,11 @@ public class BattleTests
             .WithHealth(new Health(1)).Build();
         IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
             .WithHealth(new Health(100)).Build();
-        Table firstTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForFirstTable).Build();
-        Table secondTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForSecondTable).Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        firstTable.AddFighter(fighterOnTableForFirstTable);
+        var secondTable = new Table(new ModuleCounter());
+        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -108,11 +111,11 @@ public class BattleTests
             .Build();
         IFighterOnTable fighterOnTableForSecondTable = new EvilFighterBuilderFactory().Create()
             .Build();
-        Table firstTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForFirstTable).Build();
-        Table secondTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForSecondTable).Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        firstTable.AddFighter(fighterOnTableForFirstTable);
+        var secondTable = new Table(new ModuleCounter());
+        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -129,11 +132,11 @@ public class BattleTests
             .Build();
         IFighterOnTable fighterOnTableForSecondTable = new InvincibleHorrorBuilderFactory().Create()
             .Build();
-        Table firstTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForFirstTable).Build();
-        Table secondTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForSecondTable).Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        firstTable.AddFighter(fighterOnTableForFirstTable);
+        var secondTable = new Table(new ModuleCounter());
+        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -150,11 +153,11 @@ public class BattleTests
             .Build();
         IFighterOnTable fighterOnTableForSecondTable = new CharmMasterBuilderFactory().Create()
             .Build();
-        Table firstTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForFirstTable).Build();
-        Table secondTable = new Table.TableBuilder()
-            .WithFighter(fighterOnTableForSecondTable).Build();
-        Battle battle = Battle.Builder.WithFirstTable(firstTable).WithSecondTable(secondTable).Build();
+        var firstTable = new Table(new ModuleCounter());
+        firstTable.AddFighter(fighterOnTableForFirstTable);
+        var secondTable = new Table(new ModuleCounter());
+        secondTable.AddFighter(fighterOnTableForSecondTable);
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();
@@ -171,22 +174,19 @@ public class BattleTests
         int secondCharmMasterCount = 5;
         IFighterOnTableBuilder builderForFirst = new CharmMasterBuilderFactory().Create();
         IFighterOnTableBuilder builderForSecond = new CharmMasterBuilderFactory().Create();
-        var firstTableBuilder = new Table.TableBuilder();
-        var secondTableBuilder = new Table.TableBuilder();
+        var firstTable = new Table(new ModuleCounter());
+        var secondTable = new Table(new ModuleCounter());
         for (int i = 0; i < firstCharmMasterCount; i++)
         {
-            firstTableBuilder = firstTableBuilder.WithFighter(builderForFirst.Build());
+            firstTable.AddFighter(builderForFirst.Build());
         }
 
         for (int i = 0; i < secondCharmMasterCount; i++)
         {
-            secondTableBuilder = secondTableBuilder.WithFighter(builderForSecond.Build());
+            secondTable.AddFighter(builderForSecond.Build());
         }
 
-        Battle battle = Battle.Builder
-            .WithFirstTable(firstTableBuilder.Build())
-            .WithSecondTable(secondTableBuilder.Build())
-            .Build();
+        var battle = new Battle(firstTable, secondTable);
 
         // act
         BattleResult result = battle.Proceed();

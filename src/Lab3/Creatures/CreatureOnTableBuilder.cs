@@ -2,9 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public abstract class CreatureOnTableBuilder<TBuilder, T>
-    : IFighterOnTableBuilder where TBuilder : CreatureOnTableBuilder<TBuilder, T>
-    where T : IFighterOnTable
+public abstract class CreatureOnTableBuilder : IFighterOnTableBuilder
 {
     protected Health Health { get; private set; }
 
@@ -16,7 +14,7 @@ public abstract class CreatureOnTableBuilder<TBuilder, T>
         Attack = Attack.Zero;
     }
 
-    public TBuilder WithHealth(Health health)
+    public IFighterOnTableBuilder WithHealth(Health health)
     {
         if (health < Health.Zero)
         {
@@ -24,29 +22,14 @@ public abstract class CreatureOnTableBuilder<TBuilder, T>
         }
 
         Health = health;
-        return (TBuilder)this;
+        return this;
     }
 
-    IFighterOnTableBuilder IFighterOnTableBuilder.WithHealth(Health health)
-    {
-        return WithHealth(health);
-    }
-
-    public TBuilder WithAttack(Attack attack)
+    public IFighterOnTableBuilder WithAttack(Attack attack)
     {
         Attack = attack;
-        return (TBuilder)this;
+        return this;
     }
 
-    IFighterOnTableBuilder IFighterOnTableBuilder.WithAttack(Attack attack)
-    {
-        return WithAttack(attack);
-    }
-
-    public abstract T Build();
-
-    IFighterOnTable IFighterOnTableBuilder.Build()
-    {
-        return Build();
-    }
+    public abstract IFighterOnTable Build();
 }

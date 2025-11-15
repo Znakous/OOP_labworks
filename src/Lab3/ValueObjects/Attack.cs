@@ -6,11 +6,6 @@ public struct Attack
 
     public Attack(int value)
     {
-        if (value < 0)
-        {
-            throw new ArgumentException("Attack cannot be less than zero");
-        }
-
         Value = value;
     }
 

@@ -10,18 +10,18 @@ public class Battle
 
     public BattleResult Proceed()
     {
-        SendNextFighterResult firstTableResponse = _table1.SendNextFighter();
-        SendNextFighterResult secondTableResponse = _table2.SendNextFighter();
-        while (firstTableResponse is SendNextFighterResult.Success firstTableSuccess
-               && secondTableResponse is SendNextFighterResult.Success secondTableSuccess)
+        IFighterOnTable? firstTableResponse = _table1.SendNextFighter();
+        IFighterOnTable? secondTableResponse = _table2.SendNextFighter();
+        while (firstTableResponse is not null
+               && secondTableResponse is not null)
         {
             if (_firstTableTurn)
             {
-                firstTableSuccess.Fighter.PerformAttackOn(secondTableSuccess.Fighter);
+                firstTableResponse.PerformAttackOn(secondTableResponse);
             }
             else
             {
-                secondTableSuccess.Fighter.PerformAttackOn(firstTableSuccess.Fighter);
+                secondTableResponse.PerformAttackOn(firstTableResponse);
             }
 
             _firstTableTurn = !_firstTableTurn;
@@ -29,13 +29,13 @@ public class Battle
             secondTableResponse = _table2.SendNextFighter();
         }
 
-        if (firstTableResponse is SendNextFighterResult.Failure
-            && secondTableResponse is SendNextFighterResult.Failure)
+        if (firstTableResponse is null
+            && secondTableResponse is null)
         {
             return new BattleResult.Draw();
         }
 
-        if (firstTableResponse is SendNextFighterResult.Failure)
+        if (firstTableResponse is null)
         {
             return new BattleResult.WinSecond();
         }
@@ -43,63 +43,10 @@ public class Battle
         return new BattleResult.WinFirst();
     }
 
-    private Battle(Table table1, Table table2, bool firstTableTurn)
+    public Battle(Table table1, Table table2)
     {
-        _table1 = table1;
-        _table2 = table2;
-        _firstTableTurn = firstTableTurn;
-    }
-
-    public interface IFirstTableBattleBuilder
-    {
-        ISecondTableBattleBuilder WithFirstTable(Table firstTable);
-    }
-
-    public interface ISecondTableBattleBuilder
-    {
-        IBattleBuilder WithSecondTable(Table secondTable);
-    }
-
-    public interface IBattleBuilder
-    {
-        Battle Build();
-    }
-
-    public static IFirstTableBattleBuilder Builder => new BattleBuilder();
-
-    public class BattleBuilder
-        : IFirstTableBattleBuilder,
-            ISecondTableBattleBuilder,
-            IBattleBuilder
-    {
-        private Table? _table1;
-        private Table? _table2;
-
-        public ISecondTableBattleBuilder WithFirstTable(Table firstTable)
-        {
-            _table1 = firstTable ?? throw new ArgumentNullException(nameof(firstTable));
-            return this;
-        }
-
-        public IBattleBuilder WithSecondTable(Table secondTable)
-        {
-            _table2 = secondTable ?? throw new ArgumentNullException(nameof(secondTable));
-            return this;
-        }
-
-        public Battle Build()
-        {
-            if (_table1 is null)
-            {
-                throw new ArgumentNullException(nameof(_table1));
-            }
-
-            if (_table2 is null)
-            {
-                throw new ArgumentNullException(nameof(_table2));
-            }
-
-            return new Battle(_table1.Clone(), _table2.Clone(), true);
-        }
+        _table1 = table1.Clone();
+        _table2 = table2.Clone();
+        _firstTableTurn = true;
     }
 }

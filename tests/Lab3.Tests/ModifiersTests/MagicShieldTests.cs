@@ -16,7 +16,7 @@ public class MagicShieldTests
         underlyingBuilder.Build().Returns(underlying);
         MagicShield.MagicShieldFighterOnTableBuilder magicShieldBuilder = MagicShield.Builder.WithUnderlying(underlyingBuilder);
         IFighterOnTable magicShield = magicShieldBuilder.Build();
-        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
+        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
 
         // act
         magicShield.TakeDamage(new Attack(100));
@@ -35,7 +35,7 @@ public class MagicShieldTests
         underlyingBuilder.Build().Returns(underlying);
         MagicShield.MagicShieldFighterOnTableBuilder magicShieldBuilder = MagicShield.Builder.WithUnderlying(underlyingBuilder);
         IFighterOnTable magicShield = magicShieldBuilder.Build();
-        IFighterInCombat enemy = Substitute.For<IFighterInCombat>();
+        IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
 
         // act
         for (int i = 0; i < attackCount; ++i)
@@ -61,7 +61,7 @@ public class MagicShieldTests
                 .WithUnderlying(currentBuilder);
         }
 
-        IFighterInCombat fighter = currentBuilder.Build();
+        IFighterOnTable fighter = currentBuilder.Build();
 
         // act
         for (int i = 0; i < attackCount; ++i)

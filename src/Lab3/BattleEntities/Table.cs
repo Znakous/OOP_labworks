@@ -1,6 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab3.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
-using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 
@@ -8,70 +6,63 @@ public class Table
 {
     private readonly List<IFighterOnTable> _fighters;
 
-    private ModuleCounter _currentFighterIndex;
+    private readonly IIndexer _fighterIndexer;
 
-    public SendNextFighterResult SendNextFighter()
+    public Table(IIndexer fighterIndexer)
+    {
+        _fighterIndexer = fighterIndexer;
+        _fighters = new List<IFighterOnTable>();
+    }
+
+    private Table(List<IFighterOnTable> fighters, IIndexer fighterIndexer)
+    {
+        _fighterIndexer = fighterIndexer;
+        _fighters = fighters;
+    }
+
+    public Table Clone()
+    {
+        return new Table(new List<IFighterOnTable>(_fighters), _fighterIndexer);
+    }
+
+    public void AddFighter(IFighterOnTable fighter)
+    {
+        if (_fighters.Count == 7)
+        {
+            throw new InvalidOperationException("You cannot add more than 7 fighters");
+        }
+
+        _fighters.Add(fighter);
+        _fighterIndexer.ChangeModule(_fighters.Count);
+    }
+
+    public IFighterOnTable? SendNextFighter()
     {
         if (_fighters.Count == 0)
         {
-            return new SendNextFighterResult.Failure();
+            return null;
         }
 
         int iterCount = 0;
-        while (iterCount < _fighters.Count && !_fighters[_currentFighterIndex.Value].IsAlive)
+        while (iterCount < _fighters.Count && !_fighters[_fighterIndexer.Value].IsAlive)
         {
-            _currentFighterIndex++;
+            _fighterIndexer.Increment();
             iterCount++;
         }
 
         if (iterCount == _fighters.Count)
         {
-            return new SendNextFighterResult.Failure();
+            return null;
         }
 
-        IFighterInCombat nextFighter = _fighters[_currentFighterIndex.Value];
-        _currentFighterIndex++;
-        return new SendNextFighterResult.Success(nextFighter);
+        IFighterOnTable nextFighter = _fighters[_fighterIndexer.Value];
+        _fighterIndexer.Increment();
+        return nextFighter;
     }
 
     public void ApplySpell(ISpell spell, IFighterOnTable fighter)
     {
         int targetIndex = _fighters.FindIndex(currentFighter => currentFighter == fighter);
         _fighters[targetIndex] = spell.GetAppliedOn(fighter);
-    }
-
-    public Table Clone()
-    {
-        return new Table(new List<IFighterOnTable>(_fighters), _currentFighterIndex);
-    }
-
-    private Table(List<IFighterOnTable> fighters, ModuleCounter currentFighterIndex)
-    {
-        _fighters = fighters;
-        _currentFighterIndex = currentFighterIndex;
-    }
-
-    public class TableBuilder
-    {
-        private const int MaxFighters = 7;
-        private readonly List<IFighterOnTable> _fighters = [];
-
-        public TableBuilder() { }
-
-        public TableBuilder WithFighter(IFighterOnTable fighterOnTable)
-        {
-            if (_fighters.Count is MaxFighters)
-            {
-                throw new ArgumentException("Number of added fighters exceed the threshold");
-            }
-
-            _fighters.Add(fighterOnTable);
-            return this;
-        }
-
-        public Table Build()
-        {
-            return new Table(_fighters, new ModuleCounter(_fighters.Count));
-        }
     }
 }

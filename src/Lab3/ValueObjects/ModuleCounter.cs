@@ -1,8 +1,8 @@
 namespace Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
-public class ModuleCounter
+public class ModuleCounter : IIndexer
 {
-    private readonly int _module;
+    private int _mod;
 
     public int Value { get; private set; }
 
@@ -13,18 +13,24 @@ public class ModuleCounter
             throw new ArgumentException("Module must not be negative for module counter");
         }
 
-        _module = module;
+        _mod = module;
         Value = 0;
     }
 
-    public static ModuleCounter operator ++(ModuleCounter counter)
+    public ModuleCounter()
     {
-        counter.Value++;
-        if (counter.Value >= counter._module)
-        {
-            counter.Value = 0;
-        }
+        Value = 0;
+        _mod = 1;
+    }
 
-        return counter;
+    public void Increment()
+    {
+        Value++;
+        Value %= _mod;
+    }
+
+    public void ChangeModule(int newModule)
+    {
+        _mod = newModule;
     }
 }
