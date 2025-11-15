@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public class BaseCreature
+public abstract class BaseCreature : IFighter
 {
     public Health Health { get; protected set; }
 
@@ -29,4 +29,6 @@ public class BaseCreature
     {
         enemy.TakeDamage(Attack);
     }
+
+    public abstract IFighter Clone();
 }

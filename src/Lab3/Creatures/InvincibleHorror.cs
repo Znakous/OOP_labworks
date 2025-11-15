@@ -27,7 +27,7 @@ public class InvincibleHorror : BaseCreature, IFighter
         }
     }
 
-    public IFighter Clone()
+    public override IFighter Clone()
     {
         return new InvincibleHorror(Health, Attack, _canResurrect);
     }

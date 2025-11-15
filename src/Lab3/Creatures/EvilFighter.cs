@@ -19,7 +19,7 @@ public class EvilFighter : BaseCreature, IFighter
         }
     }
 
-    public IFighter Clone()
+    public override IFighter Clone()
     {
         return new EvilFighter(Health, Attack);
     }

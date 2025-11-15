@@ -16,7 +16,7 @@ public class CombatAnalyst : BaseCreature, IFighter
         enemy.TakeDamage(Attack);
     }
 
-    public IFighter Clone()
+    public override IFighter Clone()
     {
         return new CombatAnalyst(Health, Attack);
     }

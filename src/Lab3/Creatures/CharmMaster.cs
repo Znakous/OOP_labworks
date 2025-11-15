@@ -10,7 +10,7 @@ public class CharmMaster : BaseCreature, IFighter
         Attack = attack;
     }
 
-    public IFighter Clone()
+    public override IFighter Clone()
     {
         return new CharmMaster(Health, Attack);
     }
