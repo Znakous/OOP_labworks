@@ -6,15 +6,9 @@ public abstract class CreatureBuilder : IFighterBuilder
 {
     private readonly List<IModifierFactory> _modifierFactories = [];
 
-    protected Health Health { get; private set; }
+    protected Health Health { get; private set; } = Health.Zero;
 
-    protected Attack Attack { get; private set; }
-
-    protected CreatureBuilder()
-    {
-        Health = Health.Zero;
-        Attack = Attack.Zero;
-    }
+    protected Attack Attack { get; private set; } = Attack.Zero;
 
     public IFighterBuilder WithHealth(Health health)
     {
@@ -39,7 +33,9 @@ public abstract class CreatureBuilder : IFighterBuilder
         return this;
     }
 
-    public IFighter ApplyModifiers(IFighter fighter)
+    public abstract IFighter Build();
+
+    protected IFighter ApplyModifiers(IFighter fighter)
     {
         IFighter current = fighter;
         foreach (IModifierFactory factory in _modifierFactories)
@@ -49,6 +45,4 @@ public abstract class CreatureBuilder : IFighterBuilder
 
         return current;
     }
-
-    public abstract IFighter Build();
 }
