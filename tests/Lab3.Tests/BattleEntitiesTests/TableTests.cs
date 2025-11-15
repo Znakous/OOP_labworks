@@ -18,7 +18,7 @@ public class TableTests
         table.AddFighter(fighterOnTable);
 
         // act
-        IFighterOnTable? fromTable = table.SendNextFighter();
+        IFighterOnTable? fromTable = table.SendNextAttacker();
 
         // assert
         Assert.NotNull(fromTable);
@@ -31,7 +31,7 @@ public class TableTests
         var table = new Table(new ModuleCounter());
 
         // act
-        IFighterOnTable? fromTable = table.SendNextFighter();
+        IFighterOnTable? fromTable = table.SendNextAttacker();
 
         // assert
         Assert.Null(fromTable);
@@ -48,7 +48,7 @@ public class TableTests
         table.AddFighter(deadFighter2);
 
         // act
-        IFighterOnTable? fromTable = table.SendNextFighter();
+        IFighterOnTable? fromTable = table.SendNextAttacker();
 
         // assert
         Assert.Null(fromTable);

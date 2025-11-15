@@ -13,8 +13,7 @@ public class AttackMasteryTests
         IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
         IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
         underlyingBuilder.Build().Returns(underlying);
-        AttackMastery.AttackMasteryFighterOnTableBuilder attackMasteryBuilder = AttackMastery.Builder.WithUnderlying(underlyingBuilder);
-        IFighterOnTable attackMastery = attackMasteryBuilder.Build();
+        var attackMastery = new AttackMastery(underlyingBuilder.Build());
         IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
         enemy.IsAlive.Returns(true);
 
@@ -32,8 +31,7 @@ public class AttackMasteryTests
         IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
         IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
         underlyingBuilder.Build().Returns(underlying);
-        AttackMastery.AttackMasteryFighterOnTableBuilder attackMasteryBuilder = AttackMastery.Builder.WithUnderlying(underlyingBuilder);
-        IFighterOnTable attackMastery = attackMasteryBuilder.Build();
+        var attackMastery = new AttackMastery(underlyingBuilder.Build());
         IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
         enemy.IsAlive.Returns(false);
 

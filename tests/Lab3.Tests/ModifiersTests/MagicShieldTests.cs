@@ -14,8 +14,7 @@ public class MagicShieldTests
         IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
         IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
         underlyingBuilder.Build().Returns(underlying);
-        MagicShield.MagicShieldFighterOnTableBuilder magicShieldBuilder = MagicShield.Builder.WithUnderlying(underlyingBuilder);
-        IFighterOnTable magicShield = magicShieldBuilder.Build();
+        var magicShield = new MagicShield(underlyingBuilder.Build());
         IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
 
         // act
@@ -33,8 +32,7 @@ public class MagicShieldTests
         IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
         IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
         underlyingBuilder.Build().Returns(underlying);
-        MagicShield.MagicShieldFighterOnTableBuilder magicShieldBuilder = MagicShield.Builder.WithUnderlying(underlyingBuilder);
-        IFighterOnTable magicShield = magicShieldBuilder.Build();
+        var magicShield = new MagicShield(underlyingBuilder.Build());
         IFighterOnTable enemy = Substitute.For<IFighterOnTable>();
 
         // act
@@ -54,14 +52,11 @@ public class MagicShieldTests
         IFighterOnTableBuilder underlyingBuilder = Substitute.For<IFighterOnTableBuilder>();
         IFighterOnTable underlying = Substitute.For<IFighterOnTable>();
         underlyingBuilder.Build().Returns(underlying);
-        IFighterOnTableBuilder currentBuilder = underlyingBuilder;
+        IFighterOnTable fighter = underlying;
         for (int i = 0; i < shieldCount; ++i)
         {
-            currentBuilder = new MagicShield.MagicShieldUnderlyingSelector()
-                .WithUnderlying(currentBuilder);
+            fighter = new MagicShield(fighter);
         }
-
-        IFighterOnTable fighter = currentBuilder.Build();
 
         // act
         for (int i = 0; i < attackCount; ++i)

@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab3.ModifierFactories;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
@@ -20,9 +21,12 @@ public class CharmMaster : BaseCreature, IFighterOnTable
     public class CharmMasterBuilder
         : CreatureOnTableBuilder
     {
-        public override CharmMaster Build()
+        public override IFighterOnTable Build()
         {
-            return new CharmMaster(Health, Attack);
+            var basic = new CharmMaster(Health, Attack);
+            var magicShieldFactory = new MagicShieldFactory();
+            var attackMasteryFactory = new AttackMasteryFactory();
+            return attackMasteryFactory.Create(magicShieldFactory.Create(basic));
         }
     }
 }

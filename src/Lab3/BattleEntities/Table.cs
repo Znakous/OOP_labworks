@@ -1,4 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
+using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.BattleEntities;
 
@@ -36,33 +37,40 @@ public class Table
         _fighterIndexer.ChangeModule(_fighters.Count);
     }
 
-    public IFighterOnTable? SendNextFighter()
+    public void ApplySpell(ISpell spell, IFighterOnTable fighter)
+    {
+        int targetIndex = _fighters.FindIndex(currentFighter => currentFighter == fighter);
+        _fighters[targetIndex] = spell.GetAppliedOn(fighter);
+    }
+
+    public IFighterOnTable? SendNextAttacker()
+    {
+        return GetForPredicate(fighter => fighter.IsAlive && fighter.Attack > Attack.Zero);
+    }
+
+    public IFighterOnTable? SendNextPray()
+    {
+        return GetForPredicate(fighter => fighter.IsAlive);
+    }
+
+    private IFighterOnTable? GetForPredicate(Func<IFighterOnTable, bool> predicate)
     {
         if (_fighters.Count == 0)
         {
             return null;
         }
 
-        int iterCount = 0;
-        while (iterCount < _fighters.Count && !_fighters[_fighterIndexer.Value].IsAlive)
+        for (int i = 0; i < _fighters.Count; i++)
         {
             _fighterIndexer.Increment();
-            iterCount++;
+            if (predicate(_fighters[_fighterIndexer.Value]))
+            {
+                IFighterOnTable nextFighter = _fighters[_fighterIndexer.Value];
+                _fighterIndexer.Increment();
+                return nextFighter;
+            }
         }
 
-        if (iterCount == _fighters.Count)
-        {
-            return null;
-        }
-
-        IFighterOnTable nextFighter = _fighters[_fighterIndexer.Value];
-        _fighterIndexer.Increment();
-        return nextFighter;
-    }
-
-    public void ApplySpell(ISpell spell, IFighterOnTable fighter)
-    {
-        int targetIndex = _fighters.FindIndex(currentFighter => currentFighter == fighter);
-        _fighters[targetIndex] = spell.GetAppliedOn(fighter);
+        return null;
     }
 }

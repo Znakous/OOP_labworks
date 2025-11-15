@@ -50,41 +50,4 @@ public class MagicShield : IFighterOnTable
     {
         return _isActive ? new MagicShield(_underlying.Clone()) : _underlying.Clone();
     }
-
-    public static MagicShieldUnderlyingSelector Builder => new MagicShieldUnderlyingSelector();
-
-    public class MagicShieldUnderlyingSelector
-    {
-        public MagicShieldFighterOnTableBuilder WithUnderlying(IFighterOnTableBuilder underlying)
-        {
-            return new MagicShieldFighterOnTableBuilder(underlying);
-        }
-    }
-
-    public class MagicShieldFighterOnTableBuilder : IFighterOnTableBuilder
-    {
-        private readonly IFighterOnTableBuilder _underlying;
-
-        public MagicShieldFighterOnTableBuilder(IFighterOnTableBuilder underlying)
-        {
-            _underlying = underlying;
-        }
-
-        IFighterOnTableBuilder IFighterOnTableBuilder.WithAttack(Attack attack)
-        {
-            _underlying.WithAttack(attack);
-            return this;
-        }
-
-        IFighterOnTableBuilder IFighterOnTableBuilder.WithHealth(Health health)
-        {
-            _underlying.WithHealth(health);
-            return this;
-        }
-
-        public IFighterOnTable Build()
-        {
-            return new MagicShield(_underlying.Build());
-        }
-    }
 }
