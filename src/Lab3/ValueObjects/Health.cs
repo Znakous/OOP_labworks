@@ -1,0 +1,37 @@
+namespace Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
+
+public struct Health
+{
+    public int Value { get; }
+
+    public Health(int value)
+    {
+        Value = value;
+    }
+
+    public static Health Zero => new Health(0);
+
+    public readonly bool IsAlive => this > Zero;
+
+    public static bool operator >(Health left, Health right)
+        => left.Value > right.Value;
+
+    public static bool operator <(Health left, Health right)
+        => left.Value < right.Value;
+
+    public static Health operator +(Health left, Health right)
+        => new(left.Value + right.Value);
+
+    public static Health operator *(Health health, int coefficient)
+        => new(health.Value * coefficient);
+
+    public bool CanEndure(Attack attack)
+    {
+        return Value > attack.Value;
+    }
+
+    public Health TakeDamage(Attack damage)
+    {
+        return CanEndure(damage) ? new Health(Value - damage.Value) : Zero;
+    }
+}
