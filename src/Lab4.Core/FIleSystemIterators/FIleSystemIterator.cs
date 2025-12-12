@@ -11,23 +11,28 @@ public class FIleSystemIterator : IFileSystemIterator
 
     private readonly IFileSystemObjectFactory _objectFactory;
 
-    private IPath _currentPath;
+    public IPath Path { get; private set; }
 
     public FIleSystemIterator(IPath path, IFileSystem fileSystem, IFileSystemObjectFactory objectFactory)
     {
-        _currentPath = path;
+        Path = path;
         _fileSystem = fileSystem;
         _objectFactory = objectFactory;
     }
 
     public IFileSystemObject Current()
     {
-        return _objectFactory.Create(_currentPath);
+        return _objectFactory.Create(Path);
     }
 
-    public bool MoveTo(IPath newPath)
+    public bool TryMoveTo(IPath newPath)
     {
-        _currentPath = newPath;
-        return _fileSystem.Exists(_currentPath);
+        if (_fileSystem.Exists(newPath))
+        {
+            Path = newPath;
+            return true;
+        }
+
+        return false;
     }
 }

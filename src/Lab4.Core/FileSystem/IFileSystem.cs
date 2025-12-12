@@ -1,4 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
@@ -19,5 +20,9 @@ public interface IFileSystem
 
     IEnumerable<IPath> GetDirectoryContents(IPath path);
 
-    GetIteratorResult GetIterator(IPath path);
+    GetFileContentResult GetFileContent(IPath path);
+
+    GetIteratorResult GetIterator();
+
+    IPathHandler GetPathHandler();
 }

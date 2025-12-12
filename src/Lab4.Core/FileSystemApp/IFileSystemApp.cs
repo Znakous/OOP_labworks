@@ -5,7 +5,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApp;
 
 public interface IFileSystemApp
 {
-    bool TryConnect(IPath root);
+    void Connect(IPath root);
 
     void Disconnect();
 

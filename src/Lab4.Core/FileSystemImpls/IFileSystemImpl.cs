@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemImpls;
@@ -15,4 +16,8 @@ public interface IFileSystemImpl
     bool Exists(string path);
 
     IReadOnlyList<string> GetDirectoryContents(string path);
+
+    string GetFileContent(string path);
+
+    IPathHandler GetPathHandler();
 }

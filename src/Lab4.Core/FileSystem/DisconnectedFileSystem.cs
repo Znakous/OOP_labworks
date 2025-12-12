@@ -1,5 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
@@ -30,7 +31,7 @@ public class DisconnectedFileSystem : IFileSystem
             new DisconnectedSystemInteraction("called RenameFile on disconnected system"));
     }
 
-    public GetIteratorResult GetIterator(IPath path)
+    public GetIteratorResult GetIterator()
     {
         return new GetIteratorResult.Failure(
             new DisconnectedSystemInteraction("can't get iterator from disconnected system"));
@@ -49,5 +50,16 @@ public class DisconnectedFileSystem : IFileSystem
     public IEnumerable<IPath> GetDirectoryContents(IPath path)
     {
         return [];
+    }
+
+    public IPathHandler GetPathHandler()
+    {
+        return new UnixPathHandler();
+    }
+
+    public GetFileContentResult GetFileContent(IPath path)
+    {
+        return new GetFileContentResult.Failure(
+            new DisconnectedSystemInteraction("called GetFileContent on disconnected system"));
     }
 }

@@ -5,20 +5,20 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjects;
 
 public class DirectoryObject : IFileSystemObject
 {
-    private readonly IPath _path;
+    public IPath Path { get; }
 
     public IReadOnlyList<IFileSystemObject> Contents { get; }
 
     public DirectoryObject(IReadOnlyList<IFileSystemObject> contents, IPath path)
     {
         Contents = contents;
-        _path = path;
+        Path = path;
     }
 
-    public string Name => _path.Name;
+    public string Name => Path.Name;
 
-    public void Accept(IFileSystemObjectVisitor visitor)
+    public bool Accept(IFileSystemObjectVisitor visitor)
     {
-        visitor.Visit(this);
+        return visitor.Visit(this);
     }
 }

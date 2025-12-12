@@ -7,5 +7,7 @@ public interface IFileSystemIterator
 {
     IFileSystemObject Current();
 
-    bool MoveTo(IPath newPath);
+    bool TryMoveTo(IPath newPath);
+
+    IPath Path { get; }
 }

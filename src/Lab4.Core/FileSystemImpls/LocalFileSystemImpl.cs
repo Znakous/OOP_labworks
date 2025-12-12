@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemImpls;
@@ -30,6 +31,16 @@ public class LocalFileSystemImpl : IFileSystemImpl
     }
 
     public IReadOnlyList<string> GetDirectoryContents(string path)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string GetFileContent(string path)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IPathHandler GetPathHandler()
     {
         throw new NotImplementedException();
     }

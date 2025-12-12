@@ -1,8 +1,11 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemImpls;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FIleSystemIterators;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjectFactories;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsingStrategies;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathValidators;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
@@ -11,15 +14,20 @@ public class WorkingFileSystem : IFileSystem
 {
     private readonly IFileSystemImpl _fileSystemImpl;
 
-    private readonly IPathHandler _pathHandler;
+    private readonly StrategicHandlerModifier _pathHandler;
 
     private readonly IPath _root;
 
-    public WorkingFileSystem(IFileSystemImpl fileSystemImpl, IPathHandler pathHandler, IPath root)
+    private readonly FIleSystemIterator _iterator;
+
+    public WorkingFileSystem(IFileSystemImpl fileSystemImpl, IPath root)
     {
         _fileSystemImpl = fileSystemImpl;
-        _pathHandler = pathHandler;
         _root = root;
+        _iterator = new FIleSystemIterator(_root, this, new DirectoryAwareFileSystemObjectFactory(this));
+        _pathHandler = new StrategicHandlerModifier(
+            fileSystemImpl.GetPathHandler(),
+            new RelativePriorityStrategy(_iterator.Path, new FileSystemPathValidator(this)));
     }
 
     public FileSystemInteractionResult CopyFile(IPath sourcePath, IPath targetPath)
@@ -46,9 +54,9 @@ public class WorkingFileSystem : IFileSystem
             GetPathString(path.Renamed(newName)));
     }
 
-    public GetIteratorResult GetIterator(IPath path)
+    public GetIteratorResult GetIterator()
     {
-        return new GetIteratorResult.Success(new FIleSystemIterator(_root, this, new DirectoryAwareFileSystemObjectFactory(this)));
+        return new GetIteratorResult.Success(_iterator);
     }
 
     public IEnumerable<IPath> GetDirectoryContents(IPath path)
@@ -68,13 +76,30 @@ public class WorkingFileSystem : IFileSystem
         return _fileSystemImpl.Exists(GetPathString(path));
     }
 
+    public GetFileContentResult GetFileContent(IPath path)
+    {
+        if (!Exists(path))
+        {
+            return new GetFileContentResult.Failure(
+                new PerformedOperationOnNonExistentFile(
+                    "Couldn't perform GetContent on file that doesn't exist"));
+        }
+
+        return new GetFileContentResult.Success(_fileSystemImpl.GetFileContent(GetPathString(path)));
+    }
+
+    public IPathHandler GetPathHandler()
+    {
+        return _pathHandler;
+    }
+
     private string GetPathString(IPath path)
     {
-        return _pathHandler.MakePath(path);
+        return _pathHandler.MakePath(_root.ExtendedWith(path));
     }
 
     private IPath ParsePath(string path)
     {
-        return _pathHandler.ParsePath(path);
+        return _root.ExtendedWith(_pathHandler.ParsePath(path));
     }
 }

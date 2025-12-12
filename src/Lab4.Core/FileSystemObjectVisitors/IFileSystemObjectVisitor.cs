@@ -4,7 +4,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjectVisitors;
 
 public interface IFileSystemObjectVisitor
 {
-    void Visit(DirectoryObject directory);
+    bool Visit(DirectoryObject directory);
 
-    void Visit(FileObject file);
+    bool Visit(FileObject file);
 }

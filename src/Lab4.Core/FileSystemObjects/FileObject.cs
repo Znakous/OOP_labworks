@@ -5,17 +5,17 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjects;
 
 public class FileObject : IFileSystemObject
 {
-    private readonly IPath _path;
+    public IPath Path { get; }
 
     public FileObject(IPath path)
     {
-        _path = path;
+        Path = path;
     }
 
-    public string Name => _path.Name;
+    public string Name => Path.Name;
 
-    public void Accept(IFileSystemObjectVisitor visitor)
+    public bool Accept(IFileSystemObjectVisitor visitor)
     {
-        visitor.Visit(this);
+        return visitor.Visit(this);
     }
 }
