@@ -4,7 +4,7 @@ public abstract class FlagParseResult<T>
 {
     public T Builder { get; }
 
-    public bool Remaining { get;  }
+    public bool Remaining { get; }
 
     protected FlagParseResult(T builder, bool remaining)
     {
