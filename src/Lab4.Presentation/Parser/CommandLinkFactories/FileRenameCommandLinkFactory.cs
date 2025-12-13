@@ -8,7 +8,7 @@ public class FileRenameCommandLinkFactory : ICommandLinkFactory
     public ICommandParsingLink Create()
     {
         return new FileRenameCommandParsingLink(
-            new AddressForRenameParsingLink()
-                .AddNext(new NameForRenameParsingLink()));
+            new AddressForFileRenameParsingLink()
+                .AddNext(new NameForFileRenameParsingLink()));
     }
 }

@@ -2,9 +2,9 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.CommandBuilders.FileCommandBuilde
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.ParameterLinks;
 
-public class SourcePathForMoveParsingLink : ParameterParsingLinkBase<FileMoveCommandBuilder>
+public class SourcePathForFileCopyParsingLink : ParameterParsingLinkBase<FileCopyCommandBuilder>
 {
-    public override FileMoveCommandBuilder? Parse(IEnumerator<string> arguments, FileMoveCommandBuilder builder)
+    public override FileCopyCommandBuilder? Parse(IEnumerator<string> arguments, FileCopyCommandBuilder builder)
     {
         builder = builder.WithSourcePath(arguments.Current);
         if (!arguments.MoveNext())

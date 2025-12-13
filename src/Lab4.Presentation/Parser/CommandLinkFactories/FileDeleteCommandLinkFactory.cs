@@ -8,6 +8,6 @@ public class FileDeleteCommandLinkFactory : ICommandLinkFactory
     public ICommandParsingLink Create()
     {
         return new FileDeleteCommandParsingLink(
-            new AddressForDeleteParsingLink());
+            new AddressForFileDeleteParsingLink());
     }
 }

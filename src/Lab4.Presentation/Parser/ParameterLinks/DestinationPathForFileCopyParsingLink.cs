@@ -2,11 +2,11 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.CommandBuilders.FileCommandBuilde
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.ParameterLinks;
 
-public class AddressForDeleteParsingLink : ParameterParsingLinkBase<FileDeleteCommandBuilder>
+public class DestinationPathForFileCopyParsingLink : ParameterParsingLinkBase<FileCopyCommandBuilder>
 {
-    public override FileDeleteCommandBuilder? Parse(IEnumerator<string> arguments, FileDeleteCommandBuilder builder)
+    public override FileCopyCommandBuilder? Parse(IEnumerator<string> arguments, FileCopyCommandBuilder builder)
     {
-        builder = builder.WithAddress(arguments.Current);
+        builder = builder.WithDestinationPath(arguments.Current);
         if (!arguments.MoveNext())
         {
             return builder;

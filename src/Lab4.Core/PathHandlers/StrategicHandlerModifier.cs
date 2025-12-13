@@ -1,6 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsingStrategies;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 
 public class StrategicHandlerModifier : IPathHandler
 {

@@ -8,7 +8,7 @@ public class FileMoveCommandLinkFactory : ICommandLinkFactory
     public ICommandParsingLink Create()
     {
         return new FileMoveCommandParsingLink(
-            new SourcePathForMoveParsingLink()
-                .AddNext(new DestinationPathForMoveParsingLink()));
+            new SourcePathForFileMoveParsingLink()
+                .AddNext(new DestinationPathForFileMoveParsingLink()));
     }
 }

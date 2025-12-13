@@ -2,9 +2,9 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.CommandFamilyLinks;
 
-public class TreeCommandFamilyLink : CommandFamilyParsingLinkBase
+public class TreeCommandFamilyParsingLink : CommandFamilyParsingLinkBase
 {
-    public TreeCommandFamilyLink(ICommandParsingLink commandsParsers)
+    public TreeCommandFamilyParsingLink(ICommandParsingLink commandsParsers)
         : base(commandsParsers) { }
 
     public override ICommand? Parse(IEnumerator<string> arguments)

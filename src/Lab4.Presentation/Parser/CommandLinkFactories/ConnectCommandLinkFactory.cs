@@ -10,7 +10,7 @@ public class ConnectCommandLinkFactory : ICommandLinkFactory
     public ICommandParsingLink Create()
     {
         FlagParsingLink<ConnectCommandBuilder> flagsLink = FlagParsingLink<ConnectCommandBuilder>.Builder
-            .WithFlag(new ModeForConnectFlagParser())
+            .WithFlag(new ModeForConnectParser())
             .Build();
         return new ConnectCommandParsingLink(
             new AddressForConnectParsingLink()

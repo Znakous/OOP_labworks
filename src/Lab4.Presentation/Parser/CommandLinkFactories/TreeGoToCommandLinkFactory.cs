@@ -7,6 +7,6 @@ public class TreeGoToCommandLinkFactory : ICommandLinkFactory
 {
     public ICommandParsingLink Create()
     {
-        return new TreeGoToCommandParsingLink(new PathForTreeGoToCommandParsingLink());
+        return new TreeGoToCommandParsingLink(new PathForTreeGoToParsingLink());
     }
 }

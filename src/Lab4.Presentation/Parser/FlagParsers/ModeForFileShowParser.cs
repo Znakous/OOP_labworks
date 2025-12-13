@@ -4,7 +4,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
 
-public class ModeForFileShowFlagParser : IFlagArgumentParser<FileShowCommandBuilder>
+public class ModeForFileShowParser : IFlagArgumentParser<FileShowCommandBuilder>
 {
     public FlagParseResult<FileShowCommandBuilder> Parse(IEnumerator<string> arguments, FileShowCommandBuilder builder)
     {

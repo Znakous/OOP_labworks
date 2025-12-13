@@ -2,11 +2,11 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.CommandBuilders.FileCommandBuilde
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.ParameterLinks;
 
-public class NameForRenameParsingLink : ParameterParsingLinkBase<FileRenameCommandBuilder>
+public class PathForFileShowParsingLink : ParameterParsingLinkBase<FileShowCommandBuilder>
 {
-    public override FileRenameCommandBuilder? Parse(IEnumerator<string> arguments, FileRenameCommandBuilder builder)
+    public override FileShowCommandBuilder? Parse(IEnumerator<string> arguments, FileShowCommandBuilder builder)
     {
-        builder = builder.WithName(arguments.Current);
+        builder = builder.WithAddress(arguments.Current);
         if (!arguments.MoveNext())
         {
             return builder;

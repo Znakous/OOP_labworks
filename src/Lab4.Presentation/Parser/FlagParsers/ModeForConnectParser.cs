@@ -1,11 +1,11 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.CommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemFactories;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
 
-public class ModeForConnectFlagParser : IFlagArgumentParser<ConnectCommandBuilder>
+public class ModeForConnectParser : IFlagArgumentParser<ConnectCommandBuilder>
 {
     public FlagParseResult<ConnectCommandBuilder> Parse(IEnumerator<string> arguments, ConnectCommandBuilder builder)
     {

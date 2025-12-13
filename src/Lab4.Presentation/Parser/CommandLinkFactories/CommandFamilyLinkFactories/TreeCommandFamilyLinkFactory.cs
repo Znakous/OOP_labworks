@@ -6,7 +6,7 @@ public class TreeCommandFamilyLinkFactory : ICommandLinkFactory
 {
     public ICommandParsingLink Create()
     {
-        return new TreeCommandFamilyLink(new TreeListCommandLinkFactory().Create()
+        return new TreeCommandFamilyParsingLink(new TreeListCommandLinkFactory().Create()
             .AddNext(new TreeGoToCommandLinkFactory().Create()));
     }
 }

@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.CommandBuilders.TreeCommandBuilde
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.ParameterLinks;
 
-public class PathForTreeGoToCommandParsingLink : ParameterParsingLinkBase<TreeGoToCommandBuilder>
+public class PathForTreeGoToParsingLink : ParameterParsingLinkBase<TreeGoToCommandBuilder>
 {
     public override TreeGoToCommandBuilder? Parse(IEnumerator<string> arguments, TreeGoToCommandBuilder builder)
     {

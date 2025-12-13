@@ -4,7 +4,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FIleSystemIterators;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjectVisitors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Outputs;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.FileCommands;

@@ -1,5 +1,5 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;

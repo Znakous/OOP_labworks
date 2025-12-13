@@ -1,5 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemImpls;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemFactories;
 
