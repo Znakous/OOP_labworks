@@ -9,14 +9,17 @@ public class TreeListCommand : ICommand
 {
     private readonly IOutput _output;
 
-    public TreeListCommand(IOutput output)
+    private readonly int _depth;
+
+    public TreeListCommand(IOutput output, int depth)
     {
         _output = output;
+        _depth = depth;
     }
 
     public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
     {
-        var showVisitor = new ListVisitor(_output);
+        var showVisitor = new ListVisitor(_output, _depth);
         GetIteratorResult getIteratorResult = fileSystemApp.FileSystem.GetIterator();
         if (getIteratorResult is GetIteratorResult.Success success)
         {

@@ -23,4 +23,9 @@ public class Path : IPath
         IEnumerable<string> addedNew = AsSegments.Concat([newName]);
         return new Path(addedNew);
     }
+
+    public IPath Clone()
+    {
+        return new Path(AsSegments.ToList());
+    }
 }

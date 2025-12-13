@@ -10,4 +10,6 @@ public interface IFileSystemIterator
     bool TryMoveTo(IPath newPath);
 
     IPath Path { get; }
+
+    IFileSystemIterator Clone();
 }

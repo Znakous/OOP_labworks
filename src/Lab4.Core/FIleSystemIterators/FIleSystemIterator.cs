@@ -35,4 +35,9 @@ public class FIleSystemIterator : IFileSystemIterator
 
         return false;
     }
+
+    public IFileSystemIterator Clone()
+    {
+        return new FIleSystemIterator(Path.Clone(), _fileSystem, _objectFactory);
+    }
 }

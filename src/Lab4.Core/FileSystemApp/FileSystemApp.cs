@@ -6,19 +6,16 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApp;
 
 public class FileSystemApp : IFileSystemApp
 {
-    private readonly IFileSystemFactory _fileSystemFactory;
-
     public IFileSystem FileSystem { get; private set; }
 
-    public FileSystemApp(IFileSystemFactory fileSystemFactory)
+    public FileSystemApp()
     {
-        _fileSystemFactory = fileSystemFactory;
         FileSystem = new DisconnectedFileSystem();
     }
 
-    public void Connect(IPath root)
+    public void Connect(IPath root, IFileSystemImplFactory factory)
     {
-        FileSystem = _fileSystemFactory.Create(root);
+        FileSystem = new WorkingFileSystem(factory.Create(), root);
     }
 
     public void Disconnect()

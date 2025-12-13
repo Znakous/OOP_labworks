@@ -9,4 +9,6 @@ public interface IPath
     string Name { get; }
 
     IEnumerable<string> AsSegments { get; }
+
+    IPath Clone();
 }

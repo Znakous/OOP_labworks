@@ -8,6 +8,8 @@ public class ListVisitor : IFileSystemObjectVisitor
 {
     private readonly IOutput _output;
 
+    private readonly int _depthLimit;
+
     private readonly char _padding = ' ';
 
     private readonly char _directorySymbol = '-';
@@ -16,15 +18,21 @@ public class ListVisitor : IFileSystemObjectVisitor
 
     private int _paddingSize = 0;
 
-    public ListVisitor(IOutput output)
+    public ListVisitor(IOutput output, int depthLimit)
     {
         _output = output;
+        _depthLimit = depthLimit;
     }
 
     public bool Visit(DirectoryObject directory)
     {
         _output.Write(GetFormattedFor(directory, _directorySymbol));
         _paddingSize += 1;
+        if (_padding >= _depthLimit)
+        {
+            return true;
+        }
+
         foreach (IFileSystemObject component in directory.Contents)
         {
             component.Accept(this);
