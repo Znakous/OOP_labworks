@@ -5,43 +5,48 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemImpls;
 
 public class LocalFileSystemImpl : IFileSystemImpl
 {
+    public IPathHandler PathHandler { get; }
+
+    public LocalFileSystemImpl(IPathHandler pathHandler)
+    {
+        PathHandler = pathHandler;
+    }
+
     public FileSystemInteractionResult CopyFile(string source, string destination)
     {
-        throw new NotImplementedException();
+        File.Copy(source, destination);
+        return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult MoveFile(string source, string destination)
     {
-        throw new NotImplementedException();
+        File.Move(source, destination);
+        return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult DeleteFile(string path)
     {
-        throw new NotImplementedException();
+        File.Delete(path);
+        return new FileSystemInteractionResult.Success();
     }
 
     public bool IsDirectory(string path)
     {
-        throw new NotImplementedException();
+        return Directory.Exists(path);
     }
 
     public bool Exists(string path)
     {
-        throw new NotImplementedException();
+        return File.Exists(path) || Directory.Exists(path);
     }
 
     public IReadOnlyList<string> GetDirectoryContents(string path)
     {
-        throw new NotImplementedException();
+        return Directory.GetFileSystemEntries(path);
     }
 
     public string GetFileContent(string path)
     {
-        throw new NotImplementedException();
-    }
-
-    public IPathHandler GetPathHandler()
-    {
-        throw new NotImplementedException();
+        return File.ReadAllText(path);
     }
 }

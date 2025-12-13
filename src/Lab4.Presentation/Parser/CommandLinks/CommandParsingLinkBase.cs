@@ -26,15 +26,10 @@ public abstract class CommandParsingLinkBase<TBuilder> : ParsingLinkBase where T
                 return builder.Build();
             }
 
-            TBuilder? response = CallParameterParsers(arguments, builder);
+            TBuilder? response = _parameterParsers.Parse(arguments, builder);
             return response?.Build() ?? null;
         }
 
         return CallNext(arguments);
-    }
-
-    protected TBuilder? CallParameterParsers(IEnumerator<string> arguments, TBuilder builder)
-    {
-        return _parameterParsers.Parse(arguments, builder);
     }
 }

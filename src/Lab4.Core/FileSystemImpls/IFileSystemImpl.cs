@@ -19,5 +19,5 @@ public interface IFileSystemImpl
 
     string GetFileContent(string path);
 
-    IPathHandler GetPathHandler();
+    IPathHandler PathHandler { get; }
 }

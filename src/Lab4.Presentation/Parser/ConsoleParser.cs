@@ -17,7 +17,9 @@ public class ConsoleParser : ICommandFactory
 
     public CommandCreateResult Create()
     {
-        ICommand? command = _parsingLinks.Parse(_text.GetEnumerator());
+        IEnumerator<string> enumerator = _text.GetEnumerator();
+        enumerator.MoveNext();
+        ICommand? command = _parsingLinks.Parse(enumerator);
         if (command is null)
         {
             return new CommandCreateResult.Failure(new ParsingError("Couldn't parse given text into command"));

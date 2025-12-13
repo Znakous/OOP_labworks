@@ -1,4 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApp;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjectVisitors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Outputs;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;

@@ -26,7 +26,7 @@ public class WorkingFileSystem : IFileSystem
         _root = root;
         _iterator = new FIleSystemIterator(_root, this, new DirectoryAwareFileSystemObjectFactory(this));
         _pathHandler = new StrategicHandlerModifier(
-            fileSystemImpl.GetPathHandler(),
+            fileSystemImpl.PathHandler,
             new RelativePriorityStrategy(_iterator.Path, new FileSystemPathValidator(this)));
     }
 

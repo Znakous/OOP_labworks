@@ -8,7 +8,10 @@ public class TreeListCommandLinkFactory : ICommandLinkFactory
 {
     public ICommandParsingLink Create()
     {
-        FlagParsingLink<TreeListCommandBuilder> flags = FlagParsingLink<TreeListCommandBuilder>.Builder.WithFlag(new DepthForTreeListFlagParser()).Build();
+        FlagParsingLink<TreeListCommandBuilder> flags = FlagParsingLink<TreeListCommandBuilder>.Builder
+            .WithFlag(new DepthForTreeListFlagParser())
+            .WithFlag(new OutputForTreeListFlagParser())
+            .Build();
         return new TreeListCommandParsingLink(flags);
     }
 }
