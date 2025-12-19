@@ -1,5 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemContexts;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 

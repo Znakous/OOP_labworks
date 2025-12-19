@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Path = Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.Path;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemContexts;
 
 public class FileSystemContext : IFileSystemContext
 {

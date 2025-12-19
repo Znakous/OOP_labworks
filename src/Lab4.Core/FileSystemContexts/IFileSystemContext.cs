@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemContexts;
 
 public interface IFileSystemContext
 {
