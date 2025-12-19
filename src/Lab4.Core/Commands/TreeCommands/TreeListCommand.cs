@@ -1,4 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjectFactories;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjects;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjectVisitors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Outputs;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
@@ -17,16 +19,11 @@ public class TreeListCommand : ICommand
         _depth = depth;
     }
 
-    public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
+    public CommandExecutionResult Execute(IFileSystemContext fileSystemContext)
     {
         var showVisitor = new ListVisitor(_output, _depth);
-        GetIteratorResult getIteratorResult = fileSystemApp.FileSystem.GetIterator();
-        if (getIteratorResult is GetIteratorResult.Success success)
-        {
-            success.Iterator.Current().Accept(showVisitor);
-        }
-
-        var failure = (GetIteratorResult.Failure)getIteratorResult;
-        return new CommandExecutionResult.Failure(failure.Error);
+        var factory = new DirectoryAwareFileSystemObjectFactory(fileSystemContext.FileSystem);
+        IFileSystemObject currentObject = factory.Create(fileSystemContext.CurrentPath);
+        return new CommandExecutionResult.Success();
     }
 }

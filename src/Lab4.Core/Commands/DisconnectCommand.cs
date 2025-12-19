@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
@@ -5,9 +6,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
 public class DisconnectCommand : ICommand
 {
-    public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
+    public CommandExecutionResult Execute(IFileSystemContext fileSystemContext)
     {
-        fileSystemApp.Disconnect();
-        return new CommandExecutionResult.Succes();
+        fileSystemContext.FileSystem = new DisconnectedFileSystem();
+        return new CommandExecutionResult.Success();
     }
 }

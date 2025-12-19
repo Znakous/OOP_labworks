@@ -1,10 +1,10 @@
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 
-public class MovedToNonExistentPath : IError
+public class NonExistentPathInteraction : IError
 {
     public string Message { get; }
 
-    public MovedToNonExistentPath(string message)
+    public NonExistentPathInteraction(string message)
     {
         Message = message;
     }

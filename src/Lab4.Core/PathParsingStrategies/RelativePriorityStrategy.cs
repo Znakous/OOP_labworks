@@ -1,29 +1,37 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathValidators;
+using Path = Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.Path;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsingStrategies;
 
-public class RelativePriorityStrategy : IPathMatchingStrategy
+public class RelativePriorityStrategy : RelativeStrategyBase
 {
     private readonly IPath _root;
 
-    private readonly IPathValidator _pathValidator;
+    private readonly IFileSystem _pathValidator;
 
-    public RelativePriorityStrategy(IPath root, IPathValidator pathValidator)
+    public RelativePriorityStrategy(IPath root, IFileSystem pathValidator)
     {
         _root = root;
         _pathValidator = pathValidator;
     }
 
-    public IPath MatchPath(IPath path)
+    public override IPath CreatePath(IEnumerable<string> pathSegments)
     {
-        IPath relativePath = _root.ExtendedWith(path);
-        return GetBestMatch(relativePath, path);
+        IPath relativePath = new Path.RelativePath(_root.AsSegments.Concat(pathSegments));
+        IPath commonPath = new Path.AbsolutePath(pathSegments);
+        return GetBestMatch(relativePath, commonPath);
+    }
+
+    public override IEnumerable<string> GetPathSegments(IPath path)
+    {
+        IPath relativePath = new Path.RelativePath(GetAfterCommonPrefix(path.AsSegments, _root.AsSegments));
+        return GetBestMatch(relativePath, path).AsSegments;
     }
 
     private IPath GetBestMatch(IPath relative, IPath absolute)
     {
-        return _pathValidator.IsValidPath(relative)
+        return _pathValidator.Exists(relative)
             ? relative
             : absolute;
     }

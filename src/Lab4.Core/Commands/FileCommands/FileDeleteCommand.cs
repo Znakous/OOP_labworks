@@ -1,12 +1,12 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.FileCommands;
 
-public class FileDeleteCommand : ICommand
+public class FileDeleteCommand : FileSystemCommandBase
 {
     private readonly string _address;
 
@@ -15,16 +15,18 @@ public class FileDeleteCommand : ICommand
         _address = address;
     }
 
-    public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
+    public override CommandExecutionResult ExecuteOnConnected(IFileSystemContext fileSystemContext)
     {
-        IFileSystem fileSystem = fileSystemApp.FileSystem;
-        IPathHandler handler = fileSystem.GetPathHandler();
-        IPath address = handler.ParsePath(_address);
-        if (fileSystem.DeleteFile(address) is FileSystemInteractionResult.Failure failure)
+        IPath address = GetRelativePath(_address, fileSystemContext);
+        IFileSystem fileSystem = fileSystemContext.FileSystem;
+
+        if (!fileSystem.Exists(address))
         {
-            return new CommandExecutionResult.Failure(failure.Error);
+            return new CommandExecutionResult.Failure(
+                new PerformedOperationOnNonExistentFile("Tried to delete non-existent file"));
         }
 
-        return new CommandExecutionResult.Succes();
+        fileSystem.DeleteFile(address);
+        return new CommandExecutionResult.Success();
     }
 }

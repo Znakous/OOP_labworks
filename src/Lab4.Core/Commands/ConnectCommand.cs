@@ -1,7 +1,8 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemFactories;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsingStrategies;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
@@ -10,19 +11,25 @@ public class ConnectCommand : ICommand
 {
     private readonly string _address;
 
-    private readonly IFileSystemImplFactory _factory;
+    private readonly IFileSystem _fileSystem;
 
-    public ConnectCommand(string address, IFileSystemImplFactory factory)
+    public ConnectCommand(string address, IFileSystem fileSystem)
     {
         _address = address;
-        _factory = factory;
+        _fileSystem = fileSystem;
     }
 
-    public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
+    public CommandExecutionResult Execute(IFileSystemContext fileSystemContext)
     {
-        IFileSystem fileSystem = fileSystemApp.FileSystem;
-        IPathHandler handler = fileSystem.GetPathHandler();
-        fileSystemApp.Connect(handler.ParsePath(_address), _factory);
-        return new CommandExecutionResult.Succes();
+        IPath path = fileSystemContext.PathParser.ParsePath(_address, new AbsoluteOnlyStrategy());
+        if (_fileSystem.Exists(path))
+        {
+            fileSystemContext.FileSystem = _fileSystem;
+            fileSystemContext.ConnectionPath = path;
+            fileSystemContext.CurrentPath = path;
+            return new CommandExecutionResult.Success();
+        }
+
+        return new CommandExecutionResult.Failure(new NonExistentPathInteraction("Tried to connect to a non-existent root"));
     }
 }

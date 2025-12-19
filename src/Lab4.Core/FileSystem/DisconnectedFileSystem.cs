@@ -1,65 +1,20 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 
 public class DisconnectedFileSystem : IFileSystem
 {
-    public FileSystemInteractionResult CopyFile(IPath sourcePath, IPath targetPath)
-    {
-        return new FileSystemInteractionResult.Failure(
-            new DisconnectedSystemInteraction("called CopyFile on disconnected system"));
-    }
+    public void CopyFile(IPath sourcePath, IPath targetPath) { }
 
-    public FileSystemInteractionResult MoveFile(IPath sourcePath, IPath targetPath)
-    {
-        return new FileSystemInteractionResult.Failure(
-            new DisconnectedSystemInteraction("called MoveFile on disconnected system"));
-    }
+    public void MoveFile(IPath sourcePath, IPath targetPath) { }
 
-    public FileSystemInteractionResult DeleteFile(IPath targetPath)
-    {
-        return new FileSystemInteractionResult.Failure(
-            new DisconnectedSystemInteraction("called DeleteFile on disconnected system"));
-    }
+    public void DeleteFile(IPath targetPath) { }
 
-    public FileSystemInteractionResult RenameFile(IPath path, string newName)
-    {
-        return new FileSystemInteractionResult.Failure(
-            new DisconnectedSystemInteraction("called RenameFile on disconnected system"));
-    }
+    public bool IsDirectory(IPath path) => false;
 
-    public GetIteratorResult GetIterator()
-    {
-        return new GetIteratorResult.Failure(
-            new DisconnectedSystemInteraction("can't get iterator from disconnected system"));
-    }
+    public bool Exists(IPath path) => true;
 
-    public bool IsDirectory(IPath path)
-    {
-        return false;
-    }
+    public IEnumerable<IPath> GetDirectoryContents(IPath path) => [];
 
-    public bool Exists(IPath path)
-    {
-        return false;
-    }
-
-    public IEnumerable<IPath> GetDirectoryContents(IPath path)
-    {
-        return [];
-    }
-
-    public IPathHandler GetPathHandler()
-    {
-        return new UnixPathHandler();
-    }
-
-    public GetFileContentResult GetFileContent(IPath path)
-    {
-        return new GetFileContentResult.Failure(
-            new DisconnectedSystemInteraction("called GetFileContent on disconnected system"));
-    }
+    public string GetFileContent(IPath path) => string.Empty;
 }

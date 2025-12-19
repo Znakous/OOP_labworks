@@ -1,15 +1,12 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FIleSystemIterators;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemObjectVisitors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Outputs;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.FileCommands;
 
-public class FileShowCommand : ICommand
+public class FileShowCommand : FileSystemCommandBase
 {
     private readonly IOutput _output;
 
@@ -21,27 +18,16 @@ public class FileShowCommand : ICommand
         _address = address;
     }
 
-    public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
+    public override CommandExecutionResult ExecuteOnConnected(IFileSystemContext fileSystemContext)
     {
-        IFileSystem fileSystem = fileSystemApp.FileSystem;
-        var showVisitor = new ShowVisitor(_output, fileSystem);
-        GetIteratorResult getIteratorResult = fileSystem.GetIterator();
-        IPathHandler pathHandler = fileSystemApp.FileSystem.GetPathHandler();
-        if (getIteratorResult is GetIteratorResult.Success success)
+        IPath address = GetRelativePath(_address, fileSystemContext);
+
+        if (fileSystemContext.FileSystem.IsDirectory(address))
         {
-            IFileSystemIterator clone = success.Iterator.Clone();
-            if (clone.TryMoveTo(pathHandler.ParsePath(_address)))
-            {
-                clone.Current().Accept(showVisitor);
-            }
-            else
-            {
-                return new CommandExecutionResult.Failure(
-                    new MovedToNonExistentPath("FileShow was called on file that doesn't exist"));
-            }
+            return new CommandExecutionResult.Failure(new DirectoryShowCall("Can't show content of directory"));
         }
 
-        var failure = (GetIteratorResult.Failure)getIteratorResult;
-        return new CommandExecutionResult.Failure(failure.Error);
+        _output.Write(fileSystemContext.FileSystem.GetFileContent(address));
+        return new CommandExecutionResult.Success();
     }
 }

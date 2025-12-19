@@ -1,13 +1,11 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FIleSystemIterators;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.TreeCommands;
 
-public class TreeGoToCommand : ICommand
+public class TreeGoToCommand : FileSystemCommandBase
 {
     private readonly string _address;
 
@@ -16,23 +14,15 @@ public class TreeGoToCommand : ICommand
         _address = address;
     }
 
-    public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
+    public override CommandExecutionResult ExecuteOnConnected(IFileSystemContext fileSystemContext)
     {
-        IFileSystem fileSystem = fileSystemApp.FileSystem;
-        GetIteratorResult result = fileSystem.GetIterator();
-        IPathHandler pathHandler = fileSystem.GetPathHandler();
-        if (result is GetIteratorResult.Failure failure)
+        IPath path = GetRelativePath(_address, fileSystemContext);
+        if (!fileSystemContext.FileSystem.Exists(path))
         {
-            return new CommandExecutionResult.Failure(failure.Error);
+            return new CommandExecutionResult.Failure(new NonExistentPathInteraction("Tried to go to non-existent path"));
         }
 
-        IFileSystemIterator iterator = ((GetIteratorResult.Success)result).Iterator;
-        if (!iterator.TryMoveTo(pathHandler.ParsePath(_address)))
-        {
-            return new CommandExecutionResult.Failure(
-                new MovedToNonExistentPath("Called Tree Move To towards path that doesn't exist"));
-        }
-
-        return new CommandExecutionResult.Succes();
+        fileSystemContext.CurrentPath = path;
+        return new CommandExecutionResult.Success();
     }
 }

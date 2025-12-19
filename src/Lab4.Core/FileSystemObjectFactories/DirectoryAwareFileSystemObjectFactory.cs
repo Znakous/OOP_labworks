@@ -20,7 +20,7 @@ public class DirectoryAwareFileSystemObjectFactory : IFileSystemObjectFactory
             var fileSystemObjects = new List<IFileSystemObject>();
             foreach (IPath contentPath in _fileSystem.GetDirectoryContents(path))
             {
-                Create(contentPath);
+                fileSystemObjects.Add(Create(contentPath));
             }
 
             return new DirectoryObject(fileSystemObjects, path);

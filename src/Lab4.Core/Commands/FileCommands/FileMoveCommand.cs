@@ -1,12 +1,15 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemApps;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathParsingStrategies;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
+using Path = Itmo.ObjectOrientedProgramming.Lab4.Core.Paths.Path;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.FileCommands;
 
-public class FileMoveCommand : ICommand
+public class FileMoveCommand : FileSystemCommandBase
 {
     private readonly string _sourcePath;
     private readonly string _destinationPath;
@@ -17,17 +20,30 @@ public class FileMoveCommand : ICommand
         _destinationPath = destinationPath;
     }
 
-    public CommandExecutionResult Execute(IFileSystemApp fileSystemApp)
+    public override CommandExecutionResult ExecuteOnConnected(IFileSystemContext fileSystemContext)
     {
-        IFileSystem fileSystem = fileSystemApp.FileSystem;
-        IPathHandler handler = fileSystem.GetPathHandler();
-        IPath source = handler.ParsePath(_sourcePath);
-        IPath destination = handler.ParsePath(_destinationPath);
-        if (fileSystem.MoveFile(source, destination) is FileSystemInteractionResult.Failure failure)
+        IFileSystem fileSystem = fileSystemContext.FileSystem;
+        PathParser pathParser = fileSystemContext.PathParser;
+        IPath sourcePath = pathParser.ParsePath(_sourcePath, new RelativePriorityStrategy(fileSystemContext.CurrentPath, fileSystem));
+        IPath relationForDestination = (sourcePath is Path.AbsolutePath)
+            ? fileSystemContext.ConnectionPath
+            : fileSystemContext.CurrentPath;
+
+        IPath destinationPath = pathParser.ParsePath(_destinationPath, new RelativeOnlyStrategy(relationForDestination));
+
+        if (!fileSystem.Exists(sourcePath))
         {
-            return new CommandExecutionResult.Failure(failure.Error);
+            return new CommandExecutionResult.Failure(
+                new PerformedOperationOnNonExistentFile("Tried to move non-existent file"));
         }
 
-        return new CommandExecutionResult.Succes();
+        if (fileSystem.Exists(destinationPath))
+        {
+            return new CommandExecutionResult.Failure(
+                new ShadowedExistingFile("Tried to move into existent file"));
+        }
+
+        fileSystem.MoveFile(sourcePath, destinationPath);
+        return new CommandExecutionResult.Success();
     }
 }

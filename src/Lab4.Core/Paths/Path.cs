@@ -28,4 +28,14 @@ public class Path : IPath
     {
         return new Path(AsSegments.ToList());
     }
+
+    public class RelativePath : Path
+    {
+        public RelativePath(IEnumerable<string> segments) : base(segments) { }
+    }
+
+    public class AbsolutePath : Path
+    {
+        public AbsolutePath(IEnumerable<string> segments) : base(segments) { }
+    }
 }

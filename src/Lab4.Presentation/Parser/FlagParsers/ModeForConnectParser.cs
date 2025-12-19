@@ -1,6 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.CommandBuilders;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemFactories;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.PathBuildingStrategies;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
@@ -13,8 +13,8 @@ public class ModeForConnectParser : IFlagArgumentParser<ConnectCommandBuilder>
         {
             if (arguments.Current == "local")
             {
-                return new FlagParseResult<ConnectCommandBuilder>.Failure(
-                    builder.WithFactory(new LocalFileSystemFactory(new UnixPathHandler())),
+                return new FlagParseResult<ConnectCommandBuilder>.Success(
+                    builder.WithFileSystem(new LocalFileSystem(new UnixPathBuildingStrategy())),
                     arguments.MoveNext());
             }
 

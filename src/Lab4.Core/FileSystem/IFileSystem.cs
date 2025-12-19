@@ -1,18 +1,14 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.PathHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Paths;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystem;
 
 public interface IFileSystem
 {
-    FileSystemInteractionResult CopyFile(IPath sourcePath, IPath targetPath);
+    void CopyFile(IPath sourcePath, IPath targetPath);
 
-    FileSystemInteractionResult MoveFile(IPath sourcePath, IPath targetPath);
+    void MoveFile(IPath sourcePath, IPath targetPath);
 
-    FileSystemInteractionResult DeleteFile(IPath targetPath);
-
-    FileSystemInteractionResult RenameFile(IPath path, string newName);
+    void DeleteFile(IPath targetPath);
 
     bool IsDirectory(IPath path);
 
@@ -20,9 +16,5 @@ public interface IFileSystem
 
     IEnumerable<IPath> GetDirectoryContents(IPath path);
 
-    GetFileContentResult GetFileContent(IPath path);
-
-    GetIteratorResult GetIterator();
-
-    IPathHandler GetPathHandler();
+    string GetFileContent(IPath path);
 }
