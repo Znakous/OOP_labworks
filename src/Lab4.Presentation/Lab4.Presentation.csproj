@@ -9,8 +9,4 @@
       <ProjectReference Include="..\Lab4.Core\Lab4.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="NSubstitute" />
-    </ItemGroup>
-
 </Project>

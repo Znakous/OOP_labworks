@@ -5,18 +5,18 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
 
 public class FlagParsingLink<T> : ParameterParsingLinkBase<T> where T : class?
 {
-    private readonly IDictionary<string, IFlagArgumentParser<T>> _flags;
+    private readonly IDictionary<string, IFlagArgumentParser<T>> _flagParsers;
 
-    private FlagParsingLink(IDictionary<string, IFlagArgumentParser<T>> flags)
+    private FlagParsingLink(IDictionary<string, IFlagArgumentParser<T>> flagParsers)
     {
-        _flags = flags;
+        _flagParsers = flagParsers;
     }
 
     public override T? Parse(IEnumerator<string> arguments, T builder)
     {
-        if (_flags.ContainsKey(arguments.Current))
+        if (_flagParsers.ContainsKey(arguments.Current))
         {
-            IFlagArgumentParser<T> chosenParser = _flags[arguments.Current];
+            IFlagArgumentParser<T> chosenParser = _flagParsers[arguments.Current];
             if (!arguments.MoveNext())
             {
                 return builder;
