@@ -24,6 +24,7 @@ public class TreeListCommand : ICommand
         var showVisitor = new ListVisitor(_output, _depth);
         var factory = new DirectoryAwareFileSystemObjectFactory(fileSystemContext.FileSystem);
         IFileSystemObject currentObject = factory.Create(fileSystemContext.CurrentPath);
+        currentObject.Accept(showVisitor);
         return new CommandExecutionResult.Success();
     }
 }
