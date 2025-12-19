@@ -10,7 +10,7 @@ public class FileShowCommandLinkFactory : ICommandLinkFactory
     public ICommandParsingLink Create()
     {
         FlagParsingLink<FileShowCommandBuilder> flags = FlagParsingLink<FileShowCommandBuilder>.Builder
-            .WithFlag(new ModeForFileShowParser()).Build();
+            .WithFlagParser(new ModeForFileShowParser()).Build();
         return new FileShowCommandParsingLink(
             new PathForFileShowParsingLink()
                 .AddNext(flags));

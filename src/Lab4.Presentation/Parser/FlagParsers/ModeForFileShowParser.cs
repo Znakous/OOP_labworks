@@ -6,20 +6,17 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
 
 public class ModeForFileShowParser : IFlagArgumentParser<FileShowCommandBuilder>
 {
+    public string Name => "-m";
+
     public FlagParseResult<FileShowCommandBuilder> Parse(IEnumerator<string> arguments, FileShowCommandBuilder builder)
     {
-        if (arguments.Current == "-m" && arguments.MoveNext())
+        if (arguments.Current == "console")
         {
-            if (arguments.Current == "console")
-            {
-                return new FlagParseResult<FileShowCommandBuilder>.Failure(
-                    builder.WithOutput(new ConsoleOutput()),
-                    arguments.MoveNext());
-            }
-
-            return new FlagParseResult<FileShowCommandBuilder>.Failure(builder, arguments.MoveNext());
+            return new FlagParseResult<FileShowCommandBuilder>.Success(
+                builder.WithOutput(new ConsoleOutput()),
+                arguments.MoveNext());
         }
 
-        return new FlagParseResult<FileShowCommandBuilder>.Failure(builder, false);
+        return new FlagParseResult<FileShowCommandBuilder>.Failure(builder, arguments.MoveNext());
     }
 }

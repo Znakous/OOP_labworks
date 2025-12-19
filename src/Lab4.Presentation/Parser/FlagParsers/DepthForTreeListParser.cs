@@ -5,15 +5,12 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
 
 public class DepthForTreeListParser : IFlagArgumentParser<TreeListCommandBuilder>
 {
+    public string Name => "-d";
+
     public FlagParseResult<TreeListCommandBuilder> Parse(IEnumerator<string> arguments, TreeListCommandBuilder builder)
     {
-        if (arguments.Current == "-d" && arguments.MoveNext())
-        {
-            return new FlagParseResult<TreeListCommandBuilder>.Success(
-                    builder.WithDepth(int.Parse(arguments.Current)),
-                    arguments.MoveNext());
-        }
-
-        return new FlagParseResult<TreeListCommandBuilder>.Failure(builder, false);
+        return new FlagParseResult<TreeListCommandBuilder>.Success(
+                builder.WithDepth(int.Parse(arguments.Current)),
+                arguments.MoveNext());
     }
 }

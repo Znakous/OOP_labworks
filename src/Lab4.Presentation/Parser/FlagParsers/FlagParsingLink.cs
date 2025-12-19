@@ -5,34 +5,33 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
 
 public class FlagParsingLink<T> : ParameterParsingLinkBase<T> where T : class?
 {
-    private readonly IEnumerable<IFlagArgumentParser<T>> _flags;
+    private readonly IDictionary<string, IFlagArgumentParser<T>> _flags;
 
-    private FlagParsingLink(IEnumerable<IFlagArgumentParser<T>> flags)
+    private FlagParsingLink(IDictionary<string, IFlagArgumentParser<T>> flags)
     {
         _flags = flags;
     }
 
     public override T? Parse(IEnumerator<string> arguments, T builder)
     {
-        bool somethingParsed = false;
-        foreach (IFlagArgumentParser<T> flag in _flags)
+        if (_flags.ContainsKey(arguments.Current))
         {
-            FlagParseResult<T> result = flag.Parse(arguments, builder);
-            if (result is FlagParseResult<T>.Success success)
+            IFlagArgumentParser<T> chosenParser = _flags[arguments.Current];
+            if (!arguments.MoveNext())
+            {
+                return builder;
+            }
+
+            FlagParseResult<T> result = chosenParser.Parse(arguments, builder);
+            if (result is FlagParseResult<T>.Success)
             {
                 builder = result.Builder;
-                somethingParsed = true;
             }
 
             if (!result.Remaining)
             {
                 return builder;
             }
-        }
-
-        if (!somethingParsed)
-        {
-            return builder;
         }
 
         return Parse(arguments, builder);
@@ -42,19 +41,17 @@ public class FlagParsingLink<T> : ParameterParsingLinkBase<T> where T : class?
 
     public class FlagParsingLinkBuilder
     {
-        private IEnumerable<IFlagArgumentParser<T>> _flags = [];
+        private readonly Dictionary<string, IFlagArgumentParser<T>> _parsers = [];
 
-        public FlagParsingLinkBuilder() { }
-
-        public FlagParsingLinkBuilder WithFlag(IFlagArgumentParser<T> flag)
+        public FlagParsingLinkBuilder WithFlagParser(IFlagArgumentParser<T> flagParser)
         {
-            _flags = _flags.Append(flag);
+            _parsers.Add(flagParser.Name, flagParser);
             return this;
         }
 
         public FlagParsingLink<T> Build()
         {
-            return new FlagParsingLink<T>(_flags);
+            return new FlagParsingLink<T>(_parsers);
         }
     }
 }

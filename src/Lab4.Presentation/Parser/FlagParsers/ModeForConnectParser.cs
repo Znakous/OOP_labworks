@@ -7,20 +7,17 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser.FlagParsers;
 
 public class ModeForConnectParser : IFlagArgumentParser<ConnectCommandBuilder>
 {
+    public string Name => "-m";
+
     public FlagParseResult<ConnectCommandBuilder> Parse(IEnumerator<string> arguments, ConnectCommandBuilder builder)
     {
-        if (arguments.Current == "-m" && arguments.MoveNext())
+        if (arguments.Current == "local")
         {
-            if (arguments.Current == "local")
-            {
-                return new FlagParseResult<ConnectCommandBuilder>.Success(
-                    builder.WithFileSystem(new LocalFileSystem(new UnixPathBuildingStrategy())),
-                    arguments.MoveNext());
-            }
-
-            return new FlagParseResult<ConnectCommandBuilder>.Failure(builder, arguments.MoveNext());
+            return new FlagParseResult<ConnectCommandBuilder>.Success(
+                builder.WithFileSystem(new LocalFileSystem(new UnixPathBuildingStrategy())),
+                arguments.MoveNext());
         }
 
-        return new FlagParseResult<ConnectCommandBuilder>.Failure(builder, false);
+        return new FlagParseResult<ConnectCommandBuilder>.Failure(builder, arguments.MoveNext());
     }
 }
