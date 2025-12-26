@@ -29,7 +29,7 @@ public class TransactionHistoryService : ITransactionHistoryService
             return new TransactionHistoryResponse.BadRequest("Session not found");
         }
 
-        if (session is Session.UserSession userSession && userSession.AccountName != account)
+        if (session is Session.UserSession userSession && userSession.AccountName.Value != account.Value)
         {
             return new TransactionHistoryResponse.Unauthorised("Account doesn't belong to this session");
         }

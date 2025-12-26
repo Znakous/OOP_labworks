@@ -1,11 +1,12 @@
 using Abstractions.Repositories;
+using Contracts.Interfaces;
 using Contracts.Responses;
 using Domain.Entities;
 using Domain.Models.ValueObjects;
 
 namespace Application.Services;
 
-public class AccountService
+public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
 

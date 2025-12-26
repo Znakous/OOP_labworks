@@ -32,7 +32,7 @@ public class BankService : IBankService
             return new BalanceResponse.BadRequest("Session not found");
         }
 
-        if (session is Session.UserSession userSession && userSession.AccountName != account)
+        if (session is Session.UserSession userSession && userSession.AccountName.Value != account.Value)
         {
             return new BalanceResponse.Unauthorized("Account doesn't belong to this session");
         }
@@ -49,7 +49,7 @@ public class BankService : IBankService
             return new DepositResponse.BadRequest("Session not found");
         }
 
-        if (session is Session.UserSession userSession && userSession.AccountName != account)
+        if (session is Session.UserSession userSession && userSession.AccountName.Value != account.Value)
         {
             return new DepositResponse.Unauthorised("Account doesn't belong to this session");
         }
@@ -66,7 +66,7 @@ public class BankService : IBankService
             return new WithdrawResponse.BadRequest("Session not found");
         }
 
-        if (session is Session.UserSession userSession && userSession.AccountName != account)
+        if (session is Session.UserSession userSession && userSession.AccountName.Value != account.Value)
         {
             return new WithdrawResponse.Unauthorised("Account doesn't belong to this session");
         }
