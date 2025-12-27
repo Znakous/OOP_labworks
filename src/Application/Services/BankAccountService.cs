@@ -71,11 +71,11 @@ public class BankAccountService
         throw new UnreachableException();
     }
 
-    private record TransactionPerformingResult()
+    private record TransactionPerformingResult
     {
-        public record Success(ExecutedTransaction Transaction) : TransactionPerformingResult();
+        public record Success(ExecutedTransaction Transaction) : TransactionPerformingResult;
 
-        public record Failure(string ErrorMessage) : TransactionPerformingResult();
+        public record Failure(string ErrorMessage) : TransactionPerformingResult;
     }
 
     private TransactionPerformingResult PerformTransaction<TTransaction>(AccountName accountName, TTransaction transaction) where TTransaction : ITransaction
@@ -89,7 +89,7 @@ public class BankAccountService
         TransactionExecutionResult executionResult = transaction.Execute(account);
         if (executionResult is TransactionExecutionResult.Failure failure)
         {
-            return new TransactionPerformingResult.Failure(failure.Error.Message);
+            return new TransactionPerformingResult.Failure(failure.ErrorMessage);
         }
 
         if (executionResult is TransactionExecutionResult.Success success)

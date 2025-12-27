@@ -1,6 +1,5 @@
 using Domain.Interfaces;
 using Domain.Models;
-using Domain.Models.Errors;
 using Domain.Models.ResultTypes;
 using Domain.Models.ValueObjects;
 
@@ -15,14 +14,12 @@ public class Withdraw : ITransaction
         _amount = amount;
     }
 
-    public string Name => "Withdraw";
-
     public TransactionExecutionResult Execute(Account account)
     {
         if (account.Balance < _amount)
         {
             return new TransactionExecutionResult.Failure(
-                new InsufficientBalance("withdraw"));
+                "Can't withdraw more money than current balance");
         }
 
         Money before = account.Balance;
